@@ -3,8 +3,10 @@
 namespace App\Providers;
 
 use Illuminate\Support\Facades\Gate;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
+use Illuminate\Http\Request;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -16,6 +18,30 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function boot()
     {
         parent::boot();
+
+        // BreadCrumbs in App
+        // Nova::withBreadcrumbs();
+        Nova::withBreadcrumbs(function (NovaRequest $request) {
+            if ($request->user()) {
+                return $request->user()->wantsBreadcrumbs();
+            } else {
+                return false;
+            }
+        });
+
+
+        // LTR in App
+        // Nova::enableRTL();
+        Nova::enableRTL(function (Request $request) {
+            if ($request->user()) {
+                return $request->user()->wantsRTL();
+            } else {
+                return false;
+            }
+        });
+
+        // Theme Switcher
+        // Nova::withoutThemeSwitcher();
     }
 
     /**
@@ -26,9 +52,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function routes()
     {
         Nova::routes()
-                ->withAuthenticationRoutes()
-                ->withPasswordResetRoutes()
-                ->register();
+            ->withAuthenticationRoutes()
+            ->withPasswordResetRoutes()
+            ->register();
     }
 
     /**
