@@ -2,13 +2,27 @@
 
 namespace App\Nova;
 
+use App\Zaions\Enums\RolesEnum;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+
 use Illuminate\Validation\Rules;
+use Laravel\Nova\Actions\ExportAsCsv;
+use Laravel\Nova\Fields\BelongsToMany;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Gravatar;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MorphOne;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Http\Requests\NovaRequest;
+use Laravel\Nova\Fields\Number;
+// use Laravel\Nova\Fields\FieldCollection;
 
 class User extends Resource
 {
@@ -32,7 +46,7 @@ class User extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'name', 'email',
+        'name', 'email',
     ];
 
     /**
@@ -48,26 +62,97 @@ class User extends Resource
 
             Gravatar::make()->maxWidth(50),
 
-            Text::make('Unique Id', 'uniqueId')->default(function ($request) {
-                return uniqid();
-            })->hide(function (NovaRequest $request, $resource) {
-                return $request->user->has;
-            }),
+            Hidden::make('Unique Id', 'uniqueId')
+                ->default(function () {
+                    return uniqid();
+                }),
 
             Text::make('Name')
                 ->sortable()
-                ->rules('required', 'max:255')->showWhenPeeking(),
+                ->rules('required', 'max:255')
+                ->showWhenPeeking(),
+
+            Text::make('Slug')
+                ->sortable()
+                ->hideFromIndex()
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
 
             Text::make('Email')
                 ->sortable()
                 ->rules('required', 'email', 'max:254')
                 ->creationRules('unique:users,email')
-                ->updateRules('unique:users,email,{{resourceId}}'),
+                ->updateRules('unique:users,email,{{resourceId}}')
+                ->filterable(function ($request, $query, $value, $attribute) {
+                    return $query->where($attribute, 'LIKE', "%{$value}%");
+                }),
 
             Password::make('Password')
                 ->onlyOnForms()
                 ->creationRules('required', Rules\Password::defaults())
-                ->updateRules('nullable', Rules\Password::defaults()),
+                ->updateRules('nullable', Rules\Password::defaults())
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+
+            Number::make('dailyMinOfficeTime', 'dailyMinOfficeTime')
+                ->default(function () {
+                    return 8;
+                })
+                ->min(3)
+                ->max(12)
+                ->step('any')
+                ->rules('required', 'numeric', 'min:3', 'max:12')
+                ->showOnIndex(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+
+            Number::make('dailyMinOfficeTimeActivity', 'dailyMinOfficeTimeActivity')
+                ->default(function ($request) {
+                    return 85;
+                })
+                ->min(70)
+                ->max(100)
+                ->step('any')
+                ->rules('required', 'numeric', 'min:70', 'max:100')
+                ->showOnIndex(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+
+            Boolean::make('isActive', 'isActive'),
+
+            KeyValue::make('Profile Info', 'extraAttributes')->rules('json'),
+
+            // BelongsToMany::make('Roles'),
+            HasMany::make('Tasks'),
+            MorphMany::make('Comments'),
+            MorphMany::make('Attachments'),
+            // MorphMany::make('History', 'history', App\Nova\History::class),
+
+
+            // MorphToMany::
+
         ];
     }
 
@@ -112,6 +197,14 @@ class User extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            ExportAsCsv::make()->nameable()->withFormat(function ($model) {
+                return [
+                    'ID' => $model->getKey(),
+                    'Name' => $model->name,
+                    'Email Address' => $model->email,
+                ];
+            }),
+        ];
     }
 }

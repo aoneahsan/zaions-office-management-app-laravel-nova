@@ -6,57 +6,81 @@ namespace App\Zaions\Enums;
 enum PermissionsEnum: string
 {
     // Role
-  case viewAll_role = 'viewAll_role';
+  case viewAny_role = 'viewAny_role';
   case view_role = 'view_role';
-  case add_role = 'add_role';
-  case edit_role = 'edit_role';
+  case create_role = 'create_role';
+  case update_role = 'update_role';
   case delete_role = 'delete_role';
+  case replicate_role = 'replicate_role';
+  case restore_role = 'restore_role';
+  case forceDelete_role = 'forceDelete_role';
 
     // Permission
-  case viewAll_permission = 'viewAll_permission';
+  case viewAny_permission = 'viewAny_permission';
   case view_permission = 'view_permission';
-  case add_permission = 'add_permission';
-  case edit_permission = 'edit_permission';
+  case create_permission = 'create_permission';
+  case update_permission = 'update_permission';
   case delete_permission = 'delete_permission';
+  case replicate_permission = 'replicate_permission';
+  case restore_permission = 'restore_permission';
+  case forceDelete_permission = 'forceDelete_permission';
 
     // User
-  case viewAll_user = 'viewAll_user';
+  case viewAny_user = 'viewAny_user';
   case view_user = 'view_user';
-  case add_user = 'add_user';
-  case edit_user = 'edit_user';
+  case create_user = 'create_user';
+  case update_user = 'update_user';
   case delete_user = 'delete_user';
+  case replicate_user = 'replicate_user';
+  case restore_user = 'restore_user';
+  case forceDelete_user = 'forceDelete_user';
 
     // Task
-  case viewAll_task = 'viewAll_task';
+  case viewAny_task = 'viewAny_task';
   case view_task = 'view_task';
-  case add_task = 'add_task';
-  case edit_task = 'edit_task';
+  case create_task = 'create_task';
+  case update_task = 'update_task';
   case delete_task = 'delete_task';
+  case replicate_task = 'replicate_task';
+  case restore_task = 'restore_task';
+  case forceDelete_task = 'forceDelete_task';
 
     // History
-  case viewAll_history = 'viewAll_history';
+  case viewAny_history = 'viewAny_history';
   case view_history = 'view_history';
-  case add_history = 'add_history';
-  case edit_history = 'edit_history';
+  case create_history = 'create_history';
+  case update_history = 'update_history';
   case delete_history = 'delete_history';
+  case replicate_history = 'replicate_history';
+  case restore_history = 'restore_history';
+  case forceDelete_history = 'forceDelete_history';
 
     // Attachment
-  case viewAll_attachment = 'viewAll_attachment';
+  case viewAny_attachment = 'viewAny_attachment';
   case view_attachment = 'view_attachment';
-  case add_attachment = 'add_attachment';
-  case edit_attachment = 'edit_attachment';
+  case create_attachment = 'create_attachment';
+  case update_attachment = 'update_attachment';
   case delete_attachment = 'delete_attachment';
+  case replicate_attachment = 'replicate_attachment';
+  case restore_attachment = 'restore_attachment';
+  case forceDelete_attachment = 'forceDelete_attachment';
 
     // Comment
-  case viewAll_comment = 'viewAll_comment';
+  case viewAny_comment = 'viewAny_comment';
   case view_comment = 'view_comment';
-  case add_comment = 'add_comment';
-  case edit_comment = 'edit_comment';
+  case create_comment = 'create_comment';
+  case update_comment = 'update_comment';
   case delete_comment = 'delete_comment';
+  case replicate_comment = 'replicate_comment';
+  case restore_comment = 'restore_comment';
+  case forceDelete_comment = 'forceDelete_comment';
 
-  // case viewAll_ = 'viewAll_';
+  // case viewAny_ = 'viewAny_';
   // case view_ = 'view_';
-  // case add_ = 'add_';
-  // case edit_ = 'edit_';
+  // case create_ = 'create_';
+  // case update_ = 'update_';
   // case delete_ = 'delete_';
+  // case replicate_ = 'replicate_';
+  // case restore_ = 'restore_';
+  // case forceDelete_ = 'forceDelete_';
 }

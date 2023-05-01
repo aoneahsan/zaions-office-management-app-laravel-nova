@@ -5,6 +5,7 @@ namespace App\Models;
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
@@ -21,5 +22,10 @@ class Comment extends Model
     public function scopeWithExtraAttributes(): Builder
     {
         return $this->extraAttributes->modelScope();
+    }
+
+    public function commentable(): MorphTo
+    {
+        return $this->morphTo();
     }
 }

@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Zaions\TestingController;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -16,3 +17,5 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('welcome');
 });
+
+Route::get('/z-testing', [TestingController::class, 'zTestingRouteRes']);

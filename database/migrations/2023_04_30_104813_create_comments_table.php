@@ -16,9 +16,9 @@ return new class extends Migration
 
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
-            $table->morphs('modal'); // modal_id | modal_type
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);
+            $table->morphs('commentable');
 
             $table->schemalessAttributes('extraAttributes');
             $table->softDeletes();
