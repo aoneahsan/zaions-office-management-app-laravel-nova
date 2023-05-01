@@ -6,6 +6,7 @@ namespace App\Models;
 
 use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Laravel\Sanctum\HasApiTokens;
@@ -14,44 +15,22 @@ use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
-use Spatie\Translatable\HasTranslations;
+// use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable
 {
-    // HasSlug    // more info: https://github.com/spatie/laravel-sluggable
-    // HasTranslations // more info: https://github.com/spatie/laravel-translatable
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTranslations, HasTags;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes;
 
-    /**
-     * The attributes that are mass assignable.
-     *
-     * @var array<int, string>
-     */
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
     protected $guarded = [];
 
-    /**
-     * The attributes that should be hidden for serialization.
-     *
-     * @var array<int, string>
-     */
     protected $hidden = [
         'password',
         'remember_token',
     ];
 
-    /**
-     * The attributes that should be cast.
-     *
-     * @var array<string, string>
-     */
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'extra_attributes' => SchemalessAttributes::class,
+        'extraAttributes' => SchemalessAttributes::class,
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -63,7 +42,7 @@ class User extends Authenticatable
 
     public function scopeWithExtraAttributes(): Builder
     {
-        return $this->extra_attributes->modelScope();
+        return $this->extraAttributes->modelScope();
     }
 
     public function wantsBreadcrumbs()
@@ -74,5 +53,10 @@ class User extends Authenticatable
     public function wantsRTL()
     {
         return false;
+    }
+
+    public function tasks()
+    {
+        return $this->hasMany(Task::class);
     }
 }
