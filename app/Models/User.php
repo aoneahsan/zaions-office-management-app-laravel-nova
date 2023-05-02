@@ -58,6 +58,18 @@ class User extends Authenticatable
         return false;
     }
 
+    // User Modal Attributes getter functions
+    public function getUserTimezoneAttribute()
+    {
+        // $this->timezone will get set by user or admin on profile setting page, otherwise we will use "Asia/Karachi"
+        if ($this->timezone) {
+            return $this->timezone;
+        } else {
+            return "Asia/Karachi";
+        }
+    }
+
+    // Relationship data methods
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'userId', 'id');

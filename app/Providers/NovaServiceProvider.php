@@ -42,6 +42,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         // Theme Switcher
         // Nova::withoutThemeSwitcher();
+
+        // set the timezone to user current timezone
+        Nova::userTimezone(function (Request $request) {
+            if ($request->user() && $request->user()->timezone) {
+                return $request->user()->timezone;
+            } else {
+                return "Asia/Karachi";
+            }
+        });
     }
 
     /**

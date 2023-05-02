@@ -2,13 +2,11 @@
 
 namespace App\Nova;
 
-use App\Zaions\Enums\RolesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Actions\ExportAsCsv;
-use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Gravatar;
@@ -17,12 +15,11 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
-use Laravel\Nova\Fields\MorphOne;
-use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
-// use Laravel\Nova\Fields\FieldCollection;
+use Laravel\Nova\Fields\Timezone;
+use Laravel\Nova\Fields\Image;
 
 class User extends Resource
 {
@@ -48,6 +45,13 @@ class User extends Resource
     public static $search = [
         'name', 'email',
     ];
+
+    /**
+     * The number of results to display when searching for relatable resources without Scout.
+     *
+     * @var int|null
+     */
+    public static $relatableSearchResults = 10;
 
     /**
      * Get the fields displayed by the resource.
@@ -98,6 +102,10 @@ class User extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
 
+            Image::make('Profile Pitcher', 'profilePitcher')->disk(ZHelpers::getActiveFileDriver())->disableDownload()->maxWidth(300),
+
+            Timezone::make('Timezone', 'timezone')->searchable()->default(ZHelpers::getTimezone()),
+
             Number::make('dailyMinOfficeTime', 'dailyMinOfficeTime')
                 ->default(function () {
                     return 8;
@@ -142,16 +150,11 @@ class User extends Resource
 
             Boolean::make('isActive', 'isActive'),
 
-            KeyValue::make('Profile Info', 'extraAttributes')->rules('json'),
+            KeyValue::make('Extra Attributes', 'extraAttributes')->rules('json'),
 
-            // BelongsToMany::make('Roles'),
             HasMany::make('Tasks'),
             MorphMany::make('Comments'),
             MorphMany::make('Attachments'),
-            // MorphMany::make('History', 'history', App\Nova\History::class),
-
-
-            // MorphToMany::
 
         ];
     }

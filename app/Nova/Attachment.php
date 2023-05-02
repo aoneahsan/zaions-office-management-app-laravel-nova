@@ -32,6 +32,13 @@ class Attachment extends Resource
     ];
 
     /**
+     * The number of results to display when searching for relatable resources without Scout.
+     *
+     * @var int|null
+     */
+    public static $relatableSearchResults = 10;
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

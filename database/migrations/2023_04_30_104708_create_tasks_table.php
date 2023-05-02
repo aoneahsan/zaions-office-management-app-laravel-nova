@@ -1,5 +1,6 @@
 <?php
 
+use App\Zaions\Enums\TaskStatusEnum;
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -30,9 +31,16 @@ return new class extends Migration
             $table->integer('courseTotalTimeInHours')->default(0)->nullable();
             $table->integer('perDayCourseContentTimeInHours')->default(0)->nullable();
             $table->integer('numberOfDaysAllowedForCourse')->default(0)->nullable();
+            $table->integer('timeSpendOnExerciseInMinutes')->default(0)->nullable();
+            $table->integer('timeSpendWhileReadingQuranInMinutes')->default(0)->nullable();
+            $table->integer('workTimeRecordedOnTraqq')->default(0)->nullable();
+            $table->integer('traqqActivityForRecordedTime')->default(0)->nullable();
+            $table->string('officeWorkTaskInfo')->default(0)->nullable();
+            $table->string('officeWorkTaskTrelloTicketLink')->default(0)->nullable();
+            $table->string('status')->default(TaskStatusEnum::todo->name)->nullable();
+
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);
-
             $table->schemalessAttributes('extraAttributes');
             $table->softDeletes();
 

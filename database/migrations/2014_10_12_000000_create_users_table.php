@@ -21,9 +21,11 @@ return new class extends Migration
 
             // new fields
             $table->string('slug')->nullable();
+            $table->string('profilePitcher')->nullable();
             $table->integer('dailyMinOfficeTime')->default(8)->min(3)->max(12)->nullable();
             $table->integer('dailyMinOfficeTimeActivity')->default(85)->min(75)->max(100)->nullable();
             $table->boolean('isActive')->default(true);
+            $table->string('timezone')->nullable();
             $table->schemalessAttributes('extraAttributes');
 
             $table->softDeletes();
