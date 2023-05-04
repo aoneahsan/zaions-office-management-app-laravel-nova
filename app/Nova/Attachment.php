@@ -2,8 +2,20 @@
 
 namespace App\Nova;
 
+use App\Models\Attachment as ModelsAttachment;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
+use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\File;
+use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\URL;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Attachment extends Resource
@@ -48,6 +60,53 @@ class Attachment extends Resource
     {
         return [
             ID::make()->sortable(),
+
+            BelongsTo::make('user')
+                ->default(function (NovaRequest $request) {
+                    return $request->user()->getKey();
+                })
+                ->hideFromIndex()
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+
+            Hidden::make('userId', 'userId')
+                ->default(function (NovaRequest $request) {
+                    return $request->user()->getKey();
+                }),
+
+            File::make('Attachment', 'attachmentPath')
+                ->disk(ZHelpers::getActiveFileDriver())
+                ->storeOriginalName('attachmentName')
+                ->storeSize('attachmentSize'),
+
+            URL::make('Attachment Download Link', 'attachmentDownloadLink')->exceptOnForms(),
+            Text::make('Attachment Name', 'attachmentName')->onlyOnDetail(),
+
+            Text::make('Attachment Size', 'attachmentSize')
+                ->exceptOnForms()
+                ->displayUsing(function ($value) {
+                    return number_format($value / 1024, 2) . 'kb';
+                }),
+
+
+            Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
+                $lastItem = ModelsAttachment::latest()->first();
+                return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
+            }),
+
+
+            Boolean::make('isActive', 'isActive')->default(true)
+                ->show(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+
+            KeyValue::make('Extra Attributes', 'extraAttributes')
+                ->rules('nullable', 'json'),
+
+            MorphMany::make('Comments'),
         ];
     }
 

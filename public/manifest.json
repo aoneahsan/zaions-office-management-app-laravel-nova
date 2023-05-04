@@ -1,0 +1,32 @@
+{
+  "name": "Zaions MA",
+  "short_name": "Z MA",
+  "icons": [
+    {
+      "src": "/images/zaions-logo-192.png",
+      "sizes": "192x192",
+      "type": "image/png"
+    },
+    {
+      "src": "/images/zaions-logo-512.png",
+      "sizes": "512x512",
+      "type": "image/png"
+    }
+  ],
+  "theme_color": "#111183",
+  "background_color": "#ffffff",
+  "display": "standalone",
+  "description": "Zaions Office Management App - Developed by Ahsan Mahmood (aoneahsan) (https://zaions.com/ahsan) here at Zaions (https://zaions.com)",
+  "start_url": "/nova",
+  "orientation": "portrait",
+  "scope": "/",
+  "lang": "en",
+  "related_applications": [
+    {
+      "platform": "web",
+      "url": "https://office.zaions.com",
+      "id": "com.zaions.officeMA"
+    }
+  ],
+  "prefer_related_applications": true
+}

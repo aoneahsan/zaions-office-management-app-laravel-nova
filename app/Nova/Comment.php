@@ -12,6 +12,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -74,16 +75,13 @@ class Comment extends Resource
                     return $request->user()->getKey();
                 }),
 
-            Textarea::make('Comment Text', 'content')
+            Text::make('Comment Text', 'content')
                 ->rules('nullable', 'string')
+                ->showOnIndex(true)
                 ->maxlength(1500)
-                ->enforceMaxlength()
-                ->alwaysShow(),
+                ->enforceMaxlength(),
 
-            HasMany::make('Replies', 'replies', Reply::class)
-                ->hideFromIndex()
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+            HasMany::make('Replies', 'replies', Reply::class),
 
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {

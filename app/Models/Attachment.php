@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Storage;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 class Attachment extends Model
@@ -24,6 +25,11 @@ class Attachment extends Model
     public function scopeWithExtraAttributes(): Builder
     {
         return $this->extraAttributes->modelScope();
+    }
+
+    public function getAttachmentDownloadLinkAttribute()
+    {
+        return Storage::url($this->attachmentPath);
     }
 
     // Relationship methods

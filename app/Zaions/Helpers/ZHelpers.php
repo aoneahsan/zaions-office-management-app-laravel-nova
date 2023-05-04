@@ -161,6 +161,6 @@ class ZHelpers
 
   static public function getActiveFileDriver()
   {
-    return env('FILESYSTEM_DISK');
+    return env('FILESYSTEM_DISK', 'public');
   }
 }

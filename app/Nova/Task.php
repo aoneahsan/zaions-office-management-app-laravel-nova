@@ -103,6 +103,26 @@ class Task extends Resource
                 })
                 ->displayUsingLabels(),
 
+            Select::make('Status')
+                ->default(TaskStatusEnum::todo->name)
+                ->rules('required', new Enum(TaskStatusEnum::class))
+                ->options([
+                    TaskStatusEnum::todo->name => TaskStatusEnum::todo->name,
+                    TaskStatusEnum::inProgress->name => TaskStatusEnum::inProgress->name,
+                    TaskStatusEnum::requireInfo->name => TaskStatusEnum::requireInfo->name,
+                    TaskStatusEnum::availableForReview->name => TaskStatusEnum::availableForReview->name,
+                    TaskStatusEnum::done->name => TaskStatusEnum::done->name,
+                    TaskStatusEnum::closed->name => TaskStatusEnum::closed->name,
+                    TaskStatusEnum::other->name => TaskStatusEnum::other->name,
+                ])
+                ->dependsOn('type', function (Select $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type === TaskTypeEnum::namaz->name || $formData->type === TaskTypeEnum::quran->name || $formData->type === TaskTypeEnum::exercise->name || $formData->type === TaskTypeEnum::dailyOfficeTime->name) {
+                        $field->default(TaskStatusEnum::done->name);
+                    }
+                })
+                ->displayUsingLabels()
+                ->searchable(),
+
             Select::make('Namaz Offered', 'namazOffered')
                 ->searchable()
                 ->hide()
@@ -216,7 +236,8 @@ class Task extends Resource
                         $field->rules('required')
                             ->help('Attach the screen shot of traqq page showing current date recorded time and activity properly.');
                     }
-                }),
+                })
+                ->hideFromIndex(),
 
             HasOne::make('Verifier User', 'verifier', User::class)
                 ->hideFromIndex()
@@ -478,26 +499,6 @@ class Task extends Resource
                             ->rules('required', 'url', 'active_url');
                     }
                 }),
-
-            Select::make('Status')
-                ->default(TaskStatusEnum::todo->name)
-                ->rules('required', new Enum(TaskStatusEnum::class))
-                ->options([
-                    TaskStatusEnum::todo->name => TaskStatusEnum::todo->name,
-                    TaskStatusEnum::inProgress->name => TaskStatusEnum::inProgress->name,
-                    TaskStatusEnum::requireInfo->name => TaskStatusEnum::requireInfo->name,
-                    TaskStatusEnum::availableForReview->name => TaskStatusEnum::availableForReview->name,
-                    TaskStatusEnum::done->name => TaskStatusEnum::done->name,
-                    TaskStatusEnum::closed->name => TaskStatusEnum::closed->name,
-                    TaskStatusEnum::other->name => TaskStatusEnum::other->name,
-                ])
-                ->dependsOn('type', function (Select $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->type === TaskTypeEnum::namaz->name) {
-                        $field->default(TaskStatusEnum::done->name);
-                    }
-                })
-                ->displayUsingLabels()
-                ->searchable(),
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
                 $lastItem = ModelsTask::latest()->first();
