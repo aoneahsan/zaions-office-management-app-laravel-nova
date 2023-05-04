@@ -23,6 +23,8 @@ class RolePermissionsSeeder extends Seeder
         $userRole = Role::create(['name' => RolesEnum::user->name]);
 
         // All App Permissions
+        // Dashboard Permissions
+        $viewDashboardPermission = Permission::create(['name' => PermissionsEnum::view_dashboard->name]);
         // Users Model Permissions
         $viewAnyUserPermission = Permission::create(['name' => PermissionsEnum::viewAny_user->name]);
         $viewUserPermission = Permission::create(['name' => PermissionsEnum::view_user->name]);
@@ -88,6 +90,7 @@ class RolePermissionsSeeder extends Seeder
         $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_comment->name]);
 
         $superAdminRolePermissions = [
+            $viewDashboardPermission,
             $viewAnyUserPermission,
             $viewUserPermission,
             $addUserPermission,

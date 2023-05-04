@@ -6,13 +6,11 @@ use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
-use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
-use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
-class Comment extends Model
+class Reply extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -33,14 +31,9 @@ class Comment extends Model
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function commentable(): MorphTo
+    public function comment(): BelongsTo
     {
-        return $this->morphTo();
-    }
-
-    public function replies(): HasMany
-    {
-        return $this->hasMany(Reply::class, 'commentId', 'id');
+        return $this->belongsTo(Comment::class, 'commentId', 'id');
     }
 
     public function attachments(): MorphMany

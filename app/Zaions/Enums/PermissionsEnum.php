@@ -25,6 +25,9 @@ enum PermissionsEnum: string
   case restore_permission = 'restore_permission';
   case forceDelete_permission = 'forceDelete_permission';
 
+    // Dashboard
+  case view_dashboard = 'view_dashboard';
+
     // User
   case viewAny_user = 'viewAny_user';
   case view_user = 'view_user';

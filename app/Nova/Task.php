@@ -13,7 +13,6 @@ use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
-use Laravel\Nova\Fields\DateTime;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasOne;
@@ -76,6 +75,10 @@ class Task extends Resource
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 })
+                ->hideFromIndex()
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
@@ -102,12 +105,13 @@ class Task extends Resource
 
             Select::make('Namaz Offered', 'namazOffered')
                 ->searchable()
+                ->hide()
                 ->readonly(true)
-                ->options([])
                 ->rules('nullable')
                 ->dependsOn('type', function (Select $thisField, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::namaz->name) {
                         $thisField->readonly(false)
+                            ->show()
                             ->rules('required', 'string', new Enum(NamazEnum::class))
                             ->options(function () use ($request) {
                                 // $currentDateTime = Carbon::now(ZHelpers::getTimezone($request));
@@ -157,12 +161,12 @@ class Task extends Resource
                                 // $fieldOptions = []; // the above logic did not work :( 
                                 // so commented it for now
                                 $fieldOptions = [
-                                    $fieldOptions[NamazEnum::fajar->name] = NamazEnum::fajar->name,
-                                    $fieldOptions[NamazEnum::zohar->name] = NamazEnum::zohar->name,
-                                    $fieldOptions[NamazEnum::asar->name] = NamazEnum::asar->name,
-                                    $fieldOptions[NamazEnum::magrib->name] = NamazEnum::magrib->name,
-                                    $fieldOptions[NamazEnum::isha->name] = NamazEnum::isha->name,
-                                    $fieldOptions[NamazEnum::juma->name] = NamazEnum::juma->name
+                                    NamazEnum::fajar->name => NamazEnum::fajar->name,
+                                    NamazEnum::zohar->name => NamazEnum::zohar->name,
+                                    NamazEnum::asar->name => NamazEnum::asar->name,
+                                    NamazEnum::magrib->name => NamazEnum::magrib->name,
+                                    NamazEnum::isha->name => NamazEnum::isha->name,
+                                    NamazEnum::juma->name => NamazEnum::juma->name
                                 ];
 
                                 // if ($fajarTimeIsAvailable) {
@@ -188,17 +192,23 @@ class Task extends Resource
                             });
                     }
                 })
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::namaz->name;
+                })
                 ->displayUsingLabels(),
 
             Hidden::make('namazOfferedAt', 'namazOfferedAt')
                 ->rules('nullable')
                 ->dependsOn('type', function (Hidden $thisField, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::namaz->name) {
-                        $thisField->rules('required')->default(Carbon::now()->toString());
+                        $thisField->rules('required')->default(Carbon::now());
                     }
+                })
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::namaz->name;
                 }),
 
-            Image::make('Screen Shot', 'screenShot')
+            Image::make('Attachment', 'screenShot')
                 ->rules('nullable')
                 ->disk(ZHelpers::getActiveFileDriver())
                 ->dependsOn('type', function (Image $field, NovaRequest $request, FormData $formData) {
@@ -208,33 +218,57 @@ class Task extends Resource
                     }
                 }),
 
-            // HasOne::make('verifier', 'verifier', Task::class)->nullable()
-            //     ->hideFromIndex(function (NovaRequest $request) {
-            //         return !ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->hideWhenCreating()
-            //     ->hideWhenUpdating(),
+            HasOne::make('Verifier User', 'verifier', User::class)
+                ->hideFromIndex()
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
 
             Text::make('Remarks By Verifier', 'verifierRemarks')
                 ->hideFromIndex(function (NovaRequest $request) {
                     return !ZHelpers::isNRUserSuperAdmin($request);
                 })
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
 
-            // HasOne::make('approver', 'approver', Task::class)->nullable()
-            //     ->hideFromIndex(function (NovaRequest $request) {
-            //         return !ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->hideWhenCreating()
-            //     ->hideWhenUpdating(),
+            HasOne::make('Approver User', 'approver', User::class)
+                ->hideFromIndex()
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
 
             Text::make('Remarks By Approver', 'approverRemarks')
                 ->hideFromIndex(function (NovaRequest $request) {
                     return !ZHelpers::isNRUserSuperAdmin($request);
                 })
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
 
             Hidden::make('weekOfYear', 'weekOfYear')
                 ->default(function () {
@@ -244,12 +278,20 @@ class Task extends Resource
             Date::make('Course Start Date', 'courseStartDate')
                 ->readonly(true)
                 ->rules('nullable')
+                ->hide()
                 ->hideWhenCreating(true)
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::course->name;
+                })
                 ->dependsOn('type', function (Date $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::course->name) {
                         $field->readonly(false)
                             ->hideWhenCreating(false)
                             ->rules('required')
+                            ->show()
                             ->min(Carbon::now())
                             ->max(Carbon::now()->addMonths(12));
                     }
@@ -258,10 +300,21 @@ class Task extends Resource
             Date::make('Course Estimate Date', 'courseEstimateDate')
                 ->readonly(true)
                 ->rules('nullable')
+                ->hide()
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::course->name;
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
                 ->dependsOn('type', function (Date $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::course->name) {
                         $field->readonly(false)
                             ->rules('required')
+                            ->show()
                             ->min(Carbon::now()->addDays(1))
                             ->max(Carbon::now()->addMonths(24));
                     }
@@ -270,10 +323,21 @@ class Task extends Resource
             Number::make('Course Total Time In Hours', 'courseTotalTimeInHours')
                 ->readonly(true)
                 ->rules('nullable')
+                ->hide()
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::course->name;
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
                 ->dependsOn('type', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::course->name) {
                         $field->readonly(false)
                             ->rules('required')
+                            ->show()
                             ->min(1)
                             ->max(200);
                     }
@@ -282,10 +346,21 @@ class Task extends Resource
             Number::make('Per Day Course Content Time In Hours', 'perDayCourseContentTimeInHours')
                 ->readonly(true)
                 ->rules('nullable')
+                ->hide()
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::course->name;
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
                 ->dependsOn('type', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::course->name) {
                         $field->readonly(false)
                             ->rules('required')
+                            ->show()
                             ->min(1)
                             ->max(8);
                     }
@@ -294,23 +369,38 @@ class Task extends Resource
             Number::make('Number of days allowed for Course', 'numberOfDaysAllowedForCourse')
                 ->readonly(true)
                 ->rules('nullable')
+                ->hide()
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::course->name;
+                })
+                ->showOnCreating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->showOnUpdating(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
                 ->dependsOn('type', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::course->name) {
                         $field->readonly(false)
                             ->rules('required')
+                            ->show()
                             ->min(1)
                             ->max(50);
                     }
                 }),
 
 
-
             Number::make('Time Spend On Exercise In Minutes', 'timeSpendOnExerciseInMinutes')
                 ->readonly(true)
                 ->rules('nullable')
+                ->hide()
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::exercise->name;
+                })
                 ->dependsOn('type', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::exercise->name) {
                         $field->readonly(false)
+                            ->show()
                             ->rules('required')
                             ->min(1);
                     }
@@ -320,9 +410,14 @@ class Task extends Resource
             Number::make('Time Spend While Reading Quran In Minutes', 'timeSpendWhileReadingQuranInMinutes')
                 ->readonly(true)
                 ->rules('nullable')
+                ->hide()
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::quran->name;
+                })
                 ->dependsOn('type', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::quran->name) {
                         $field->readonly(false)
+                            ->show()
                             ->rules('required')
                             ->min(1);
                     }
@@ -330,10 +425,15 @@ class Task extends Resource
 
             Number::make('work Time Recorded On Traqq', 'workTimeRecordedOnTraqq')
                 ->readonly(true)
+                ->hide()
                 ->rules('nullable')
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::dailyOfficeTime->name;
+                })
                 ->dependsOn('type', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::dailyOfficeTime->name) {
                         $field->readonly(false)
+                            ->show()
                             ->rules('required')
                             ->min(0)
                             ->max(18);
@@ -342,28 +442,39 @@ class Task extends Resource
 
             Number::make('Traqq Activity For Recorded Time', 'traqqActivityForRecordedTime')
                 ->readonly(true)
+                ->hide()
                 ->rules('nullable')
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::dailyOfficeTime->name;
+                })
                 ->dependsOn('type', function (Number $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::dailyOfficeTime->name) {
                         $field->readonly(false)
                             ->rules('required')
+                            ->show()
                             ->min(0)
                             ->max(100);
                     }
                 }),
 
             Textarea::make('Task Info', 'officeWorkTaskInfo')
-                ->readonly(false)
                 ->rules('nullable', 'string')
                 ->maxlength(500)
-                ->enforceMaxlength(),
+                ->enforceMaxlength()
+                ->hideFromIndex()
+                ->alwaysShow(),
 
             URL::make('Office Work Task Trello Ticket Link', 'officeWorkTaskTrelloTicketLink')
                 ->readonly(true)
+                ->hide()
                 ->rules('nullable')
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::officeWorkTask->name;
+                })
                 ->dependsOn('type', function (URL $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::officeWorkTask->name) {
                         $field->readonly(false)
+                            ->show()
                             ->rules('required', 'url', 'active_url');
                     }
                 }),
@@ -380,17 +491,26 @@ class Task extends Resource
                     TaskStatusEnum::closed->name => TaskStatusEnum::closed->name,
                     TaskStatusEnum::other->name => TaskStatusEnum::other->name,
                 ])
+                ->dependsOn('type', function (Select $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type === TaskTypeEnum::namaz->name) {
+                        $field->default(TaskStatusEnum::done->name);
+                    }
+                })
                 ->displayUsingLabels()
                 ->searchable(),
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastTask = ModelsTask::latest()->first();
-                return $lastTask ? $lastTask->sortOrderNo + 1 : 1;
+                $lastItem = ModelsTask::latest()->first();
+                return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 
-            Boolean::make('isActive', 'isActive')->default(true),
+            Boolean::make('isActive', 'isActive')->default(true)
+                ->show(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
 
-            KeyValue::make('Extra Attributes', 'extraAttributes')->nullable(),
+            KeyValue::make('Extra Attributes', 'extraAttributes')
+                ->rules('nullable', 'json'),
             MorphMany::make('Comments'),
             MorphMany::make('Attachments'),
 

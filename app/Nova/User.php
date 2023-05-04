@@ -148,9 +148,14 @@ class User extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
 
-            Boolean::make('isActive', 'isActive'),
 
-            KeyValue::make('Extra Attributes', 'extraAttributes')->rules('json'),
+            Boolean::make('isActive', 'isActive')->default(true)
+                ->show(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+
+            KeyValue::make('Extra Attributes', 'extraAttributes')
+                ->rules('nullable', 'json'),
 
             HasMany::make('Tasks'),
             MorphMany::make('Comments'),

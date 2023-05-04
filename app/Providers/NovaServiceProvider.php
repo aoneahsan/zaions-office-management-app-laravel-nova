@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Zaions\Enums\PermissionsEnum;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
@@ -76,9 +77,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     protected function gate()
     {
         Gate::define('viewNova', function ($user) {
-            return in_array($user->email, [
-                //
-            ]);
+            return $user->hasPermissionTo(PermissionsEnum::view_dashboard->name);
         });
     }
 

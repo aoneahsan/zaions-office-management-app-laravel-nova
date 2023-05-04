@@ -19,6 +19,9 @@ class Task extends Model
 
     protected $casts = [
         'extraAttributes' => SchemalessAttributes::class,
+        'namazOfferedAt' => 'datetime',
+        'courseStartDate' => 'datetime',
+        'courseEstimateDate' => 'datetime'
     ];
 
     public function scopeWithExtraAttributes(): Builder
@@ -43,23 +46,14 @@ class Task extends Model
     }
 
     // simple/admin user who verified this task
-    public function verifier(): HasOne | null
+    public function verifier(): HasOne
     {
-        if ($this->verifiedBy) {
-            return $this->hasOne(User::class, 'id', 'verifiedBy');
-        } else {
-            return null;
-        }
+        return $this->hasOne(User::class, 'id', 'verifiedBy');
     }
 
     // (admin) user who approved this task
-    public function approver(): HasOne | null
+    public function approver(): HasOne
     {
-        if ($this->approvedBy) {
-
-            return $this->hasOne(User::class, 'id', 'approvedBy');
-        } else {
-            return null;
-        }
+        return $this->hasOne(User::class, 'id', 'approvedBy');
     }
 }
