@@ -37,7 +37,8 @@ return new class extends Migration
             $table->integer('traqqActivityForRecordedTime')->default(0)->nullable();
             $table->string('officeWorkTaskInfo')->default(0)->nullable();
             $table->string('officeWorkTaskTrelloTicketLink')->default(0)->nullable();
-            $table->string('status')->default(TaskStatusEnum::todo->name)->nullable();
+            $table->string('taskStatus')->default(TaskStatusEnum::todo->name)->nullable();
+            $table->string('verificationStatus')->default(TaskStatusEnum::todo->name)->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);

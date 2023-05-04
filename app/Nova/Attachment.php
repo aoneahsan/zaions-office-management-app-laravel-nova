@@ -78,6 +78,7 @@ class Attachment extends Resource
                 }),
 
             File::make('Attachment', 'attachmentPath')
+                ->rules('file', 'required', 'size:4000')
                 ->disk(ZHelpers::getActiveFileDriver())
                 ->storeOriginalName('attachmentName')
                 ->storeSize('attachmentSize'),

@@ -102,7 +102,10 @@ class User extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
 
-            Image::make('Profile Pitcher', 'profilePitcher')->disk(ZHelpers::getActiveFileDriver())->disableDownload()->maxWidth(300),
+            Image::make('Profile Pitcher', 'profilePitcher')
+                ->rules('nullable', 'image', 'size:3000')
+                ->disk(ZHelpers::getActiveFileDriver())
+                ->maxWidth(300),
 
             Timezone::make('Timezone', 'timezone')->searchable()->default(ZHelpers::getTimezone()),
 

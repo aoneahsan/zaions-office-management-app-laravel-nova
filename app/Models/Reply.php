@@ -8,11 +8,12 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Nova\Actions\Actionable;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 class Reply extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Actionable;
 
     protected $guarded = [];
 

@@ -78,6 +78,16 @@ enum PermissionsEnum: string
   case restore_comment = 'restore_comment';
   case forceDelete_comment = 'forceDelete_comment';
 
+    // Reply
+  case viewAny_reply = 'viewAny_reply';
+  case view_reply = 'view_reply';
+  case create_reply = 'create_reply';
+  case update_reply = 'update_reply';
+  case delete_reply = 'delete_reply';
+  case replicate_reply = 'replicate_reply';
+  case restore_reply = 'restore_reply';
+  case forceDelete_reply = 'forceDelete_reply';
+
   // case viewAny_ = 'viewAny_';
   // case view_ = 'view_';
   // case create_ = 'create_';

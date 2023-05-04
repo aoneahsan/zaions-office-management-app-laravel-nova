@@ -3,9 +3,16 @@
 namespace App\Nova;
 
 use App\Models\Task as ModelsTask;
+use App\Nova\Actions\TaskActions\ApproveTaskAction;
+use App\Nova\Actions\TaskActions\ReviewTaskAction;
+use App\Nova\Filters\TaskFilters\TaskStatusFilter;
+use App\Nova\Filters\TaskFilters\TaskTypeFilter;
+use App\Nova\Filters\TaskFilters\TaskVerificationStatusFilter;
+use App\Nova\Lenses\TaskLens\PendingTaskLens;
 use App\Zaions\Enums\NamazEnum;
 use App\Zaions\Enums\TaskStatusEnum;
 use App\Zaions\Enums\TaskTypeEnum;
+use App\Zaions\Enums\VerificationStatusEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
@@ -15,6 +22,7 @@ use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Date;
 use Laravel\Nova\Fields\Image;
 use Laravel\Nova\Fields\FormData;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
@@ -49,7 +57,7 @@ class Task extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'type'
     ];
 
     /**
@@ -71,7 +79,25 @@ class Task extends Resource
             ID::make()
                 ->sortable(),
 
-            BelongsTo::make('user')
+            // Relationship Fields
+            HasMany::make('Task History Record', 'history', History::class),
+            MorphMany::make('Task Comments', 'comments', Comment::class),
+            MorphMany::make('Task Attachments', 'attachments', Attachment::class),
+            HasOne::make('Verifier User', 'verifier', User::class)
+                ->hideFromIndex()
+                ->showOnCreating(false)
+                ->showOnUpdating(false)
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+            HasOne::make('Approver User', 'approver', User::class)
+                ->hideFromIndex()
+                ->showOnCreating(false)
+                ->showOnUpdating(false)
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+            BelongsTo::make('Created By', 'user', User::class)
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 })
@@ -82,11 +108,31 @@ class Task extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
+            // Hidden Fields
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
+            Hidden::make('namazOfferedAt', 'namazOfferedAt')
+                ->rules('nullable')
+                ->dependsOn('type', function (Hidden $thisField, NovaRequest $request, FormData $formData) {
+                    if ($formData->type === TaskTypeEnum::namaz->name) {
+                        $thisField->rules('required')->default(Carbon::now());
+                    }
+                })
+                ->showOnDetail(function () {
+                    return $this->type === TaskTypeEnum::namaz->name;
+                }),
+            Hidden::make('weekOfYear', 'weekOfYear')
+                ->default(function () {
+                    return Carbon::now()->weekOfYear;
+                }),
+            Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
+                $lastItem = ModelsTask::latest()->first();
+                return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
+            }),
 
+            // Normal Form Fields
             Select::make('Type')
                 ->searchable()
                 ->rules('required', 'string', new Enum(TaskTypeEnum::class))
@@ -103,7 +149,7 @@ class Task extends Resource
                 })
                 ->displayUsingLabels(),
 
-            Select::make('Status')
+            Select::make('Task Status', 'taskStatus')
                 ->default(TaskStatusEnum::todo->name)
                 ->rules('required', new Enum(TaskStatusEnum::class))
                 ->options([
@@ -120,6 +166,17 @@ class Task extends Resource
                         $field->default(TaskStatusEnum::done->name);
                     }
                 })
+                ->displayUsingLabels()
+                ->searchable(),
+
+            Select::make('Verification Status', 'verificationStatus')
+                ->default(VerificationStatusEnum::pending->name)
+                ->hide()
+                ->options([
+                    VerificationStatusEnum::pending->name => VerificationStatusEnum::pending->name,
+                    VerificationStatusEnum::verified->name => VerificationStatusEnum::verified->name,
+                    VerificationStatusEnum::approved->name => VerificationStatusEnum::approved->name
+                ])
                 ->displayUsingLabels()
                 ->searchable(),
 
@@ -217,19 +274,10 @@ class Task extends Resource
                 })
                 ->displayUsingLabels(),
 
-            Hidden::make('namazOfferedAt', 'namazOfferedAt')
-                ->rules('nullable')
-                ->dependsOn('type', function (Hidden $thisField, NovaRequest $request, FormData $formData) {
-                    if ($formData->type === TaskTypeEnum::namaz->name) {
-                        $thisField->rules('required')->default(Carbon::now());
-                    }
-                })
-                ->showOnDetail(function () {
-                    return $this->type === TaskTypeEnum::namaz->name;
-                }),
+
 
             Image::make('Attachment', 'screenShot')
-                ->rules('nullable')
+                ->rules('nullable', 'image', 'size:3000')
                 ->disk(ZHelpers::getActiveFileDriver())
                 ->dependsOn('type', function (Image $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::dailyOfficeTime->name) {
@@ -237,64 +285,32 @@ class Task extends Resource
                             ->help('Attach the screen shot of traqq page showing current date recorded time and activity properly.');
                     }
                 })
-                ->hideFromIndex(),
-
-            HasOne::make('Verifier User', 'verifier', User::class)
                 ->hideFromIndex()
-                ->showOnCreating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnUpdating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
                 ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
+                    return $this->screenShot !== null;
                 }),
+
+
 
             Text::make('Remarks By Verifier', 'verifierRemarks')
-                ->hideFromIndex(function (NovaRequest $request) {
-                    return !ZHelpers::isNRUserSuperAdmin($request);
-                })
+                ->hideFromIndex(true)
                 ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
+                    return ZHelpers::isNRUserSuperAdmin($request) && $this->verifierRemarks !== null;
                 })
-                ->showOnCreating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnUpdating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                }),
+                ->hideWhenCreating(true)
+                ->hideWhenUpdating(true),
 
-            HasOne::make('Approver User', 'approver', User::class)
-                ->hideFromIndex()
-                ->showOnCreating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnUpdating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                }),
+
 
             Text::make('Remarks By Approver', 'approverRemarks')
-                ->hideFromIndex(function (NovaRequest $request) {
-                    return !ZHelpers::isNRUserSuperAdmin($request);
-                })
+                ->hideFromIndex(true)
                 ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
+                    return ZHelpers::isNRUserSuperAdmin($request) && $this->approverRemarks !== null;
                 })
-                ->showOnCreating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnUpdating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                }),
+                ->hideWhenCreating(true)
+                ->hideWhenUpdating(true),
 
-            Hidden::make('weekOfYear', 'weekOfYear')
-                ->default(function () {
-                    return Carbon::now()->weekOfYear;
-                }),
+
 
             Date::make('Course Start Date', 'courseStartDate')
                 ->readonly(true)
@@ -500,10 +516,7 @@ class Task extends Resource
                     }
                 }),
 
-            Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastItem = ModelsTask::latest()->first();
-                return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
-            }),
+
 
             Boolean::make('isActive', 'isActive')->default(true)
                 ->show(function (NovaRequest $request) {
@@ -511,11 +524,12 @@ class Task extends Resource
                 }),
 
             KeyValue::make('Extra Attributes', 'extraAttributes')
-                ->rules('nullable', 'json'),
-            MorphMany::make('Comments'),
-            MorphMany::make('Attachments'),
+                ->rules('nullable', 'json')
+                ->hideFromIndex()
+                ->showOnDetail(function () {
+                    return $this->extraAttributes !== null;
+                }),
 
-            // HasOne
         ];
     }
 
@@ -538,7 +552,11 @@ class Task extends Resource
      */
     public function filters(NovaRequest $request)
     {
-        return [];
+        return [
+            TaskTypeFilter::make(),
+            TaskStatusFilter::make(),
+            TaskVerificationStatusFilter::make()
+        ];
     }
 
     /**
@@ -549,7 +567,9 @@ class Task extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            PendingTaskLens::make()
+        ];
     }
 
     /**
@@ -560,6 +580,23 @@ class Task extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            ReviewTaskAction::make()
+                ->canSee(function (NovaRequest $request) {
+                    $currentUserId = $request->user()->id;
+                    return ($this->userId !== $currentUserId || ZHelpers::isNRUserSuperAdmin($request)) && $this->verificationStatus === VerificationStatusEnum::pending->name;
+                })
+                ->canRun(function (NovaRequest $request) {
+                    $currentUserId = $request->user()->id;
+                    return ($this->userId !== $currentUserId || ZHelpers::isNRUserSuperAdmin($request)) && $this->verificationStatus === VerificationStatusEnum::pending->name;
+                }),
+            ApproveTaskAction::make()
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->canRun(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request) && $this->verificationStatus === VerificationStatusEnum::verified->name;
+                })
+        ];
     }
 }

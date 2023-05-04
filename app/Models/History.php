@@ -9,11 +9,12 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Nova\Actions\Actionable;
 use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 class History extends Model
 {
-    use HasFactory, SoftDeletes;
+    use HasFactory, SoftDeletes, Actionable;
 
     protected $guarded = [];
 
@@ -37,8 +38,13 @@ class History extends Model
         return $this->morphMany(Comment::class, 'commentable');
     }
 
-    public function modal(): MorphTo
+    public function attachments(): MorphMany
     {
-        return $this->morphTo();
+        return $this->morphMany(Attachment::class, 'attachable');
+    }
+
+    public function task(): BelongsTo
+    {
+        return $this->belongsTo(Task::class, 'taskId', 'id');
     }
 }

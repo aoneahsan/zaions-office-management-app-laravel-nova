@@ -40,57 +40,68 @@ class RolePermissionsSeeder extends Seeder
         $addRolePermission = Permission::create(['name' => PermissionsEnum::create_role->name]);
         $updateRolePermission = Permission::create(['name' => PermissionsEnum::update_role->name]);
         $deleteRolePermission = Permission::create(['name' => PermissionsEnum::delete_role->name]);
-        $replicateUserPermission = Permission::create(['name' => PermissionsEnum::replicate_role->name]);
-        $restoreUserPermission = Permission::create(['name' => PermissionsEnum::restore_role->name]);
-        $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_role->name]);
+        $replicateRolePermission = Permission::create(['name' => PermissionsEnum::replicate_role->name]);
+        $restoreRolePermission = Permission::create(['name' => PermissionsEnum::restore_role->name]);
+        $forceDeleteRolePermission = Permission::create(['name' => PermissionsEnum::forceDelete_role->name]);
         // Permissions Model Permissions
         $viewAnyPermissionPermission = Permission::create(['name' => PermissionsEnum::viewAny_permission->name]);
         $viewPermissionPermission = Permission::create(['name' => PermissionsEnum::view_permission->name]);
         $addPermissionPermission = Permission::create(['name' => PermissionsEnum::create_permission->name]);
         $updatePermissionPermission = Permission::create(['name' => PermissionsEnum::update_permission->name]);
         $deletePermissionPermission = Permission::create(['name' => PermissionsEnum::delete_permission->name]);
-        $replicateUserPermission = Permission::create(['name' => PermissionsEnum::replicate_permission->name]);
-        $restoreUserPermission = Permission::create(['name' => PermissionsEnum::restore_permission->name]);
-        $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_permission->name]);
+        $replicatePermissionPermission = Permission::create(['name' => PermissionsEnum::replicate_permission->name]);
+        $restorePermissionPermission = Permission::create(['name' => PermissionsEnum::restore_permission->name]);
+        $forceDeletePermissionPermission = Permission::create(['name' => PermissionsEnum::forceDelete_permission->name]);
         // Tasks Model Permissions
         $viewAnyTaskPermission = Permission::create(['name' => PermissionsEnum::viewAny_task->name]);
         $viewTaskPermission = Permission::create(['name' => PermissionsEnum::view_task->name]);
         $addTaskPermission = Permission::create(['name' => PermissionsEnum::create_task->name]);
         $updateTaskPermission = Permission::create(['name' => PermissionsEnum::update_task->name]);
         $deleteTaskPermission = Permission::create(['name' => PermissionsEnum::delete_task->name]);
-        $replicateUserPermission = Permission::create(['name' => PermissionsEnum::replicate_task->name]);
-        $restoreUserPermission = Permission::create(['name' => PermissionsEnum::restore_task->name]);
-        $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_task->name]);
+        $replicateTaskPermission = Permission::create(['name' => PermissionsEnum::replicate_task->name]);
+        $restoreTaskPermission = Permission::create(['name' => PermissionsEnum::restore_task->name]);
+        $forceDeleteTaskPermission = Permission::create(['name' => PermissionsEnum::forceDelete_task->name]);
         // History Model Permissions
         $viewAnyHistoryPermission = Permission::create(['name' => PermissionsEnum::viewAny_history->name]);
         $viewHistoryPermission = Permission::create(['name' => PermissionsEnum::view_history->name]);
         $addHistoryPermission = Permission::create(['name' => PermissionsEnum::create_history->name]);
         $updateHistoryPermission = Permission::create(['name' => PermissionsEnum::update_history->name]);
         $deleteHistoryPermission = Permission::create(['name' => PermissionsEnum::delete_history->name]);
-        $replicateUserPermission = Permission::create(['name' => PermissionsEnum::replicate_history->name]);
-        $restoreUserPermission = Permission::create(['name' => PermissionsEnum::restore_history->name]);
-        $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_history->name]);
+        $replicateHistoryPermission = Permission::create(['name' => PermissionsEnum::replicate_history->name]);
+        $restoreHistoryPermission = Permission::create(['name' => PermissionsEnum::restore_history->name]);
+        $forceDeleteHistoryPermission = Permission::create(['name' => PermissionsEnum::forceDelete_history->name]);
         // Attachments Model Permissions
         $viewAnyAttachmentPermission = Permission::create(['name' => PermissionsEnum::viewAny_attachment->name]);
         $viewAttachmentPermission = Permission::create(['name' => PermissionsEnum::view_attachment->name]);
         $addAttachmentPermission = Permission::create(['name' => PermissionsEnum::create_attachment->name]);
         $updateAttachmentPermission = Permission::create(['name' => PermissionsEnum::update_attachment->name]);
         $deleteAttachmentPermission = Permission::create(['name' => PermissionsEnum::delete_attachment->name]);
-        $replicateUserPermission = Permission::create(['name' => PermissionsEnum::replicate_attachment->name]);
-        $restoreUserPermission = Permission::create(['name' => PermissionsEnum::restore_attachment->name]);
-        $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_attachment->name]);
+        $replicateAttachmentPermission = Permission::create(['name' => PermissionsEnum::replicate_attachment->name]);
+        $restoreAttachmentPermission = Permission::create(['name' => PermissionsEnum::restore_attachment->name]);
+        $forceDeleteAttachmentPermission = Permission::create(['name' => PermissionsEnum::forceDelete_attachment->name]);
         // Comments Model Permissions
         $viewAnyCommentPermission = Permission::create(['name' => PermissionsEnum::viewAny_comment->name]);
         $viewCommentPermission = Permission::create(['name' => PermissionsEnum::view_comment->name]);
         $addCommentPermission = Permission::create(['name' => PermissionsEnum::create_comment->name]);
         $updateCommentPermission = Permission::create(['name' => PermissionsEnum::update_comment->name]);
         $deleteCommentPermission = Permission::create(['name' => PermissionsEnum::delete_comment->name]);
-        $replicateUserPermission = Permission::create(['name' => PermissionsEnum::replicate_comment->name]);
-        $restoreUserPermission = Permission::create(['name' => PermissionsEnum::restore_comment->name]);
-        $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_comment->name]);
+        $replicateCommentPermission = Permission::create(['name' => PermissionsEnum::replicate_comment->name]);
+        $restoreCommentPermission = Permission::create(['name' => PermissionsEnum::restore_comment->name]);
+        $forceDeleteCommentPermission = Permission::create(['name' => PermissionsEnum::forceDelete_comment->name]);
+        // Replies Model Permissions
+        $viewAnyReplyPermission = Permission::create(['name' => PermissionsEnum::viewAny_reply->name]);
+        $viewReplyPermission = Permission::create(['name' => PermissionsEnum::view_reply->name]);
+        $addReplyPermission = Permission::create(['name' => PermissionsEnum::create_reply->name]);
+        $updateReplyPermission = Permission::create(['name' => PermissionsEnum::update_reply->name]);
+        $deleteReplyPermission = Permission::create(['name' => PermissionsEnum::delete_reply->name]);
+        $replicateReplyPermission = Permission::create(['name' => PermissionsEnum::replicate_reply->name]);
+        $restoreReplyPermission = Permission::create(['name' => PermissionsEnum::restore_reply->name]);
+        $forceDeleteReplyPermission = Permission::create(['name' => PermissionsEnum::forceDelete_reply->name]);
 
         $superAdminRolePermissions = [
+            // Dashboard
             $viewDashboardPermission,
+            // User
             $viewAnyUserPermission,
             $viewUserPermission,
             $addUserPermission,
@@ -99,54 +110,69 @@ class RolePermissionsSeeder extends Seeder
             $replicateUserPermission,
             $restoreUserPermission,
             $forceDeleteUserPermission,
+            // Role
             $viewAnyRolePermission,
             $viewRolePermission,
             $addRolePermission,
             $updateRolePermission,
             $deleteRolePermission,
-            $replicateUserPermission,
-            $restoreUserPermission,
-            $forceDeleteUserPermission,
+            $replicateRolePermission,
+            $restoreRolePermission,
+            $forceDeleteRolePermission,
+            // Permission
             $viewAnyPermissionPermission,
             $viewPermissionPermission,
             $addPermissionPermission,
             $updatePermissionPermission,
             $deletePermissionPermission,
-            $replicateUserPermission,
-            $restoreUserPermission,
-            $forceDeleteUserPermission,
+            $replicatePermissionPermission,
+            $restorePermissionPermission,
+            $forceDeletePermissionPermission,
+            // Task
             $viewAnyTaskPermission,
             $viewTaskPermission,
             $addTaskPermission,
             $updateTaskPermission,
             $deleteTaskPermission,
-            $replicateUserPermission,
-            $restoreUserPermission,
-            $forceDeleteUserPermission,
+            $replicateTaskPermission,
+            $restoreTaskPermission,
+            $forceDeleteTaskPermission,
+            // History
             $viewAnyHistoryPermission,
             $viewHistoryPermission,
             $addHistoryPermission,
             $updateHistoryPermission,
             $deleteHistoryPermission,
-            $replicateUserPermission,
-            $restoreUserPermission,
-            $forceDeleteUserPermission,
+            $replicateHistoryPermission,
+            $restoreHistoryPermission,
+            $forceDeleteHistoryPermission,
+            // Attachment
             $viewAnyAttachmentPermission,
             $viewAttachmentPermission,
             $addAttachmentPermission,
             $updateAttachmentPermission,
             $deleteAttachmentPermission,
-            $replicateUserPermission,
-            $restoreUserPermission,
-            $forceDeleteUserPermission,
+            $replicateAttachmentPermission,
+            $restoreAttachmentPermission,
+            $forceDeleteAttachmentPermission,
+            // Comment
             $viewAnyCommentPermission,
             $viewCommentPermission,
             $addCommentPermission,
             $updateCommentPermission,
             $deleteCommentPermission,
-            $replicateUserPermission,
-            $restoreUserPermission,
-            $forceDeleteUserPermission
+            $replicateCommentPermission,
+            $restoreCommentPermission,
+            $forceDeleteCommentPermission,
+            // Reply
+            $viewAnyReplyPermission,
+            $viewReplyPermission,
+            $addReplyPermission,
+            $updateReplyPermission,
+            $deleteReplyPermission,
+            $replicateReplyPermission,
+            $restoreReplyPermission,
+            $forceDeleteReplyPermission
         ];
 
         $adminRolePermissions = array_filter($superAdminRolePermissions, function ($permission) {

@@ -12,6 +12,7 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
 use Spatie\Permission\Models\Role;
@@ -24,7 +25,7 @@ use Spatie\Tags\HasTags;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable;
 
     protected $guarded = [];
 
@@ -107,10 +108,5 @@ class User extends Authenticatable
     public function attachments(): MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachable');
-    }
-
-    public function histories(): MorphMany
-    {
-        return $this->morphMany(History::class, 'modal');
     }
 }
