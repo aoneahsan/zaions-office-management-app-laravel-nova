@@ -5,9 +5,12 @@ namespace App\Nova\Metrics\PartitionMetrics;
 use App\Models\Task;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Partition;
+use SaintSystems\Nova\LinkableMetrics\LinkablePartition;
 
 class TasksPerStatusPartitionMetrics extends Partition
 {
+    // https://novapackages.com/packages/saintsystems/nova-linkable-metrics
+    use LinkablePartition;
     /**
      * Calculate the value of the metric.
      *

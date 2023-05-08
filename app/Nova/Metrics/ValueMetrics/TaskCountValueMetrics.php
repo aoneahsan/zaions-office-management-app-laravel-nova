@@ -5,9 +5,12 @@ namespace App\Nova\Metrics\ValueMetrics;
 use App\Models\Task;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use SaintSystems\Nova\LinkableMetrics\LinkableValue;
 
 class TaskCountValueMetrics extends Value
 {
+    // https://novapackages.com/packages/saintsystems/nova-linkable-metrics
+    use LinkableValue;
     /**
      * Calculate the value of the metric.
      *

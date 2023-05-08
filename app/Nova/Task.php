@@ -9,6 +9,9 @@ use App\Nova\Filters\TaskFilters\TaskStatusFilter;
 use App\Nova\Filters\TaskFilters\TaskTypeFilter;
 use App\Nova\Filters\TaskFilters\TaskVerificationStatusFilter;
 use App\Nova\Lenses\TaskLens\PendingTaskLens;
+use App\Nova\Metrics\PartitionMetrics\TasksPerStatusPartitionMetrics;
+use App\Nova\Metrics\TrendMetrics\TasksPerWeekTrendMetrics;
+use App\Nova\Metrics\ValueMetrics\TaskCountValueMetrics;
 use App\Zaions\Enums\NamazEnum;
 use App\Zaions\Enums\TaskStatusEnum;
 use App\Zaions\Enums\TaskTypeEnum;
@@ -529,7 +532,12 @@ class Task extends Resource
      */
     public function cards(NovaRequest $request)
     {
-        return [];
+        return [
+
+            TaskCountValueMetrics::make(),
+            TasksPerWeekTrendMetrics::make(),
+            TasksPerStatusPartitionMetrics::make()
+        ];
     }
 
     /**

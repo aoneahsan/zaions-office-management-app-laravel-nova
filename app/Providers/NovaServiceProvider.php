@@ -3,11 +3,14 @@
 namespace App\Providers;
 
 use App\Zaions\Enums\PermissionsEnum;
+use Bakerkretzmar\NovaSettingsTool\SettingsTool;
+use CodencoDev\NovaGridSystem\NovaGridSystem;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Http\Request;
+use Vyuldashev\NovaPermission\NovaPermissionTool;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
 {
@@ -100,7 +103,25 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function tools()
     {
-        return [];
+        return [
+            NovaPermissionTool::make(),
+
+            // https://novapackages.com/packages/spatie/nova-backup-tool
+            // new \Spatie\BackupTool\BackupTool(),
+
+            // https://novapackages.com/packages/vmitchell85/nova-links
+            (new \vmitchell85\NovaLinks\Links('Documentation'))
+                ->addExternalLink('Zaions', 'https://zaions.com', true),
+
+            // https://novapackages.com/packages/bolechen/nova-activitylog
+            new \Bolechen\NovaActivitylog\NovaActivitylog(),
+
+            // https://novapackages.com/packages/bakerkretzmar/nova-settings-tool
+            new SettingsTool,
+
+            // https://novapackages.com/packages/codenco-dev/nova-grid-system#screenshots
+            new NovaGridSystem
+        ];
     }
 
     /**

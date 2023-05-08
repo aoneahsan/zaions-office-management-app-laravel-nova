@@ -5,9 +5,12 @@ namespace App\Nova\Metrics\TrendMetrics;
 use App\Models\Task;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Trend;
+use SaintSystems\Nova\LinkableMetrics\LinkableTrend;
 
 class TasksPerWeekTrendMetrics extends Trend
 {
+    // https://novapackages.com/packages/saintsystems/nova-linkable-metrics
+    use LinkableTrend;
     /**
      * Calculate the value of the metric.
      *
