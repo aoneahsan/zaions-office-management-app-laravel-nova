@@ -274,24 +274,6 @@ class Task extends Resource
                 })
                 ->displayUsingLabels(),
 
-
-
-            Image::make('Attachment', 'screenShot')
-                ->rules('nullable', 'image', 'size:3000')
-                ->disk(ZHelpers::getActiveFileDriver())
-                ->dependsOn('type', function (Image $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->type === TaskTypeEnum::dailyOfficeTime->name) {
-                        $field->rules('required')
-                            ->help('Attach the screen shot of traqq page showing current date recorded time and activity properly.');
-                    }
-                })
-                ->hideFromIndex()
-                ->showOnDetail(function (NovaRequest $request) {
-                    return $this->screenShot !== null;
-                }),
-
-
-
             Text::make('Remarks By Verifier', 'verifierRemarks')
                 ->hideFromIndex(true)
                 ->showOnDetail(function (NovaRequest $request) {
@@ -300,8 +282,6 @@ class Task extends Resource
                 ->hideWhenCreating(true)
                 ->hideWhenUpdating(true),
 
-
-
             Text::make('Remarks By Approver', 'approverRemarks')
                 ->hideFromIndex(true)
                 ->showOnDetail(function (NovaRequest $request) {
@@ -309,8 +289,6 @@ class Task extends Resource
                 })
                 ->hideWhenCreating(true)
                 ->hideWhenUpdating(true),
-
-
 
             Date::make('Course Start Date', 'courseStartDate')
                 ->readonly(true)
@@ -502,7 +480,6 @@ class Task extends Resource
                 ->alwaysShow(),
 
             URL::make('Office Work Task Trello Ticket Link', 'officeWorkTaskTrelloTicketLink')
-                ->readonly(true)
                 ->hide()
                 ->rules('nullable')
                 ->showOnDetail(function () {
@@ -510,13 +487,24 @@ class Task extends Resource
                 })
                 ->dependsOn('type', function (URL $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::officeWorkTask->name) {
-                        $field->readonly(false)
-                            ->show()
-                            ->rules('required', 'url', 'active_url');
+                        $field->show()
+                            ->rules('required', 'url');
                     }
                 }),
 
-
+            Image::make('Attachment', 'screenShot')
+                ->rules('nullable', 'image', 'size:3000')
+                ->disk(ZHelpers::getActiveFileDriver())
+                ->dependsOn('type', function (Image $field, NovaRequest $request, FormData $formData) {
+                    if ($formData->type === TaskTypeEnum::dailyOfficeTime->name) {
+                        $field->rules('required')
+                            ->help('Attach the screen shot of traqq page showing current date recorded time and activity properly.');
+                    }
+                })
+                ->hideFromIndex()
+                ->showOnDetail(function (NovaRequest $request) {
+                    return $this->screenShot !== null;
+                }),
 
             Boolean::make('isActive', 'isActive')->default(true)
                 ->show(function (NovaRequest $request) {
