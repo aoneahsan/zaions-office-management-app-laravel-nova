@@ -1,12 +1,52 @@
 {
-    "private": true,
-    "scripts": {
-        "dev": "vite",
-        "build": "vite build"
+  "name": "zaions-oma",
+  "displayName": "Zaions Office MA",
+  "description": "Zaions Office Management App - Developed by [Ahsan Mahmood - Aoneahsan](https://zaions.com/ahsan) - here at [Zaions](https://zaions.com)",
+  "author": {
+    "email": "ahsan@zaions.com",
+    "name": "Ahsan Mahmood - Aoneahsan",
+    "url": "https://zaions.com/ahsan"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "zaions",
+    "aoneahsan",
+    "ahsan mahmood",
+    "zaions office management app",
+    "laravel",
+    "nova",
+    "productivity"
+  ],
+  "engines": {
+    "node": "16.20.0",
+    "npm": "Please use yarn",
+    "yarn": "1.22.19"
+  },
+  "badges": [
+    {
+      "description": "Zaions - All Rights Reserved - SAAS (software) Development Company",
+      "href": "https://zaions.com",
+      "url": "https://zaions.com"
     },
-    "devDependencies": {
-        "axios": "^1.1.2",
-        "laravel-vite-plugin": "^0.7.2",
-        "vite": "^4.0.0"
+    {
+      "description": "Ahsan Mahmood - Aoneahsan - Developer of this Software",
+      "href": "https://zaions.com/ahsan",
+      "url": "https://aoneahsan.com"
     }
+  ],
+  "version": "1.0.0",
+  "publisher": "Zaions (https://zaions.com)",
+  "homepage": "https://office.zaions.com",
+  "private": true,
+  "scripts": {
+    "dev": "vite",
+    "build": "vite build"
+  },
+  "devDependencies": {
+    "axios": "^1.1.2",
+    "laravel-vite-plugin": "^0.7.2",
+    "vite": "^4.0.0"
+  }
 }

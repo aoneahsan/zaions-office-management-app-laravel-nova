@@ -1,11 +1,31 @@
 {
-  "name": "laravel/laravel",
+  "name": "zaions/office-management-app",
   "type": "project",
-  "description": "The Laravel Framework.",
+  "description": "Zaions Office Management App - Developed by [Ahsan Mahmood - Aoneahsan](https://zaions.com/ahsan) - here at [Zaions](https://zaions.com)",
   "keywords": [
-    "framework",
-    "laravel"
+    "zaions",
+    "aoneahsan",
+    "ahsan mahmood",
+    "zaions office management app",
+    "laravel",
+    "nova",
+    "productivity"
   ],
+  "authors": [
+    {
+      "email": "ahsan@zaions.com",
+      "name": "Ahsan Mahmood - Aoneahsan",
+      "homepage": "https://zaions.com/ahsan",
+      "role": "Developer"
+    },
+    {
+      "email": "info@zaions.com",
+      "name": "Zaions - Software House",
+      "homepage": "https://zaions.com",
+      "role": "Development Company - Software House"
+    }
+  ],
+  "version": "1.0.0",
   "license": "MIT",
   "require": {
     "php": "^8.1",

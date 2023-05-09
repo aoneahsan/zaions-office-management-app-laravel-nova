@@ -29,7 +29,42 @@
 -
 
 - REMAINING
-
+  composer require outl1ne/nova-menu-builder
+  composer require wesselperik/nova-status-field
+  composer require degecko/nova-filters-summary
+  composer require outl1ne/nova-input-filter
+  composer require limedeck/nova-cashier-overview
+  composer require kirschbaum-development/nova-comments
+  composer require slash2nl/nova-back-button
+  composer require razorcreations/ajax-field
+  composer require yieldstudio/nova-google-autocomplete
+  composer require stepanenko3/nova-json
+  composer require webparking/nova-belongs-to-dependency
+  composer require richardkeep/nova-timenow
+  composer require outl1ne/nova-detached-filters
+  composer require formfeed-uk/nova-breadcrumbs
+  composer require kongulov/nova-tab-translatable
+  composer require mostafaznv/nova-video
+  composer require Visanduma/nova-two-factor
+  composer require wdelfuego/nova-datetime
+  composer require oneduo/nova-file-manager
+  composer require alexazartsev/heroicon
+  composer require khalin/nova4-searchable-belongs-to-filter
+  composer require norman-huth/nova-assets-changer
+  composer require gldrenthe89/nova-string-generator-field
+  composer require outl1ne/nova-notes-field
+  composer require wdelfuego/nova-calendar
+  composer require sadekd/nova-opening-hours-field
+  composer require interaction-design-foundation/nova-unlayer-field
+  composer require alexwenzel/nova-dependency-container
+  composer require sietse85/nova-button
+  composer require outl1ne/nova-multiselect-filter
+  composer require nemrutco/nova-global-filter
+  composer require whitecube/nova-page
+  composer require interaction-design-foundation/nova-worldclock-card
+  composer require dniccum/nova-documentation
+  composer require digital-creative/custom-relationship-field
+-
 -
 
 - GOT INSTALL ERROR
