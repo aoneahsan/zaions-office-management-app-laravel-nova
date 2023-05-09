@@ -21,6 +21,36 @@
   composer require bakerkretzmar/nova-settings-tool -------------------------------- Installed & working
   composer require jeffbeltran/sanctum-tokens -------------------------------- Installed & working, but was not able to use that token to authenticate the nova request from postman
   composer require codenco-dev/nova-grid-system -------------------------------- Installed & working
+  composer require outl1ne/nova-menu-builder -------------------------------- Installed & working
+  composer require wesselperik/nova-status-field -------------------------------- Installed & working
+  composer require degecko/nova-filters-summary -------------------------------- Installed & working
+  composer require outl1ne/nova-input-filter -------------------------------- Installed & working
+  composer require limedeck/nova-cashier-overview -------------------------------- Installed & not working
+  composer require slash2nl/nova-back-button -------------------------------- Installed & working
+  composer require razorcreations/ajax-field -------------------------------- Installed & working
+  composer require yieldstudio/nova-google-autocomplete -------------------------------- Installed & working
+  composer require stepanenko3/nova-json -------------------------------- Installed & working
+  composer require webparking/nova-belongs-to-dependency -------------------------------- Installed & working
+  composer require richardkeep/nova-timenow -------------------------------- Installed & working
+  composer require outl1ne/nova-detached-filters -------------------------------- Installed & working
+  composer require kongulov/nova-tab-translatable -------------------------------- Installed & working
+  composer require mostafaznv/nova-video -------------------------------- Installed & working
+  composer require Visanduma/nova-two-factor -------------------------------- Installed & working
+  composer require wdelfuego/nova-datetime -------------------------------- Installed & working
+  composer require oneduo/nova-file-manager -------------------------------- Installed & working
+  composer require alexazartsev/heroicon -------------------------------- Installed & working
+  composer require khalin/nova4-searchable-belongs-to-filter -------------------------------- Installed & working
+  composer require outl1ne/nova-notes-field -------------------------------- Installed & working
+  composer require sadekd/nova-opening-hours-field -------------------------------- Installed & working
+  composer require interaction-design-foundation/nova-unlayer-field -------------------------------- Installed & working
+  composer require alexwenzel/nova-dependency-container -------------------------------- Installed & not tested
+  composer require sietse85/nova-button -------------------------------- Installed & working
+  composer require outl1ne/nova-multiselect-filter -------------------------------- Installed & not tested properly
+  composer require nemrutco/nova-global-filter -------------------------------- Installed & not tested properly
+  composer require whitecube/nova-page -------------------------------- Installed & working, API not sure
+  composer require interaction-design-foundation/nova-worldclock-card -------------------------------- Installed & working
+  composer require dniccum/nova-documentation -------------------------------- Installed &
+  composer require digital-creative/custom-relationship-field -------------------------------- Installed &
 
 -
 
@@ -29,48 +59,15 @@
 -
 
 - REMAINING
-  composer require outl1ne/nova-menu-builder
-  composer require wesselperik/nova-status-field
-  composer require degecko/nova-filters-summary
-  composer require outl1ne/nova-input-filter
-  composer require limedeck/nova-cashier-overview
-  composer require kirschbaum-development/nova-comments
-  composer require slash2nl/nova-back-button
-  composer require razorcreations/ajax-field
-  composer require yieldstudio/nova-google-autocomplete
-  composer require stepanenko3/nova-json
-  composer require webparking/nova-belongs-to-dependency
-  composer require richardkeep/nova-timenow
-  composer require outl1ne/nova-detached-filters
-  composer require formfeed-uk/nova-breadcrumbs
-  composer require kongulov/nova-tab-translatable
-  composer require mostafaznv/nova-video
-  composer require Visanduma/nova-two-factor
-  composer require wdelfuego/nova-datetime
-  composer require oneduo/nova-file-manager
-  composer require alexazartsev/heroicon
-  composer require khalin/nova4-searchable-belongs-to-filter
-  composer require norman-huth/nova-assets-changer
-  composer require gldrenthe89/nova-string-generator-field
-  composer require outl1ne/nova-notes-field
-  composer require wdelfuego/nova-calendar
-  composer require sadekd/nova-opening-hours-field
-  composer require interaction-design-foundation/nova-unlayer-field
-  composer require alexwenzel/nova-dependency-container
-  composer require sietse85/nova-button
-  composer require outl1ne/nova-multiselect-filter
-  composer require nemrutco/nova-global-filter
-  composer require whitecube/nova-page
-  composer require interaction-design-foundation/nova-worldclock-card
-  composer require dniccum/nova-documentation
-  composer require digital-creative/custom-relationship-field
 -
 -
 
 - GOT INSTALL ERROR
   composer require maatwebsite/laravel-nova-excel
-  composer require simonhamp/laravel-nova-csv-import
+  composer require simonhamp/laravel-nova-csv-import ------------ i need this plugin
   composer require simplesquid/nova-enum-field
+  composer require gldrenthe89/nova-string-generator-field
+  composer require wdelfuego/nova-calendar ------------ i need this plugin
 
 -
 
@@ -79,6 +76,8 @@
 https://novapackages.com/packages/itsmejoshua/novaspatiepermissions
 composer require devpartners/auditable-log
 https://novapackages.com/packages/outl1ne/nova-settings
+composer require formfeed-uk/nova-breadcrumbs -------------------------------- Installed & not working & uninstalled
+composer require norman-huth/nova-assets-changer -------------------------------- Installed & uninstalled & i dont think i need it right now
 
 -
 
@@ -88,5 +87,11 @@ composer require php-junior/nova-logs
 https://novapackages.com/packages/m-a-k-o/nova-custom-table-card
 https://novapackages.com/packages/joshgaber/novaunit
 https://novapackages.com/packages/simplesquid/nova-advanced-number-field
+https://novapackages.com/packages/gldrenthe89/nova-string-generator-field
+composer require kirschbaum-development/nova-comments -------------------------------- Installed & not working & uninstalled
 
 -
+
+#### Packages i want but were not working or were giving some error
+
+https://novapackages.com/packages/wdelfuego/nova-calendar

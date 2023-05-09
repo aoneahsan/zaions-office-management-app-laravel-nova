@@ -16,6 +16,7 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
+use Outl1ne\NovaNotesField\Traits\HasNotes;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\SortableTrait;
@@ -25,11 +26,13 @@ use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
+use Visanduma\NovaTwoFactor\ProtectWith2FA;
+
 // use Spatie\Translatable\HasTranslations;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait, ProtectWith2FA, HasNotes;
 
     // protected $fillable = ['name', 'text'];
 
@@ -52,6 +55,7 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
         'extraAttributes' => SchemalessAttributes::class,
+        'openingHoursData' => 'array',
     ];
 
     public function getSlugOptions(): SlugOptions

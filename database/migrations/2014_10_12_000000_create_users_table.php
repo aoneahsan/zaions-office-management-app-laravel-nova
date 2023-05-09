@@ -29,7 +29,14 @@ return new class extends Migration
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);
             $table->string('timezone')->nullable();
+            $table->string('address')->nullable();
+            $table->text('flexableContent')->nullable();
+            $table->json('jsonFieldContent')->nullable();
             $table->schemalessAttributes('extraAttributes');
+            $table->text('notesFieldData')->nullable();
+            $table->json('openingHoursData')->nullable();
+            $table->json('unlayerEmailMakerField')->nullable();
+            $table->text('randomDataTesting')->nullable();
 
             $table->softDeletes();
             $table->rememberToken();

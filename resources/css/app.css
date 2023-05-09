@@ -1,0 +1,6 @@
+/* https://novapackages.com/packages/sietse85/nova-button */
+.nova-button,
+button.nova-button.text-gray-50.text-black {
+  color: black !important;
+  --tw-text-opacity: 1 !important;
+}

@@ -104,7 +104,9 @@ return [
         HandleInertiaRequests::class,
         DispatchServingNovaEvent::class,
         BootTools::class,
-        ForgetCachedPermissions::class
+        ForgetCachedPermissions::class,
+        // https://novapackages.com/packages/Visanduma/nova-two-factor
+        \Visanduma\NovaTwoFactor\Http\Middleware\TwoFa::class
     ],
 
     'api_middleware' => [

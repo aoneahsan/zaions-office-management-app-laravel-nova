@@ -5,11 +5,13 @@ namespace App\Providers;
 use App\Zaions\Enums\PermissionsEnum;
 use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 use CodencoDev\NovaGridSystem\NovaGridSystem;
+use Dniccum\NovaDocumentation\NovaDocumentation;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Http\Request;
+use Oneduo\NovaFileManager\NovaFileManager;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -120,7 +122,29 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new SettingsTool,
 
             // https://novapackages.com/packages/codenco-dev/nova-grid-system#screenshots
-            new NovaGridSystem
+            new NovaGridSystem,
+
+            // https://novapackages.com/packages/outl1ne/nova-menu-builder
+            // mainly to create menus in laravel nova and then get them in frontend using API
+            // \Outl1ne\MenuBuilder\MenuBuilder::make()
+            //     // Optional customization
+            //     ->title('Menus') // Define a new name for sidebar
+            //     ->icon('adjustments') // Customize menu icon, supports heroicons
+            //     ->hideMenu(false), // Hide MenuBuilder defined MenuSection.
+
+            // https://novapackages.com/packages/Visanduma/nova-two-factor
+            new \Visanduma\NovaTwoFactor\NovaTwoFactor(),
+
+            // https://novapackages.com/packages/oneduo/nova-file-manager
+            NovaFileManager::make(),
+
+            // https://novapackages.com/packages/whitecube/nova-page
+            \Whitecube\NovaPage\NovaPageTool::make(),
+
+
+            // https://novapackages.com/packages/dniccum/nova-documentation
+            new NovaDocumentation,
+
         ];
     }
 
