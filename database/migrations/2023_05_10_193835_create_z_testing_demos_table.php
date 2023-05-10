@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('users', function (Blueprint $table) {
+        Schema::create('z_testing_demos', function (Blueprint $table) {
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->string('name');
@@ -30,7 +30,25 @@ return new class extends Migration
             $table->boolean('isActive')->default(true);
             $table->string('timezone')->nullable();
             $table->string('address')->nullable();
+            $table->text('flexableContent')->nullable();
+            $table->json('jsonFieldContent')->nullable();
             $table->schemalessAttributes('extraAttributes');
+            $table->text('notesFieldData')->nullable();
+            $table->json('openingHoursData')->nullable();
+            $table->json('unlayerEmailMakerField')->nullable();
+            $table->text('randomDataTesting')->nullable();
+            $table->string('heroIconField')->nullable();
+            $table->string('qrField')->nullable();
+            $table->string('GooglePolygonfield')->nullable();
+
+
+            $table->point('map-field-location')->nullable();
+            $table->polygon('map-field-area')->nullable();
+            $table->multiPolygon('map-field-areas')->nullable();
+
+            $table->string('Indicatorfield')->nullable();
+            $table->string('Tooltipfield')->nullable();
+
 
             $table->softDeletes();
             $table->rememberToken();
@@ -43,6 +61,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('users');
+        Schema::dropIfExists('z_testing_demos');
     }
 };

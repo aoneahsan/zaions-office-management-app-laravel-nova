@@ -145,6 +145,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             // https://novapackages.com/packages/dniccum/nova-documentation
             new NovaDocumentation,
 
+            // https://novapackages.com/packages/stepanenko3/nova-health
+            new \Stepanenko3\NovaHealth\NovaHealth,
+
         ];
     }
 

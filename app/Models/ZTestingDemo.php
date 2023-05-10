@@ -2,9 +2,12 @@
 
 namespace App\Models;
 
+use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Model;
+
+
 use App\Zaions\Enums\RolesEnum;
 use Illuminate\Contracts\Database\Eloquent\Builder;
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -13,7 +16,11 @@ use Illuminate\Notifications\Notifiable;
 use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
+use Mostafaznv\NovaMapField\Traits\HasSpatialColumns;
+use MultiPolygon;
 use Outl1ne\NovaNotesField\Traits\HasNotes;
+use Point;
+use Polygon;
 use Spatie\Activitylog\LogOptions;
 use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\SortableTrait;
@@ -23,12 +30,12 @@ use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Visanduma\NovaTwoFactor\ProtectWith2FA;
+use Whitecube\NovaFlexibleContent\Concerns\HasFlexible;
+use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
-class User extends Authenticatable
+class ZTestingDemo extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait, ProtectWith2FA, HasNotes;
-
-    // protected $fillable = ['name', 'text'];
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait, ProtectWith2FA, HasNotes, HasFlexible, HasSpatialColumns;
 
     protected $guarded = [];
 
@@ -50,6 +57,12 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
         'extraAttributes' => SchemalessAttributes::class,
         'openingHoursData' => 'array',
+        'jsonFieldContent' => 'array',
+        'unlayerEmailMakerField' => 'array',
+        'flexableContent' => FlexibleCast::class,
+        'map-field-location' => Point::class,
+        'map-field-area'     => Polygon::class,
+        'map-field-areas'    => MultiPolygon::class
     ];
 
     public function getSlugOptions(): SlugOptions
@@ -64,64 +77,7 @@ class User extends Authenticatable
         return $this->extraAttributes->modelScope();
     }
 
-    public function wantsBreadcrumbs()
-    {
-        return true;
-    }
 
-    public function wantsRTL()
-    {
-        return false;
-    }
-
-    /**
-     * Determine if the user can impersonate another user.
-     *
-     * @return bool
-     */
-    public function canImpersonate()
-    {
-        // return Gate::forUser($this)->check('viewNova');
-        return $this->hasRole(RolesEnum::superAdmin->name);
-    }
-
-    /**
-     * Determine if the user can be impersonated.
-     *
-     * @return bool
-     */
-    public function canBeImpersonated()
-    {
-        // return true;
-        return !$this->hasRole(RolesEnum::superAdmin->name);
-    }
-
-    // User Modal Attributes getter functions
-    public function getUserTimezoneAttribute()
-    {
-        // $this->timezone will get set by user or admin on profile setting page, otherwise we will use "Asia/Karachi"
-        if ($this->timezone) {
-            return $this->timezone;
-        } else {
-            return "Asia/Karachi";
-        }
-    }
-
-    // Relationship data methods
-    public function tasks(): HasMany
-    {
-        return $this->hasMany(Task::class, 'userId', 'id');
-    }
-
-    public function comments(): MorphMany
-    {
-        return $this->morphMany(Comment::class, 'commentable');
-    }
-
-    public function attachments(): MorphMany
-    {
-        return $this->morphMany(Attachment::class, 'attachable');
-    }
 
     // https://novapackages.com/packages/ebess/advanced-nova-media-library package setting - starts
     // public function registerMediaConversions(Media $media = null): void

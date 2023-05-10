@@ -49,8 +49,21 @@
   composer require nemrutco/nova-global-filter -------------------------------- Installed & not tested properly
   composer require whitecube/nova-page -------------------------------- Installed & working, API not sure
   composer require interaction-design-foundation/nova-worldclock-card -------------------------------- Installed & working
-  composer require dniccum/nova-documentation -------------------------------- Installed &
-  composer require digital-creative/custom-relationship-field -------------------------------- Installed &
+  composer require dniccum/nova-documentation -------------------------------- Installed & working
+  composer require digital-creative/custom-relationship-field -------------------------------- Installed & working (will need more rnd as not sure where we will need it)
+  composer require stepanenko3/nova-cards
+  composer require wdelfuego/nova-calendar
+  composer require devtical/nova-qrcode-field
+  composer require yieldstudio/nova-google-polygon
+  composer require mostafaznv/nova-map-field
+  composer require khalin/nova4-indicator-field
+  composer require abordage/nova-table-card
+  composer require stepanenko3/nova-health
+  composer require badinansoft/nova-language-switch
+  composer require lexicon/nova-action-button-selectors
+  composer require outl1ne/nova-tooltip-field
+  composer require abordage/nova-total-card
+  composer require digital-creative/custom-relationship-field
 
 -
 

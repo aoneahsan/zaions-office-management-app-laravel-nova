@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova\Filters\UserFilters;
+namespace App\Nova\Filters\ZTestingDemoFilters;
 
 use Illuminate\Http\Request;
 use Outl1ne\NovaInputFilter\InputFilter;

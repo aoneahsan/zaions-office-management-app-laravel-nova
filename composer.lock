@@ -4,8 +4,135 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "36058d0c39758b6cb54300735da06719",
+    "content-hash": "cdefc5b563a676df87dab143a68eaeaa",
     "packages": [
+        {
+            "name": "abordage/nova-table-card",
+            "version": "0.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abordage/nova-table-card.git",
+                "reference": "ff8d9504c7a12824b0faf166fa94d8a840d2eace"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abordage/nova-table-card/zipball/ff8d9504c7a12824b0faf166fa94d8a840d2eace",
+                "reference": "ff8d9504c7a12824b0faf166fa94d8a840d2eace",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "laravel/nova": "^4.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "nunomaduro/collision": "^5.0 || ^6.0 || ^7.0",
+                "nunomaduro/larastan": "^1.0 || ^2.0",
+                "orchestra/testbench": "^6.0 || ^7.0 || ^8.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^9.6 || ^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Abordage\\TableCard\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Abordage\\TableCard\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Bychko",
+                    "email": "box@abordage.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova card for displaying lists with links to view and edit",
+            "homepage": "https://github.com/abordage/nova-table-card",
+            "keywords": [
+                "laravel nova",
+                "nova card",
+                "nova table card"
+            ],
+            "support": {
+                "issues": "https://github.com/abordage/nova-table-card/issues",
+                "source": "https://github.com/abordage/nova-table-card/tree/0.2.1"
+            },
+            "time": "2023-03-26T15:09:24+00:00"
+        },
+        {
+            "name": "abordage/nova-total-card",
+            "version": "0.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/abordage/nova-total-card.git",
+                "reference": "677976d71921d621de0f3e6fd6f91cc0c4db3875"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/abordage/nova-total-card/zipball/677976d71921d621de0f3e6fd6f91cc0c4db3875",
+                "reference": "677976d71921d621de0f3e6fd6f91cc0c4db3875",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": ">=7.4"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "nunomaduro/collision": "^5.0 || ^6.0 || ^7.0",
+                "nunomaduro/larastan": "^1.0 || ^2.0",
+                "orchestra/testbench": "^6.0 || ^7.0 || ^8.0",
+                "phpstan/phpstan": "^1.0",
+                "phpunit/phpunit": "^9.6 || ^10.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Abordage\\TotalCard\\CardServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Abordage\\TotalCard\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pavel Bychko",
+                    "email": "box@abordage.dev",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova card that displays the total number of records of a specific model",
+            "homepage": "https://github.com/abordage/nova-total-card",
+            "keywords": [
+                "laravel nova",
+                "nova card",
+                "nova total card"
+            ],
+            "support": {
+                "issues": "https://github.com/abordage/nova-total-card/issues",
+                "source": "https://github.com/abordage/nova-total-card/tree/0.2.0"
+            },
+            "time": "2023-02-25T11:59:25+00:00"
+        },
         {
             "name": "alexazartsev/heroicon",
             "version": "v2.0.0",
@@ -180,6 +307,65 @@
                 "source": "https://github.com/Bacon/BaconQrCode/tree/2.0.8"
             },
             "time": "2022-12-07T17:46:57+00:00"
+        },
+        {
+            "name": "badinansoft/nova-language-switch",
+            "version": "1.2.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/badinansoft/nova-language-switch.git",
+                "reference": "d65aea6ff3dce7875e9248e46b4db2d773d8c675"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/badinansoft/nova-language-switch/zipball/d65aea6ff3dce7875e9248e46b4db2d773d8c675",
+                "reference": "d65aea6ff3dce7875e9248e46b4db2d773d8c675",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Badinansoft\\LanguageSwitch\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Badinansoft\\LanguageSwitch\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Shahab Zebari",
+                    "email": "me@shahabzebari.net",
+                    "homepage": "https://shahabzebari.net",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova package to switch language in your application",
+            "homepage": "https://github.com/badinansoft/nova-language-switch",
+            "keywords": [
+                "i18n",
+                "language",
+                "laravel",
+                "nova",
+                "switch",
+                "translation"
+            ],
+            "support": {
+                "issues": "https://github.com/badinansoft/nova-language-switch/issues",
+                "source": "https://github.com/badinansoft/nova-language-switch/tree/1.2.0"
+            },
+            "time": "2023-02-28T13:35:20+00:00"
         },
         {
             "name": "bakerkretzmar/nova-settings-tool",
@@ -756,6 +942,65 @@
                 "source": "https://github.com/degecko/nova-filters-summary/tree/2.0.3"
             },
             "time": "2022-11-03T12:21:39+00:00"
+        },
+        {
+            "name": "devtical/nova-qrcode-field",
+            "version": "v2.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/devtical/nova-qrcode-field.git",
+                "reference": "7d80f0b7ae707561dda403eda4b7817ac09781ab"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/devtical/nova-qrcode-field/zipball/7d80f0b7ae707561dda403eda4b7817ac09781ab",
+                "reference": "7d80f0b7ae707561dda403eda4b7817ac09781ab",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": "^7.4|^8.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.0",
+                "orchestra/testbench": "^6.24|^7.0",
+                "phpunit/phpunit": "^9.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Devtical\\Qrcode\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Devtical\\Qrcode\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Nova QR code field",
+            "keywords": [
+                "laravel",
+                "nova",
+                "qr",
+                "qrcode"
+            ],
+            "support": {
+                "issues": "https://github.com/devtical/nova-qrcode-field/issues",
+                "source": "https://github.com/devtical/nova-qrcode-field/tree/v2.0.1"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/Kristories",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-02-27T15:44:32+00:00"
         },
         {
             "name": "dflydev/dot-access-data",
@@ -1765,6 +2010,56 @@
             "time": "2022-10-25T19:58:02+00:00"
         },
         {
+            "name": "erusev/parsedown",
+            "version": "1.7.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/erusev/parsedown.git",
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/erusev/parsedown/zipball/cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "reference": "cb17b6477dfff935958ba01325f2e8a2bfa6dab3",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": ">=5.3.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^4.8.35"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-0": {
+                    "Parsedown": ""
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Emanuil Rusev",
+                    "email": "hello@erusev.com",
+                    "homepage": "http://erusev.com"
+                }
+            ],
+            "description": "Parser for Markdown.",
+            "homepage": "http://parsedown.org",
+            "keywords": [
+                "markdown",
+                "parser"
+            ],
+            "support": {
+                "issues": "https://github.com/erusev/parsedown/issues",
+                "source": "https://github.com/erusev/parsedown/tree/1.7.x"
+            },
+            "time": "2019-12-30T22:54:17+00:00"
+        },
+        {
             "name": "evenement/evenement",
             "version": "v3.0.1",
             "source": {
@@ -2602,6 +2897,76 @@
             "time": "2020-07-09T08:09:16+00:00"
         },
         {
+            "name": "hashids/hashids",
+            "version": "4.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/vinkla/hashids.git",
+                "reference": "8cab111f78e0bd9c76953b082919fc9e251761be"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/vinkla/hashids/zipball/8cab111f78e0bd9c76953b082919fc9e251761be",
+                "reference": "8cab111f78e0bd9c76953b082919fc9e251761be",
+                "shasum": ""
+            },
+            "require": {
+                "ext-mbstring": "*",
+                "php": "^7.2 || ^8.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^8.0 || ^9.4",
+                "squizlabs/php_codesniffer": "^3.5"
+            },
+            "suggest": {
+                "ext-bcmath": "Required to use BC Math arbitrary precision mathematics (*).",
+                "ext-gmp": "Required to use GNU multiple precision mathematics (*)."
+            },
+            "type": "library",
+            "extra": {
+                "branch-alias": {
+                    "dev-master": "4.1-dev"
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Hashids\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Ivan Akimov",
+                    "email": "ivan@barreleye.com"
+                },
+                {
+                    "name": "Vincent Klaiber",
+                    "email": "hello@doubledip.se"
+                }
+            ],
+            "description": "Generate short, unique, non-sequential ids (like YouTube and Bitly) from numbers",
+            "homepage": "https://hashids.org/php",
+            "keywords": [
+                "bitly",
+                "decode",
+                "encode",
+                "hash",
+                "hashid",
+                "hashids",
+                "ids",
+                "obfuscate",
+                "youtube"
+            ],
+            "support": {
+                "issues": "https://github.com/vinkla/hashids/issues",
+                "source": "https://github.com/vinkla/hashids/tree/4.1.0"
+            },
+            "time": "2020-11-26T19:24:33+00:00"
+        },
+        {
             "name": "imagine/imagine",
             "version": "1.3.4",
             "source": {
@@ -3144,6 +3509,55 @@
                 "source": "https://github.com/JeffBeltran/sanctum-tokens/tree/v2.0.1"
             },
             "time": "2022-06-27T03:18:03+00:00"
+        },
+        {
+            "name": "khalin/nova4-indicator-field",
+            "version": "1.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/oleghalin/nova4-indicator-field.git",
+                "reference": "f4fb52bd35ddab3e49928ec8a922986f9bcfd376"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/oleghalin/nova4-indicator-field/zipball/f4fb52bd35ddab3e49928ec8a922986f9bcfd376",
+                "reference": "f4fb52bd35ddab3e49928ec8a922986f9bcfd376",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": ">=7.1.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Khalin\\Fields\\IndicatorFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Khalin\\Fields\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova 4 indicator field.",
+            "keywords": [
+                "field",
+                "indicator",
+                "laravel",
+                "nova",
+                "nova-4",
+                "status"
+            ],
+            "support": {
+                "source": "https://github.com/oleghalin/nova4-indicator-field/tree/1.0.0"
+            },
+            "time": "2022-04-18T12:39:42+00:00"
         },
         {
             "name": "khalin/nova4-searchable-belongs-to-filter",
@@ -3692,6 +4106,72 @@
                 "source": "https://github.com/laravel/pennant"
             },
             "time": "2023-03-17T18:08:19+00:00"
+        },
+        {
+            "name": "laravel/pint",
+            "version": "v1.10.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/laravel/pint.git",
+                "reference": "c7a01fa9bdd79819e7a2f1ba63ac1b02e6692dbc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/laravel/pint/zipball/c7a01fa9bdd79819e7a2f1ba63ac1b02e6692dbc",
+                "reference": "c7a01fa9bdd79819e7a2f1ba63ac1b02e6692dbc",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-mbstring": "*",
+                "ext-tokenizer": "*",
+                "ext-xml": "*",
+                "php": "^8.1.0"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.16.0",
+                "illuminate/view": "^10.5.1",
+                "laravel-zero/framework": "^10.0.2",
+                "mockery/mockery": "^1.5.1",
+                "nunomaduro/larastan": "^2.5.1",
+                "nunomaduro/termwind": "^1.15.1",
+                "pestphp/pest": "^2.4.0"
+            },
+            "bin": [
+                "builds/pint"
+            ],
+            "type": "project",
+            "autoload": {
+                "psr-4": {
+                    "App\\": "app/",
+                    "Database\\Seeders\\": "database/seeders/",
+                    "Database\\Factories\\": "database/factories/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Nuno Maduro",
+                    "email": "enunomaduro@gmail.com"
+                }
+            ],
+            "description": "An opinionated code formatter for PHP.",
+            "homepage": "https://laravel.com",
+            "keywords": [
+                "format",
+                "formatter",
+                "lint",
+                "linter",
+                "php"
+            ],
+            "support": {
+                "issues": "https://github.com/laravel/pint/issues",
+                "source": "https://github.com/laravel/pint"
+            },
+            "time": "2023-04-25T14:52:30+00:00"
         },
         {
             "name": "laravel/sanctum",
@@ -4623,6 +5103,60 @@
             "time": "2022-04-15T14:02:14+00:00"
         },
         {
+            "name": "lexicon/nova-action-button-selectors",
+            "version": "v1.2.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/pitchayakit/nova-action-button-selector.git",
+                "reference": "f947ff23b7cc494e4ae6fc63c13e01468657ddef"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/pitchayakit/nova-action-button-selector/zipball/f947ff23b7cc494e4ae6fc63c13e01468657ddef",
+                "reference": "f947ff23b7cc494e4ae6fc63c13e01468657ddef",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "~4.0",
+                "php": "^7.3|^8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Lexicon\\ActionButtonSelector\\AssetServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Lexicon\\ActionButtonSelector\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Pitchayakit Pahamak",
+                    "email": "pitchayakit.p@gmail.com",
+                    "role": "Software Engineer"
+                }
+            ],
+            "description": "A Laravel Nova asset.",
+            "homepage": "https://pitchayakit.github.io/cv",
+            "keywords": [
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/pitchayakit/nova-action-button-selector/issues",
+                "source": "https://github.com/pitchayakit/nova-action-button-selector/tree/v1.2.1"
+            },
+            "time": "2022-12-26T04:55:05+00:00"
+        },
+        {
             "name": "limedeck/nova-cashier-overview",
             "version": "4.2.0",
             "source": {
@@ -4813,6 +5347,67 @@
                 }
             ],
             "time": "2023-04-19T19:51:03+00:00"
+        },
+        {
+            "name": "matanyadaev/laravel-eloquent-spatial",
+            "version": "3.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/MatanYadaev/laravel-eloquent-spatial.git",
+                "reference": "cda683405d53d5a69938b844c52618d27f865b76"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/MatanYadaev/laravel-eloquent-spatial/zipball/cda683405d53d5a69938b844c52618d27f865b76",
+                "reference": "cda683405d53d5a69938b844c52618d27f865b76",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-pdo": "*",
+                "laravel/framework": "^10.0",
+                "phayes/geophp": "^1.2",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "doctrine/dbal": "^3.5.3",
+                "friendsofphp/php-cs-fixer": "^3.14.3",
+                "jubeki/laravel-code-style": "^1.2",
+                "nunomaduro/larastan": "^1.0|^2.4",
+                "orchestra/testbench": "^8.0",
+                "pestphp/pest": "^1.22.4",
+                "pestphp/pest-plugin-laravel": "^1.4"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "MatanYadaev\\EloquentSpatial\\EloquentSpatialServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "MatanYadaev\\EloquentSpatial\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Matan Yadaev",
+                    "email": "matan.yed@gmail.com"
+                }
+            ],
+            "description": "Spatial library for Laravel",
+            "homepage": "https://github.com/matanyadaev/laravel-eloquent-spatial",
+            "support": {
+                "issues": "https://github.com/MatanYadaev/laravel-eloquent-spatial/issues",
+                "source": "https://github.com/MatanYadaev/laravel-eloquent-spatial/tree/3.1.2"
+            },
+            "time": "2023-02-28T21:34:41+00:00"
         },
         {
             "name": "mockery/mockery",
@@ -5163,6 +5758,61 @@
                 "source": "https://github.com/mostafaznv/larupload"
             },
             "time": "2023-04-18T21:30:59+00:00"
+        },
+        {
+            "name": "mostafaznv/nova-map-field",
+            "version": "3.0.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/mostafaznv/nova-map-field.git",
+                "reference": "b8f4cf0d883320835de520f969cfccf2250df4c8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/mostafaznv/nova-map-field/zipball/b8f4cf0d883320835de520f969cfccf2250df4c8",
+                "reference": "b8f4cf0d883320835de520f969cfccf2250df4c8",
+                "shasum": ""
+            },
+            "require": {
+                "illuminate/support": "^8.0|^9.0|^10.0",
+                "laravel/nova": "^4.0",
+                "matanyadaev/laravel-eloquent-spatial": "^2.0.1|^3.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Mostafaznv\\NovaMapField\\NovaMapFieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Mostafaznv\\NovaMapField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Map Field for Laravel Nova",
+            "keywords": [
+                "OpenLayers",
+                "Polygon",
+                "geocoder",
+                "laravel",
+                "map",
+                "map marker",
+                "multi polygon",
+                "nova",
+                "point",
+                "spatial"
+            ],
+            "support": {
+                "issues": "https://github.com/mostafaznv/nova-map-field/issues",
+                "source": "https://github.com/mostafaznv/nova-map-field/tree/3.0.0"
+            },
+            "time": "2023-02-15T07:22:58+00:00"
         },
         {
             "name": "mostafaznv/nova-video",
@@ -6496,6 +7146,56 @@
             "time": "2023-03-17T14:17:12+00:00"
         },
         {
+            "name": "outl1ne/nova-tooltip-field",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/outl1ne/nova-tooltip-field.git",
+                "reference": "9e65dd2e11ff0534c40ece83d3679d5d8a53fad8"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/outl1ne/nova-tooltip-field/zipball/9e65dd2e11ff0534c40ece83d3679d5d8a53fad8",
+                "reference": "9e65dd2e11ff0534c40ece83d3679d5d8a53fad8",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "nova-kit/nova-packages-tool": "^1.0.1",
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Outl1ne\\NovaTooltipField\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Outl1ne\\NovaTooltipField\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A tooltip field for Laravel Nova.",
+            "keywords": [
+                "field",
+                "laravel",
+                "nova",
+                "outl1ne",
+                "tooltip"
+            ],
+            "support": {
+                "issues": "https://github.com/outl1ne/nova-tooltip-field/issues",
+                "source": "https://github.com/outl1ne/nova-tooltip-field/tree/1.0.3"
+            },
+            "time": "2022-10-20T12:52:55+00:00"
+        },
+        {
             "name": "outl1ne/nova-translations-loader",
             "version": "5.0.1",
             "source": {
@@ -6774,6 +7474,46 @@
                 "source": "https://github.com/phar-io/version/tree/3.2.1"
             },
             "time": "2022-02-21T01:04:05+00:00"
+        },
+        {
+            "name": "phayes/geophp",
+            "version": "1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/phayes/geoPHP.git",
+                "reference": "015404e85b602e0df1f91441f8db0f9e98f7e567"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/phayes/geoPHP/zipball/015404e85b602e0df1f91441f8db0f9e98f7e567",
+                "reference": "015404e85b602e0df1f91441f8db0f9e98f7e567",
+                "shasum": ""
+            },
+            "require-dev": {
+                "phpunit/phpunit": "4.1.*"
+            },
+            "type": "library",
+            "autoload": {
+                "classmap": [
+                    "geoPHP.inc"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "GPL-2 or New-BSD"
+            ],
+            "authors": [
+                {
+                    "name": "Patrick Hayes"
+                }
+            ],
+            "description": "GeoPHP is a open-source native PHP library for doing geometry operations. It is written entirely in PHP and can therefore run on shared hosts. It can read and write a wide variety of formats: WKT (including EWKT), WKB (including EWKB), GeoJSON, KML, GPX, GeoRSS). It works with all Simple-Feature geometries (Point, LineString, Polygon, GeometryCollection etc.) and can be used to get centroids, bounding-boxes, area, and a wide variety of other useful information.",
+            "homepage": "https://github.com/phayes/geoPHP",
+            "support": {
+                "issues": "https://github.com/phayes/geoPHP/issues",
+                "source": "https://github.com/phayes/geoPHP/tree/master"
+            },
+            "time": "2014-12-02T06:11:22+00:00"
         },
         {
             "name": "php-ffmpeg/php-ffmpeg",
@@ -9994,6 +10734,71 @@
             "time": "2023-03-04T08:57:24+00:00"
         },
         {
+            "name": "spatie/cpu-load-health-check",
+            "version": "1.0.3",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/cpu-load-health-check.git",
+                "reference": "162e132f4ffffbbd0f015f9d9c1b7b8bf742958b"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/cpu-load-health-check/zipball/162e132f4ffffbbd0f015f9d9c1b7b8bf742958b",
+                "reference": "162e132f4ffffbbd0f015f9d9c1b7b8bf742958b",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0"
+            },
+            "require-dev": {
+                "nunomaduro/collision": "^5.10",
+                "pestphp/pest": "^1.21",
+                "pestphp/pest-plugin-laravel": "^1.1",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.0",
+                "phpunit/phpunit": "^9.5",
+                "spatie/laravel-health": "^1.2",
+                "spatie/laravel-ray": "^1.26"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\CpuLoadHealthCheck\\": "src",
+                    "Spatie\\CpuLoadHealthCheck\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Health check to monitor CPU load",
+            "homepage": "https://github.com/spatie/cpu-load-health-check",
+            "keywords": [
+                "cpu-load-health-check",
+                "laravel",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/cpu-load-health-check/issues",
+                "source": "https://github.com/spatie/cpu-load-health-check/tree/1.0.3"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2022-12-12T13:45:25+00:00"
+        },
+        {
             "name": "spatie/db-dumper",
             "version": "3.3.1",
             "source": {
@@ -10821,6 +11626,98 @@
                 }
             ],
             "time": "2023-01-23T14:53:09+00:00"
+        },
+        {
+            "name": "spatie/laravel-health",
+            "version": "1.22.5",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/laravel-health.git",
+                "reference": "eb61cc060f9e24c95801e76815367f4fe3555807"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/laravel-health/zipball/eb61cc060f9e24c95801e76815367f4fe3555807",
+                "reference": "eb61cc060f9e24c95801e76815367f4fe3555807",
+                "shasum": ""
+            },
+            "require": {
+                "dragonmantank/cron-expression": "^3.3.1",
+                "guzzlehttp/guzzle": "^6.5|^7.4.5|^7.2",
+                "illuminate/console": "^8.75|^9.0|^10.0",
+                "illuminate/contracts": "^8.75|^9.0|^10.0",
+                "illuminate/database": "^8.75|^9.0|^10.0",
+                "illuminate/notifications": "^8.75|^9.0|^10.0",
+                "illuminate/support": "^8.75|^9.0|^10.0",
+                "nunomaduro/termwind": "^1.14",
+                "php": "^8.0",
+                "spatie/enum": "^3.13",
+                "spatie/laravel-package-tools": "^1.12.1",
+                "spatie/regex": "^3.1.1|^3.1",
+                "symfony/process": "^5.4|^6.0"
+            },
+            "require-dev": {
+                "laravel/horizon": "^5.9.10",
+                "laravel/slack-notification-channel": "^2.4",
+                "nunomaduro/collision": "^5.10|^6.2.1|^6.1",
+                "nunomaduro/larastan": "^1.0.3|^2.4",
+                "orchestra/testbench": "^6.23|^7.6|^8.0",
+                "pestphp/pest": "^1.21.3",
+                "pestphp/pest-plugin-laravel": "^1.2",
+                "phpstan/extension-installer": "^1.1",
+                "phpstan/phpstan-deprecation-rules": "^1.0",
+                "phpstan/phpstan-phpunit": "^1.1.1",
+                "phpunit/phpunit": "^9.5.21|^9.5.10",
+                "spatie/laravel-ray": "^1.30",
+                "spatie/pest-plugin-snapshots": "^1.1",
+                "spatie/pest-plugin-test-time": "^1.1.1|^1.1",
+                "spatie/test-time": "^1.3"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Spatie\\Health\\HealthServiceProvider"
+                    ],
+                    "aliases": {
+                        "Health": "Spatie\\Health\\Facades\\Health"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Health\\": "src",
+                    "Spatie\\Health\\Database\\Factories\\": "database/factories"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "Monitor the health of a Laravel application",
+            "homepage": "https://github.com/spatie/laravel-health",
+            "keywords": [
+                "laravel",
+                "laravel-health",
+                "spatie"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/laravel-health/tree/1.22.5"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2023-03-29T07:39:16+00:00"
         },
         {
             "name": "spatie/laravel-medialibrary",
@@ -12055,6 +12952,137 @@
             "time": "2023-03-06T07:22:28+00:00"
         },
         {
+            "name": "spatie/regex",
+            "version": "3.1.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/regex.git",
+                "reference": "d543de2019a0068e7b80da0ba24f1c51c7469303"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/regex/zipball/d543de2019a0068e7b80da0ba24f1c51c7469303",
+                "reference": "d543de2019a0068e7b80da0ba24f1c51c7469303",
+                "shasum": ""
+            },
+            "require": {
+                "php": "^8.0|^8.1"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.3"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "Spatie\\Regex\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Sebastian De Deyne",
+                    "email": "sebastian@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A sane interface for php's built in preg_* functions",
+            "homepage": "https://github.com/spatie/regex",
+            "keywords": [
+                "expression",
+                "expressions",
+                "regex",
+                "regular",
+                "spatie"
+            ],
+            "support": {
+                "issues": "https://github.com/spatie/regex/issues",
+                "source": "https://github.com/spatie/regex/tree/3.1.1"
+            },
+            "funding": [
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "custom"
+                },
+                {
+                    "url": "https://github.com/spatie",
+                    "type": "github"
+                }
+            ],
+            "time": "2021-11-30T21:13:59+00:00"
+        },
+        {
+            "name": "spatie/ssl-certificate",
+            "version": "2.4.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/spatie/ssl-certificate.git",
+                "reference": "e84ece1491f3fb7868992c83390236f61ddafaa6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/spatie/ssl-certificate/zipball/e84ece1491f3fb7868992c83390236f61ddafaa6",
+                "reference": "e84ece1491f3fb7868992c83390236f61ddafaa6",
+                "shasum": ""
+            },
+            "require": {
+                "ext-intl": "*",
+                "ext-json": "*",
+                "nesbot/carbon": "^2.23",
+                "php": "^8.0",
+                "spatie/macroable": "^1.0|^2.0"
+            },
+            "require-dev": {
+                "phpunit/phpunit": "^9.0",
+                "spatie/phpunit-snapshot-assertions": "^4.2.3",
+                "spatie/ray": "^1.30"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ],
+                "psr-4": {
+                    "Spatie\\SslCertificate\\": "src"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Freek Van der Herten",
+                    "email": "freek@spatie.be",
+                    "homepage": "https://spatie.be",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A class to easily query the properties of an ssl certificate",
+            "homepage": "https://github.com/spatie/ssl-certificate",
+            "keywords": [
+                "spatie",
+                "ssl-certificate"
+            ],
+            "support": {
+                "source": "https://github.com/spatie/ssl-certificate/tree/2.4.0"
+            },
+            "funding": [
+                {
+                    "url": "https://github.com/sponsors/spatie",
+                    "type": "github"
+                },
+                {
+                    "url": "https://spatie.be/open-source/support-us",
+                    "type": "other"
+                }
+            ],
+            "time": "2022-10-28T15:29:19+00:00"
+        },
+        {
             "name": "spatie/temporary-directory",
             "version": "2.1.2",
             "source": {
@@ -12243,6 +13271,205 @@
                 }
             ],
             "time": "2022-04-06T12:03:55+00:00"
+        },
+        {
+            "name": "stepanenko3/laravel-helpers",
+            "version": "v1.2.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stepanenko3/laravel-helpers.git",
+                "reference": "f1cea50765e8c017aaa4de9af515350d0d95f0b1"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stepanenko3/laravel-helpers/zipball/f1cea50765e8c017aaa4de9af515350d0d95f0b1",
+                "reference": "f1cea50765e8c017aaa4de9af515350d0d95f0b1",
+                "shasum": ""
+            },
+            "require": {
+                "ext-json": "*",
+                "ext-openssl": "*",
+                "hashids/hashids": "^4.1",
+                "laravel/framework": "^9.0|^10.0",
+                "laravel/pint": "^1.2",
+                "php": ">=8.1",
+                "ramsey/uuid": "^4.0"
+            },
+            "type": "library",
+            "autoload": {
+                "files": [
+                    "src/helpers.php"
+                ]
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Helpers for laravel",
+            "keywords": [
+                "helpers",
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/stepanenko3/laravel-helpers/issues",
+                "source": "https://github.com/stepanenko3/laravel-helpers/tree/v1.2.2"
+            },
+            "time": "2023-05-04T19:41:26+00:00"
+        },
+        {
+            "name": "stepanenko3/laravel-system-resources",
+            "version": "v1.0.1",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stepanenko3/laravel-system-resources.git",
+                "reference": "4269cfb453ecb302e5cb00bbe1b9ecb5f041445f"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stepanenko3/laravel-system-resources/zipball/4269cfb453ecb302e5cb00bbe1b9ecb5f041445f",
+                "reference": "4269cfb453ecb302e5cb00bbe1b9ecb5f041445f",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/framework": ">=9.0",
+                "php": ">=8.0"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Stepanenko3\\LaravelSystemResources\\SystemResourcesServiceProvider"
+                    ],
+                    "aliases": {
+                        "SystemResources": "Stepanenko3\\LaravelSystemResources\\Facades\\SystemResources"
+                    }
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stepanenko3\\LaravelSystemResources\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Artem Stepanenko",
+                    "email": "stpnnk.artem@gmail.com",
+                    "role": "Creator"
+                }
+            ],
+            "description": "Get OS resources from Laravel",
+            "keywords": [
+                "laravel"
+            ],
+            "support": {
+                "issues": "https://github.com/stepanenko3/laravel-system-resources/issues",
+                "source": "https://github.com/stepanenko3/laravel-system-resources/tree/v1.0.1"
+            },
+            "time": "2022-05-17T06:35:37+00:00"
+        },
+        {
+            "name": "stepanenko3/nova-cards",
+            "version": "v1.9.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stepanenko3/nova-cards.git",
+                "reference": "395a98f22ab8a97651a7f04b01df770d71399081"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stepanenko3/nova-cards/zipball/395a98f22ab8a97651a7f04b01df770d71399081",
+                "reference": "395a98f22ab8a97651a7f04b01df770d71399081",
+                "shasum": ""
+            },
+            "require": {
+                "erusev/parsedown": "^1.7",
+                "laravel/nova": "^4.0",
+                "php": ">=8.0",
+                "spatie/ssl-certificate": "^2.0",
+                "stepanenko3/laravel-helpers": "*",
+                "stepanenko3/laravel-system-resources": "*"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Stepanenko3\\NovaCards\\NovaCardsServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stepanenko3\\NovaCards\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "A Laravel Nova info cards.",
+            "keywords": [
+                "cards",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/stepanenko3/nova-cards/issues",
+                "source": "https://github.com/stepanenko3/nova-cards/tree/v1.9.2"
+            },
+            "time": "2023-04-23T15:43:57+00:00"
+        },
+        {
+            "name": "stepanenko3/nova-health",
+            "version": "v1.1.2",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/stepanenko3/nova-health.git",
+                "reference": "4a35b90049fa38bb247200265b750171178505cc"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/stepanenko3/nova-health/zipball/4a35b90049fa38bb247200265b750171178505cc",
+                "reference": "4a35b90049fa38bb247200265b750171178505cc",
+                "shasum": ""
+            },
+            "require": {
+                "laravel/nova": "^4.0",
+                "php": ">=8.0",
+                "spatie/cpu-load-health-check": "^1.0",
+                "spatie/laravel-health": "^1.9"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "Stepanenko3\\NovaHealth\\ToolServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "Stepanenko3\\NovaHealth\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "description": "Laravel Nova tool for checking healthy of your Laravel app",
+            "keywords": [
+                "health",
+                "laravel",
+                "nova"
+            ],
+            "support": {
+                "issues": "https://github.com/stepanenko3/nova-health/issues",
+                "source": "https://github.com/stepanenko3/nova-health/tree/v1.1.2"
+            },
+            "time": "2022-08-27T15:03:44+00:00"
         },
         {
             "name": "stepanenko3/nova-json",
@@ -15925,6 +17152,72 @@
             "time": "2022-08-01T11:50:03+00:00"
         },
         {
+            "name": "yieldstudio/nova-google-polygon",
+            "version": "0.0.4",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/YieldStudio/nova-google-polygon.git",
+                "reference": "a8f0abbf6880182c074e50d307f0d64111270180"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/YieldStudio/nova-google-polygon/zipball/a8f0abbf6880182c074e50d307f0d64111270180",
+                "reference": "a8f0abbf6880182c074e50d307f0d64111270180",
+                "shasum": ""
+            },
+            "require": {
+                "ext-bcmath": "*",
+                "illuminate/support": "^8|^9|^10",
+                "laravel/nova": "^4.0",
+                "php": "^8.1"
+            },
+            "require-dev": {
+                "friendsofphp/php-cs-fixer": "^3.8",
+                "pestphp/pest": "^1.21",
+                "phpunit/phpunit": "^9.1"
+            },
+            "type": "library",
+            "extra": {
+                "laravel": {
+                    "providers": [
+                        "YieldStudio\\NovaGooglePolygon\\FieldServiceProvider"
+                    ]
+                }
+            },
+            "autoload": {
+                "psr-4": {
+                    "YieldStudio\\NovaGooglePolygon\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "James Hemery",
+                    "email": "james@yieldstudio.fr",
+                    "homepage": "https://yieldstudio.fr",
+                    "role": "Developer"
+                }
+            ],
+            "description": "A Laravel Nova Google polygon field.",
+            "homepage": "https://github.com/YieldStudio/nova-google-polygon",
+            "keywords": [
+                "Polygon",
+                "area",
+                "google",
+                "laravel",
+                "nova",
+                "yieldstudio"
+            ],
+            "support": {
+                "issues": "https://github.com/YieldStudio/nova-google-polygon/issues",
+                "source": "https://github.com/YieldStudio/nova-google-polygon/tree/0.0.4"
+            },
+            "time": "2023-04-20T10:18:45+00:00"
+        },
+        {
             "name": "zbateson/mail-mime-parser",
             "version": "2.4.0",
             "source": {
@@ -16362,72 +17655,6 @@
                 "source": "https://github.com/laravel/dusk/tree/v7.7.1"
             },
             "time": "2023-04-13T14:50:22+00:00"
-        },
-        {
-            "name": "laravel/pint",
-            "version": "v1.10.0",
-            "source": {
-                "type": "git",
-                "url": "https://github.com/laravel/pint.git",
-                "reference": "c7a01fa9bdd79819e7a2f1ba63ac1b02e6692dbc"
-            },
-            "dist": {
-                "type": "zip",
-                "url": "https://api.github.com/repos/laravel/pint/zipball/c7a01fa9bdd79819e7a2f1ba63ac1b02e6692dbc",
-                "reference": "c7a01fa9bdd79819e7a2f1ba63ac1b02e6692dbc",
-                "shasum": ""
-            },
-            "require": {
-                "ext-json": "*",
-                "ext-mbstring": "*",
-                "ext-tokenizer": "*",
-                "ext-xml": "*",
-                "php": "^8.1.0"
-            },
-            "require-dev": {
-                "friendsofphp/php-cs-fixer": "^3.16.0",
-                "illuminate/view": "^10.5.1",
-                "laravel-zero/framework": "^10.0.2",
-                "mockery/mockery": "^1.5.1",
-                "nunomaduro/larastan": "^2.5.1",
-                "nunomaduro/termwind": "^1.15.1",
-                "pestphp/pest": "^2.4.0"
-            },
-            "bin": [
-                "builds/pint"
-            ],
-            "type": "project",
-            "autoload": {
-                "psr-4": {
-                    "App\\": "app/",
-                    "Database\\Seeders\\": "database/seeders/",
-                    "Database\\Factories\\": "database/factories/"
-                }
-            },
-            "notification-url": "https://packagist.org/downloads/",
-            "license": [
-                "MIT"
-            ],
-            "authors": [
-                {
-                    "name": "Nuno Maduro",
-                    "email": "enunomaduro@gmail.com"
-                }
-            ],
-            "description": "An opinionated code formatter for PHP.",
-            "homepage": "https://laravel.com",
-            "keywords": [
-                "format",
-                "formatter",
-                "lint",
-                "linter",
-                "php"
-            ],
-            "support": {
-                "issues": "https://github.com/laravel/pint/issues",
-                "source": "https://github.com/laravel/pint"
-            },
-            "time": "2023-04-25T14:52:30+00:00"
         },
         {
             "name": "laravel/sail",
