@@ -21,7 +21,7 @@ return new class extends Migration
             $table->boolean('isActive')->default(true);
             $table->text('content')->nullable();
 
-            $table->schemalessAttributes('extraAttributes');
+            $table->json('extraAttributes')->nullable();
             $table->softDeletes();
 
             $table->timestamps();

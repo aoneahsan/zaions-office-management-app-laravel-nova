@@ -19,14 +19,14 @@ class Main extends Dashboard
     public function cards()
     {
         return [
-            new \Richardkeep\NovaTimenow\NovaTimenow,
-            (new \Richardkeep\NovaTimenow\NovaTimenow)->timezones([
-                'Africa/Nairobi',
-                'America/Mexico_City',
-                'Australia/Sydney',
-                'Europe/Paris',
-                'Asia/Tokyo',
-            ])->defaultTimezone('Africa/Nairobi'),
+            // new \Richardkeep\NovaTimenow\NovaTimenow,
+            // (new \Richardkeep\NovaTimenow\NovaTimenow)->timezones([
+            //     'Africa/Nairobi',
+            //     'America/Mexico_City',
+            //     'Australia/Sydney',
+            //     'Europe/Paris',
+            //     'Asia/Tokyo',
+            // ])->defaultTimezone('Africa/Nairobi'),
             UserCountValueMetrics::make(),
             TaskCountValueMetrics::make(),
             TasksPerWeekTrendMetrics::make(),

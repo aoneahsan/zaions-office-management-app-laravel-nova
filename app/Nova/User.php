@@ -106,7 +106,7 @@ class User extends Resource
                 }),
 
             Image::make('Profile Pitcher', 'profilePitcher')
-                ->rules('nullable', 'image', 'size:3000')
+                ->rules('nullable', 'image')
                 ->disk(ZHelpers::getActiveFileDriver())
                 ->maxWidth(300),
 
@@ -166,7 +166,7 @@ class User extends Resource
                 }),
 
             KeyValue::make('Extra Attributes', 'extraAttributes')
-                ->rules('nullable', 'json'),
+                ->rules('nullable'),
         ];
     }
 

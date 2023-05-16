@@ -32,7 +32,6 @@ return new class extends Migration
             $table->string('address')->nullable();
             $table->text('flexableContent')->nullable();
             $table->json('jsonFieldContent')->nullable();
-            $table->schemalessAttributes('extraAttributes');
             $table->text('notesFieldData')->nullable();
             $table->json('openingHoursData')->nullable();
             $table->json('unlayerEmailMakerField')->nullable();
@@ -50,6 +49,7 @@ return new class extends Migration
             $table->string('Tooltipfield')->nullable();
 
 
+            $table->json('extraAttributes')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

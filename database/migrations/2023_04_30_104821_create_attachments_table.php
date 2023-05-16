@@ -23,7 +23,7 @@ return new class extends Migration
             $table->string('attachmentSize')->nullable();
             $table->morphs('attachable');
 
-            $table->schemalessAttributes('extraAttributes');
+            $table->json('extraAttributes')->nullable();
             $table->softDeletes();
 
             $table->timestamps();

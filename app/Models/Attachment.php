@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Actions\Actionable;
-use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 class Attachment extends Model
 {
@@ -20,13 +18,9 @@ class Attachment extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'extraAttributes' => SchemalessAttributes::class,
-    ];
+        'extraAttributes' => 'array',
 
-    public function scopeWithExtraAttributes(): Builder
-    {
-        return $this->extraAttributes->modelScope();
-    }
+    ];
 
     public function getAttachmentDownloadLinkAttribute()
     {

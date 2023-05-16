@@ -42,7 +42,7 @@ return new class extends Migration
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);
-            $table->schemalessAttributes('extraAttributes');
+            $table->json('extraAttributes')->nullable();
             $table->softDeletes();
 
             $table->timestamps();

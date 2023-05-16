@@ -22,11 +22,8 @@ use Outl1ne\NovaNotesField\Traits\HasNotes;
 use Point;
 use Polygon;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
-use Spatie\Sluggable\HasSlug;
 use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Visanduma\NovaTwoFactor\ProtectWith2FA;
@@ -35,8 +32,8 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
 class ZTestingDemo extends Model
 {
-    // use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait, ProtectWith2FA, HasNotes, HasFlexible, HasSpatialColumns;
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, SortableTrait, ProtectWith2FA, HasNotes;
+    // use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, SortableTrait, ProtectWith2FA, HasNotes, HasFlexible, HasSpatialColumns;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasTags, SoftDeletes, Impersonatable, Actionable, SortableTrait, ProtectWith2FA, HasNotes;
 
     protected $guarded = [];
 
@@ -56,7 +53,7 @@ class ZTestingDemo extends Model
 
     protected $casts = [
         'email_verified_at' => 'datetime',
-        'extraAttributes' => SchemalessAttributes::class,
+        'extraAttributes' => 'array',
         'openingHoursData' => 'array',
         'jsonFieldContent' => 'array',
         'unlayerEmailMakerField' => 'array',
@@ -72,13 +69,6 @@ class ZTestingDemo extends Model
             ->generateSlugsFrom('name')
             ->saveSlugsTo('slug');
     }
-
-    public function scopeWithExtraAttributes(): Builder
-    {
-        return $this->extraAttributes->modelScope();
-    }
-
-
 
     // https://novapackages.com/packages/ebess/advanced-nova-media-library package setting - starts
     // public function registerMediaConversions(Media $media = null): void

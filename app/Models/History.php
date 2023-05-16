@@ -10,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\Relations\MorphTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
-use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 class History extends Model
 {
@@ -19,13 +18,9 @@ class History extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'extraAttributes' => SchemalessAttributes::class,
-    ];
+        'extraAttributes' => 'array',
 
-    public function scopeWithExtraAttributes(): Builder
-    {
-        return $this->extraAttributes->modelScope();
-    }
+    ];
 
     // Relationship methods
     public function user(): BelongsTo

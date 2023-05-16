@@ -25,7 +25,7 @@ return new class extends Migration
             $table->integer('timeSpendOnOfficeTask')->default(0)->nullable();
             $table->string('detail')->default(0)->nullable();
 
-            $table->schemalessAttributes('extraAttributes');
+            $table->json('extraAttributes')->nullable();
             $table->softDeletes();
 
             $table->timestamps();

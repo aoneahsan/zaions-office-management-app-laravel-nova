@@ -3,7 +3,6 @@
 namespace App\Models;
 
 use App\Zaions\Enums\RolesEnum;
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
@@ -15,18 +14,14 @@ use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
 use Outl1ne\NovaNotesField\Traits\HasNotes;
 use Spatie\Activitylog\LogOptions;
-use Spatie\Activitylog\Traits\LogsActivity;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Permission\Traits\HasRoles;
-use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
-use Spatie\Sluggable\HasSlug;
-use Spatie\Sluggable\SlugOptions;
 use Spatie\Tags\HasTags;
 use Visanduma\NovaTwoFactor\ProtectWith2FA;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait, ProtectWith2FA, HasNotes;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasTags, SoftDeletes, Impersonatable, Actionable, SortableTrait, ProtectWith2FA, HasNotes;
 
     // protected $fillable = ['name', 'text'];
 
@@ -47,22 +42,9 @@ class User extends Authenticatable
     ];
 
     protected $casts = [
+        'extraAttributes' => 'array',
         'email_verified_at' => 'datetime',
-        'extraAttributes' => SchemalessAttributes::class,
-        'openingHoursData' => 'array',
     ];
-
-    public function getSlugOptions(): SlugOptions
-    {
-        return SlugOptions::create()
-            ->generateSlugsFrom('name')
-            ->saveSlugsTo('slug');
-    }
-
-    public function scopeWithExtraAttributes(): Builder
-    {
-        return $this->extraAttributes->modelScope();
-    }
 
     public function wantsBreadcrumbs()
     {

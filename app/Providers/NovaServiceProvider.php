@@ -11,6 +11,7 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Blade;
 use Oneduo\NovaFileManager\NovaFileManager;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
 
@@ -158,6 +159,20 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     public function register()
     {
-        //
+        // Customize App Footer
+        Nova::footer(function ($request) {
+            return Blade::render('
+            <div class="mt-8 leading-normal text-xs text-gray-500 space-y-1"><p class="text-center">Powered by <a class="link-default" href="https://zaions.com">Zaions</a>, Developed by <a class="link-default" href="https://aoneahsan.com">Ahsan Mahmood</a>.</p>
+                <p class="text-center">© 2023 <a class="link-default" href="https://zaions.com">Zaions</a> by <a class="link-default" href="https://zaions.com/ahsan">Ahsan Mahmood</a>.</p>
+            </div>
+            ');
+        });
+
+        // Register Third party error logging
+        Nova::report(function ($exception) {
+            if (app()->bound('sentry')) {
+                app('sentry')->captureException($exception);
+            }
+        });
     }
 }

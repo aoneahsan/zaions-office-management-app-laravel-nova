@@ -30,8 +30,8 @@ return new class extends Migration
             $table->boolean('isActive')->default(true);
             $table->string('timezone')->nullable();
             $table->string('address')->nullable();
-            $table->schemalessAttributes('extraAttributes');
 
+            $table->json('extraAttributes')->nullable();
             $table->softDeletes();
             $table->rememberToken();
             $table->timestamps();

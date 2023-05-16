@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Illuminate\Contracts\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -11,7 +10,6 @@ use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
-use Spatie\SchemalessAttributes\Casts\SchemalessAttributes;
 
 class Task extends Model
 {
@@ -20,16 +18,12 @@ class Task extends Model
     protected $guarded = [];
 
     protected $casts = [
-        'extraAttributes' => SchemalessAttributes::class,
         'namazOfferedAt' => 'datetime',
         'courseStartDate' => 'datetime',
+        'extraAttributes' => 'array',
         'courseEstimateDate' => 'datetime'
     ];
 
-    public function scopeWithExtraAttributes(): Builder
-    {
-        return $this->extraAttributes->modelScope();
-    }
 
     // Relationship methods
     public function user(): BelongsTo

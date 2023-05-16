@@ -21,7 +21,7 @@ return new class extends Migration
             $table->morphs('commentable');
             $table->text('content')->nullable();
 
-            $table->schemalessAttributes('extraAttributes');
+            $table->json('extraAttributes')->nullable();
             $table->softDeletes();
 
             $table->timestamps();

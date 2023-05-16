@@ -2,104 +2,46 @@
 
 namespace App\Nova;
 
-use Abordage\TotalCard\TotalCard;
 use AlexAzartsev\Heroicon\Heroicon;
-use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Models\ZTestingDemo as ModelsZTestingDemo;
-use App\Nova\Actions\DemoTestAction;
 use App\Nova\Actions\ZTestingDemoActions\ZTestActionZaionsLink;
 use App\Nova\Filters\ZTestingDemoFilters\CustomInputFilter;
 use App\Zaions\Helpers\ZHelpers;
-use Carbon\Carbon;
-use Coroowicaksono\ChartJsIntegration\StackedChart;
 use Degecko\NovaFiltersSummary\FiltersSummary;
 use Devtical\Qrcode\Qrcode;
-use DigitalCreative\CustomRelationshipField\CustomRelationshipField;
-use DigitalCreative\CustomRelationshipField\CustomRelationshipFieldTrait;
 use Dniccum\PhoneNumber\PhoneNumber;
-use Ebess\AdvancedNovaMediaLibrary\Fields\Images;
 use Eminiarts\Tabs\Tab;
 use Eminiarts\Tabs\Tabs;
-use Illuminate\Http\Request;
 
 use Illuminate\Validation\Rules;
-use InteractionDesignFoundation\HtmlCard\HtmlCard;
-use InteractionDesignFoundation\NovaUnlayerField\Unlayer;
-use InteractionDesignFoundation\WorldClockCard\WorldClock;
-use Jeffbeltran\SanctumTokens\SanctumTokens;
-use Khalin\Fields\Indicator;
-use Khalin\Nova4SearchableBelongsToFilter\NovaSearchableBelongsToFilter;
-use Kongulov\NovaTabTranslatable\NovaTabTranslatable;
 use Laravel\Nova\Actions\ExportAsCsv;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Fields\Gravatar;
-use Laravel\Nova\Fields\HasMany;
-use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
-use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Timezone;
 use Laravel\Nova\Fields\Image;
-use Laravel\Nova\Fields\Markdown;
-use Laravel\Nova\Fields\MorphedByMany;
-use Laravel\Nova\Fields\MorphToMany;
-use Laravel\Nova\Fields\Slug;
-use Laravel\Nova\Fields\Trix;
-use LimeDeck\NovaCashierOverview\Subscription;
-use Mostafaznv\NovaMapField\Fields\MapMultiPolygonField;
-use Mostafaznv\NovaMapField\Fields\MapPointField;
-use Mostafaznv\NovaMapField\Fields\MapPolygonField;
 use Mostafaznv\NovaVideo\Video;
-use Nemrutco\NovaGlobalFilter\NovaGlobalFilter;
 use Oneduo\NovaFileManager\FileManager;
 use Outl1ne\NovaDetachedFilters\NovaDetachedFilters;
 use Outl1ne\NovaInputFilter\InputFilter;
 use Outl1ne\NovaNotesField\NotesField;
-use Outl1ne\NovaSortable\Traits\HasSortableRows;
-use Outl1ne\NovaTooltipField\Tooltip;
-use Pdmfc\NovaFields\ActionButton;
-use Razorcreations\AjaxField\AjaxField;
-use SadekD\NovaOpeningHoursField\NovaOpeningHoursField;
-use Sietse85\NovaButton\Button;
 use SLASH2NL\NovaBackButton\NovaBackButton;
-use Spatie\TagsField\Tags;
-use Stepanenko3\NovaJson\JSON;
-use Vyuldashev\NovaMoneyField\Money;
-use Vyuldashev\NovaPermission\PermissionBooleanGroup;
-use Vyuldashev\NovaPermission\RoleBooleanGroup;
-use Wdelfuego\Nova\DateTime\Fields\DateTime;
-use Webparking\BelongsToDependency\BelongsToDependency;
-use WesselPerik\StatusField\StatusField;
-use Whitecube\NovaFlexibleContent\Flexible;
-use YieldStudio\NovaGoogleAutocomplete\AddressMetadata;
-use YieldStudio\NovaGoogleAutocomplete\GoogleAutocomplete;
-
-use Stepanenko3\NovaCards\Cards\GreetingCard;
-use Stepanenko3\NovaCards\Cards\BlockchainExchangeCard;
 use Stepanenko3\NovaCards\Cards\CacheCard;
 use Stepanenko3\NovaCards\Cards\CountdownCard;
-use Stepanenko3\NovaCards\Cards\EmbedCard;
-use Stepanenko3\NovaCards\Cards\EnvironmentCard;
-// use Stepanenko3\NovaCards\Cards\HtmlCard;
 use Stepanenko3\NovaCards\Cards\LinkableCard;
 use Stepanenko3\NovaCards\Cards\PercentageCard;
-use Stepanenko3\NovaCards\Cards\ScheduledJobsCard;
-use Stepanenko3\NovaCards\Cards\SystemResourcesCard;
 use Stepanenko3\NovaCards\Cards\VersionsCard;
 use Stepanenko3\NovaCards\Cards\WorldClockCard;
-use Stepanenko3\NovaCards\Cards\WeatherCard;
 use Stepanenko3\NovaCards\Cards\CalendarCard;
 use Stepanenko3\NovaCards\Cards\GreeterCard;
-use Stepanenko3\NovaCards\Cards\NovaReleaseCard;
-use YieldStudio\NovaGooglePolygon\GooglePolygon;
 
 class ZTestingDemo extends Resource
 {
-    use CustomRelationshipFieldTrait;
     /**
      * The model the resource corresponds to.
      *
@@ -354,7 +296,7 @@ class ZTestingDemo extends Resource
 
             // https://novapackages.com/packages/yieldstudio/nova-google-autocomplete
             // Now this address field will search and store the address as a string, but also made available the values in the withValues array
-            GoogleAutocomplete::make('Address', 'address')->withValues(['latitude', 'longitude']),
+            // GoogleAutocomplete::make('Address', 'address')->withValues(['latitude', 'longitude']),
             // // And you can store the values by autocomplete like this
             // AddressMetadata::make('lat')->fromValue('latitude'),
             // AddressMetadata::make('long')->fromValue('longitude'),
@@ -366,10 +308,10 @@ class ZTestingDemo extends Resource
 
 
             // https://novapackages.com/packages/stepanenko3/nova-json
-            JSON::make('Author', 'jsonFieldContent', [
-                Text::make('Name')->rules(['string', 'required', 'min:3']),
-                Text::make('Email')->rules(['email', 'required']),
-            ]),
+            // JSON::make('Author', 'jsonFieldContent', [
+            //     Text::make('Name')->rules(['string', 'required', 'min:3']),
+            //     Text::make('Email')->rules(['email', 'required']),
+            // ]),
 
             // https://novapackages.com/packages/webparking/nova-belongs-to-dependency
             // BelongsToDependency::make('User')
@@ -404,7 +346,7 @@ class ZTestingDemo extends Resource
             // ->fullWidth(true), // Optional
 
             // https://novapackages.com/packages/sadekd/nova-opening-hours-field
-            NovaOpeningHoursField::make(__('Opening Hours'), 'openingHoursData'),
+            // NovaOpeningHoursField::make(__('Opening Hours'), 'openingHoursData'),
             // ->allowExceptions(FALSE)    // TRUE by default
             // ->allowOverflowMidnight(TRUE)  // FALSE by default
             // ->useTextInputs(TRUE)  // FALSE by default
@@ -430,11 +372,11 @@ class ZTestingDemo extends Resource
 
 
             // https://novapackages.com/packages/sietse85/nova-button
-            Button::make('Zaions')->link('https://nova.laravel.com')->confirm('Confirmation', 'Are you sure you want to cancel your account?', 'Cancel'),
+            // Button::make('Zaions')->link('https://nova.laravel.com')->confirm('Confirmation', 'Are you sure you want to cancel your account?', 'Cancel'),
 
 
             // https://novapackages.com/packages/digital-creative/custom-relationship-field
-            CustomRelationshipField::make('Items with similar name - CustomRelationshipField', 'similarItems', self::class),
+            // CustomRelationshipField::make('Items with similar name - CustomRelationshipField', 'similarItems', self::class),
 
 
             // https://novapackages.com/packages/devtical/nova-qrcode-field
@@ -444,28 +386,28 @@ class ZTestingDemo extends Resource
 
 
             // https://novapackages.com/packages/yieldstudio/nova-google-polygon
-            GooglePolygon::make('Delivery area', 'GooglePolygonfield'),
+            // GooglePolygon::make('Delivery area', 'GooglePolygonfield'),
 
 
             // https://novapackages.com/packages/mostafaznv/nova-map-field#screenshots
-            MapPointField::make('location'),
-            MapPolygonField::make('area'),
-            MapMultiPolygonField::make('areas'),
+            // MapPointField::make('location'),
+            // MapPolygonField::make('area'),
+            // MapMultiPolygonField::make('areas'),
 
             // https://novapackages.com/packages/khalin/nova4-indicator-field
-            Indicator::make('Status', 'Indicatorfield')
-                ->labels([
-                    'banned' => 'Banned',
-                    'active' => 'Active',
-                    'invited' => 'Invited',
-                    'inactive' => 'Inactive',
-                ]),
+            // Indicator::make('Status', 'Indicatorfield')
+            //     ->labels([
+            //         'banned' => 'Banned',
+            //         'active' => 'Active',
+            //         'invited' => 'Invited',
+            //         'inactive' => 'Inactive',
+            //     ]),
 
 
             // https://novapackages.com/packages/outl1ne/nova-tooltip-field
-            Tooltip::make('Content', 'Tooltipfield')
-                ->text('Text displayed as field value')
-                ->content('Content displayed in tooltip')
+            // Tooltip::make('Content', 'Tooltipfield')
+            //     ->text('Text displayed as field value')
+            //     ->content('Content displayed in tooltip')
         ];
     }
 
@@ -480,30 +422,28 @@ class ZTestingDemo extends Resource
         return [
             // https://novapackages.com/packages/coroowicaksono/chart-js-integration
             // https://coroo.github.io/nova-chartjs/#/?id=installation
-            (new StackedChart())
-                ->title('Revenue')
-                ->series(array([
-                    'barPercentage' => 0.5,
-                    'label' => 'Product #1',
-                    'backgroundColor' => '#ffcc5c',
-                    'data' => [30, 70, 80],
-                ], [
-                    'barPercentage' => 0.5,
-                    'label' => 'Product #2',
-                    'backgroundColor' => '#ff6f69',
-                    'data' => [40, 62, 79],
-                ]))
-                ->options([
-                    'xaxis' => [
-                        'categories' => ['Jan', 'Feb', 'Mar']
-                    ],
-                ])
-                ->width('1/3'),
+            // (new StackedChart())
+            //     ->title('Revenue')
+            //     ->series(array([
+            //         'barPercentage' => 0.5,
+            //         'label' => 'Product #1',
+            //         'backgroundColor' => '#ffcc5c',
+            //         'data' => [30, 70, 80],
+            //     ], [
+            //         'barPercentage' => 0.5,
+            //         'label' => 'Product #2',
+            //         'backgroundColor' => '#ff6f69',
+            //         'data' => [40, 62, 79],
+            //     ]))
+            //     ->options([
+            //         'xaxis' => [
+            //             'categories' => ['Jan', 'Feb', 'Mar']
+            //         ],
+            //     ])
+            //     ->width('1/3'),
 
             // https://novapackages.com/packages/interaction-design-foundation/nova-html-card
-            (new HtmlCard())->width('1/3')->html('<h1>Hello World!</h1>'),
-            (new HtmlCard())->width('1/3')->markdown('# Hello World!'),
-            // (new HtmlCard())->width('1/3')->view('cards.hello', ['name' => 'World']),
+            // (new HtmlCard())->width('1/3')->html('<h1>Hello World!</h1>'),
 
             // https://novapackages.com/packages/degecko/nova-filters-summary
             FiltersSummary::make(),
@@ -518,14 +458,6 @@ class ZTestingDemo extends Resource
             // new NovaGlobalFilter([
             //     new Date, // Date Filter
             // ])
-
-            // https://novapackages.com/packages/interaction-design-foundation/nova-worldclock-card
-            (new WorldClock())
-                ->timezones([
-                    'Asia/Dubai',
-                    'America/New_York',
-                    'Europe/Kiev',
-                ]),
 
             // https://novapackages.com/packages/stepanenko3/nova-cards - Cards - Starts
             GreeterCard::make()
@@ -586,10 +518,6 @@ class ZTestingDemo extends Resource
             // (new SslCard)
             //     ->domain('laravel.com'), // Required
 
-            (new HtmlCard)
-                ->width('1/3')
-                ->html('<h1>Hello World!</h1>'), // Required
-
             (new PercentageCard)
                 ->name('Demo percents') // Optional
                 ->label('$') // Optional
@@ -627,7 +555,7 @@ class ZTestingDemo extends Resource
 
             // https://novapackages.com/packages/abordage/nova-total-card
             /* with cache expiry time */
-            new TotalCard(\App\Models\User::class, 'All users',  now()->addHour()),
+            // new TotalCard(\App\Models\User::class, 'All users',  now()->addHour()),
         ];
     }
 
@@ -688,7 +616,7 @@ class ZTestingDemo extends Resource
                 ];
             }),
 
-            ZTestActionZaionsLink::make()->showInDropdown()
+            ZTestActionZaionsLink::make()
 
         ];
     }
