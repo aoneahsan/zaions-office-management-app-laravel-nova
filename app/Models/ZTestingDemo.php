@@ -35,7 +35,8 @@ use Whitecube\NovaFlexibleContent\Value\FlexibleCast;
 
 class ZTestingDemo extends Model
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait, ProtectWith2FA, HasNotes, HasFlexible, HasSpatialColumns;
+    // use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, LogsActivity, SortableTrait, ProtectWith2FA, HasNotes, HasFlexible, HasSpatialColumns;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasSlug, HasTags, SoftDeletes, Impersonatable, Actionable, SortableTrait, ProtectWith2FA, HasNotes;
 
     protected $guarded = [];
 

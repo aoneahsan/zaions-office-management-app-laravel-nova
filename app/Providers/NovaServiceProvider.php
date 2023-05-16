@@ -38,13 +38,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
         // LTR in App
         // Nova::enableRTL();
-        Nova::enableRTL(function (Request $request) {
-            if ($request->user()) {
-                return $request->user()->wantsRTL();
-            } else {
-                return false;
-            }
-        });
+        // Nova::enableRTL(function (Request $request) {
+        //     if ($request->user()) {
+        //         return $request->user()->wantsRTL();
+        //     } else {
+        //         return false;
+        //     }
+        // });
 
         // Theme Switcher
         // Nova::withoutThemeSwitcher();
@@ -112,17 +112,17 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             // new \Spatie\BackupTool\BackupTool(),
 
             // https://novapackages.com/packages/vmitchell85/nova-links
-            (new \vmitchell85\NovaLinks\Links('Documentation'))
-                ->addExternalLink('Zaions', 'https://zaions.com', true),
+            // (new \vmitchell85\NovaLinks\Links('Extra Links'))
+            //     ->addExternalLink('Zaions', 'https://zaions.com', true),
 
             // https://novapackages.com/packages/bolechen/nova-activitylog
-            new \Bolechen\NovaActivitylog\NovaActivitylog(),
+            // new \Bolechen\NovaActivitylog\NovaActivitylog(),
 
             // https://novapackages.com/packages/bakerkretzmar/nova-settings-tool
-            new SettingsTool,
+            // new SettingsTool,
 
             // https://novapackages.com/packages/codenco-dev/nova-grid-system#screenshots
-            new NovaGridSystem,
+            // new NovaGridSystem,
 
             // https://novapackages.com/packages/outl1ne/nova-menu-builder
             // mainly to create menus in laravel nova and then get them in frontend using API
@@ -136,17 +136,17 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             new \Visanduma\NovaTwoFactor\NovaTwoFactor(),
 
             // https://novapackages.com/packages/oneduo/nova-file-manager
-            NovaFileManager::make(),
+            // NovaFileManager::make(),
 
             // https://novapackages.com/packages/whitecube/nova-page
-            \Whitecube\NovaPage\NovaPageTool::make(),
+            // \Whitecube\NovaPage\NovaPageTool::make(),
 
 
             // https://novapackages.com/packages/dniccum/nova-documentation
-            new NovaDocumentation,
+            // new NovaDocumentation,
 
             // https://novapackages.com/packages/stepanenko3/nova-health
-            new \Stepanenko3\NovaHealth\NovaHealth,
+            // new \Stepanenko3\NovaHealth\NovaHealth,
 
         ];
     }
