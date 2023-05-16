@@ -8,9 +8,7 @@ use Alexwenzel\DependencyContainer\DependencyContainer;
 use App\Models\ZTestingDemo as ModelsZTestingDemo;
 use App\Nova\Actions\DemoTestAction;
 use App\Nova\Actions\ZTestingDemoActions\ZTestActionZaionsLink;
-use App\Nova\Cards\ZTestingDemoCards\MyTableCard;
 use App\Nova\Filters\ZTestingDemoFilters\CustomInputFilter;
-use App\Nova\Filters\UserFilters\NovaMultiselectFilterDemo;
 use App\Zaions\Helpers\ZHelpers;
 use Carbon\Carbon;
 use Coroowicaksono\ChartJsIntegration\StackedChart;
@@ -625,7 +623,7 @@ class ZTestingDemo extends Resource
 
 
             // https://novapackages.com/packages/abordage/nova-table-card
-            MyTableCard::make(),
+            // MyTableCard::make(),
 
             // https://novapackages.com/packages/abordage/nova-total-card
             /* with cache expiry time */

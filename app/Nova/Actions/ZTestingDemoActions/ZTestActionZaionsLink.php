@@ -9,11 +9,10 @@ use Illuminate\Support\Collection;
 use Laravel\Nova\Actions\Action;
 use Laravel\Nova\Fields\ActionFields;
 use Laravel\Nova\Http\Requests\NovaRequest;
-use Lexicon\ActionButtonSelector\ActionAsButton;
 
 class ZTestActionZaionsLink extends Action
 {
-    use ActionAsButton, InteractsWithQueue, Queueable;
+    use InteractsWithQueue, Queueable;
 
     /**
      * Perform the action on the given models.

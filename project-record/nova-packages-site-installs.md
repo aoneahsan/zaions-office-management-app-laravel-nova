@@ -108,3 +108,10 @@ composer require kirschbaum-development/nova-comments --------------------------
 #### Packages i want but were not working or were giving some error
 
 https://novapackages.com/packages/wdelfuego/nova-calendar
+
+##### Packages removed as they were causing performance issue
+
+REMOVED
+abordage/nova-table-card abordage/nova-total-card ebess/advanced-nova-media-library interaction-design-foundation/nova-html-card interaction-design-foundation/nova-unlayer-field interaction-design-foundation/nova-worldclock-card lexicon/nova-action-button-selectors itsmejoshua/novaspatiepermissions limedeck/nova-cashier-overview nemrutco/nova-global-filter outl1ne/nova-menu-builder outl1ne/nova-multiselect-filter outl1ne/nova-tooltip-field pdmfc/nova-action-button razorcreations/ajax-field sietse85/nova-button spatie/laravel-activitylog spatie/laravel-data spatie/laravel-enum spatie/laravel-query-builder spatie/laravel-schemaless-attributes spatie/laravel-settings spatie/laravel-sluggable spatie/laravel-translatable stepanenko3/nova-health stepanenko3/nova-json vmitchell85/nova-links wdelfuego/nova-datetime webparking/nova-belongs-to-dependency wesselperik/nova-status-field whitecube/nova-page yieldstudio/nova-google-autocomplete yieldstudio/nova-google-polygon
+
+composer remove

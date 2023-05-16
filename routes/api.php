@@ -21,6 +21,6 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 
 
 // https://novapackages.com/packages/whitecube/nova-page
-Route::get('/static-pages/test-static-page', [StaticPageController::class, 'show'])
-    ->template(\App\Nova\Templates\TestStaticPage::class)
-    ->name('testStaticPage');
+// Route::get('/static-pages/test-static-page', [StaticPageController::class, 'show'])
+//     ->template(\App\Nova\Templates\TestStaticPage::class)
+//     ->name('testStaticPage');
