@@ -27,6 +27,7 @@ class Main extends Dashboard
             //     'Europe/Paris',
             //     'Asia/Tokyo',
             // ])->defaultTimezone('Africa/Nairobi'),
+
             UserCountValueMetrics::make(),
             TaskCountValueMetrics::make(),
             TasksPerWeekTrendMetrics::make(),

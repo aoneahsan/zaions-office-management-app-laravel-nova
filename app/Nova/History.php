@@ -41,7 +41,7 @@ class History extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'detail'
     ];
 
     /**

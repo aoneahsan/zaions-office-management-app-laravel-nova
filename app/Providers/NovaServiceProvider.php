@@ -3,16 +3,16 @@
 namespace App\Providers;
 
 use App\Zaions\Enums\PermissionsEnum;
-use Bakerkretzmar\NovaSettingsTool\SettingsTool;
-use CodencoDev\NovaGridSystem\NovaGridSystem;
-use Dniccum\NovaDocumentation\NovaDocumentation;
+// use Bakerkretzmar\NovaSettingsTool\SettingsTool;
+// use CodencoDev\NovaGridSystem\NovaGridSystem;
+// use Dniccum\NovaDocumentation\NovaDocumentation;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
-use Oneduo\NovaFileManager\NovaFileManager;
+// use Oneduo\NovaFileManager\NovaFileManager;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -109,9 +109,6 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         return [
             NovaPermissionTool::make(),
 
-            // https://novapackages.com/packages/spatie/nova-backup-tool
-            // new \Spatie\BackupTool\BackupTool(),
-
             // https://novapackages.com/packages/vmitchell85/nova-links
             // (new \vmitchell85\NovaLinks\Links('Extra Links'))
             //     ->addExternalLink('Zaions', 'https://zaions.com', true),
@@ -139,6 +136,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             // https://novapackages.com/packages/oneduo/nova-file-manager
             // NovaFileManager::make(),
 
+            // https://novapackages.com/packages/spatie/nova-backup-tool
+            // Getting error: Undefined constant \"Spatie\\Backup\\Tasks\\Backup\\SIGINT\"
+            // Solution: https://github.com/spatie/laravel-backup/issues/1445
+            // new \Spatie\BackupTool\BackupTool(),
+
             // https://novapackages.com/packages/whitecube/nova-page
             // \Whitecube\NovaPage\NovaPageTool::make(),
 
@@ -148,6 +150,10 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             // https://novapackages.com/packages/stepanenko3/nova-health
             // new \Stepanenko3\NovaHealth\NovaHealth,
+
+            // https://novapackages.com/packages/llaski/nova-scheduled-jobs
+            // new \Llaski\NovaScheduledJobs\NovaScheduledJobsCard,
+
 
         ];
     }

@@ -61,15 +61,15 @@ class User extends Resource
     public function fields(NovaRequest $request)
     {
         return [
-            ID::make()->sortable()->sizeOnDetail('w-1/4'),
+            ID::make()->sortable(),
 
-            Gravatar::make()->maxWidth(50)->sizeOnDetail('w-2/4'),
+            Gravatar::make()->maxWidth(50),
 
             Text::make('Unique Id', 'uniqueId')
                 ->onlyOnDetail()
                 ->default(function () {
                     return uniqid();
-                })->sizeOnDetail('w-1/4'),
+                }),
 
             Text::make('Name')
                 ->sortable()

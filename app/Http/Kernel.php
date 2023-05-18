@@ -40,7 +40,7 @@ class Kernel extends HttpKernel
 
 
             // https://novapackages.com/packages/badinansoft/nova-language-switch
-            \Badinansoft\LanguageSwitch\Http\Middleware\LanguageSwitch::class
+            // \Badinansoft\LanguageSwitch\Http\Middleware\LanguageSwitch::class
         ],
 
         'api' => [

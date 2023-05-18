@@ -40,7 +40,7 @@ class Attachment extends Resource
      * @var array
      */
     public static $search = [
-        'id',
+        'id', 'attachmentName'
     ];
 
     /**

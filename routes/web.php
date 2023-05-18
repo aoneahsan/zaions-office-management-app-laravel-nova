@@ -21,4 +21,4 @@ Route::get('/', function () {
 
 Route::get('/z-testing', [TestingController::class, 'zTestingRouteRes']);
 
-Route::redirect('/', '/nova');
+Route::redirect('/', config('nova.path'));
