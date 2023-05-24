@@ -15,11 +15,11 @@ return [
 
     /* Encrypt the google secret values saved in database */
     'encrypt_google2fa_secrets' => false,
-    
+
     /* QR code can be generate using  Google API or inbuilt 'BaconQrCode' package*/
     'use_google_qr_code_api' => true,
 
-    'user_model' => \App\Models\User::class,
+    'user_model' => \App\Models\Default\User::class,
 
     /* Change visibility of Nova Two Fa menu in right sidebar */
     'showin_sidebar' => true,
@@ -38,8 +38,8 @@ return [
      * you are allowed to use wildcards pattern for url matching
      **/
     'reauthorize_urls' => [
-       // 'nova/resources/users/new',
-       // 'nova/resources/users/*/edit',
+        // 'nova/resources/users/new',
+        // 'nova/resources/users/*/edit',
     ],
 
     /* timeout in minutes */

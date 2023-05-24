@@ -25,9 +25,9 @@ class User extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\User>
+     * @var class-string<\App\Models\Default\User>
      */
-    public static $model = \App\Models\User::class;
+    public static $model = \App\Models\Default\User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

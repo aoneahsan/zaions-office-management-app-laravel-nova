@@ -2,7 +2,7 @@
 
 namespace App\Observers;
 
-use App\Models\Task;
+use App\Models\Default\Task;
 use Illuminate\Http\Request;
 
 class TaskObserver

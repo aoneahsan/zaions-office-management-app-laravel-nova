@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use AlexAzartsev\Heroicon\Heroicon;
-use App\Models\ZStatus as ModelsZStatus;
+use App\Models\Default\ZStatus as ModelsZStatus;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -21,9 +21,9 @@ class ZStatus extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\ZStatus>
+     * @var class-string<\App\Models\Default\ZStatus>
      */
-    public static $model = \App\Models\ZStatus::class;
+    public static $model = \App\Models\Default\ZStatus::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

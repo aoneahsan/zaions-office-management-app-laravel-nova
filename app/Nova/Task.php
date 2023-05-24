@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Models\Task as ModelsTask;
+use App\Models\Default\Task as ModelsTask;
 use App\Nova\Actions\TaskActions\ApproveTaskAction;
 use App\Nova\Actions\TaskActions\ReviewTaskAction;
 use App\Nova\Filters\TaskFilters\TaskStatusFilter;
@@ -43,9 +43,9 @@ class Task extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Task>
+     * @var class-string<\App\Models\Default\Task>
      */
-    public static $model = \App\Models\Task::class;
+    public static $model = \App\Models\Default\Task::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -194,52 +194,6 @@ class Task extends Resource
                             ->show()
                             ->rules('required', 'string', new Enum(NamazEnum::class))
                             ->options(function () use ($request) {
-                                // $currentDateTime = Carbon::now(ZHelpers::getTimezone($request));
-                                // $currentTimeArr = ZHelpers::convertTo12Hour($currentDateTime);
-                                // $currentHour = $currentTimeArr['hour'];
-                                // $currentMinutes = $currentTimeArr['minute'];
-                                // $currentTimeIsAM = $currentTimeArr['isAm'];
-                                // $isFriday = $currentDateTime->dayName === 'Friday';
-                                // $namazTimes = ZHelpers::getNamazTimes();
-                                // $fajarNamazTime = $namazTimes[NamazEnum::fajar->name];
-                                // $zoharNamazTime = $namazTimes[NamazEnum::zohar->name];
-                                // $asarNamazTime = $namazTimes[NamazEnum::asar->name];
-                                // $magribNamazTime = $namazTimes[NamazEnum::magrib->name];
-                                // $ishaNamazTime = $namazTimes[NamazEnum::isha->name];
-                                // $jumaNamazTime = $namazTimes[NamazEnum::juma->name];
-
-                                // $fajarTimeIsAvailable = true;
-                                // if ($currentTimeIsAM && $currentHour >= $fajarNamazTime['min']['h'] && $currentHour <= $fajarNamazTime['max']['h'] && (($currentHour === $fajarNamazTime['min']['h'] && $currentMinutes >= $fajarNamazTime['min']['m']) || ($currentHour === $fajarNamazTime['max']['h'] && $currentMinutes <= $fajarNamazTime['max']['m']))) {
-                                //     $fajarTimeIsAvailable = true;
-                                // }
-
-                                // $zoharTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $zoharNamazTime['min']['h'] && $currentHour <= $zoharNamazTime['max']['h'] && (($currentHour === $zoharNamazTime['min']['h'] && $currentMinutes >= $zoharNamazTime['min']['m']) || ($currentHour === $zoharNamazTime['max']['h'] && $currentMinutes <= $zoharNamazTime['max']['m']))) {
-                                //     $zoharTimeIsAvailable = true;
-                                // }
-
-                                // $asarTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $asarNamazTime['min']['h'] && $currentHour <= $asarNamazTime['max']['h'] && (($currentHour === $asarNamazTime['min']['h'] && $currentMinutes >= $asarNamazTime['min']['m']) || ($currentHour === $asarNamazTime['max']['h'] && $currentMinutes <= $asarNamazTime['max']['m']))) {
-                                //     $asarTimeIsAvailable = true;
-                                // }
-
-                                // $magribTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $magribNamazTime['min']['h'] && $currentHour <= $magribNamazTime['max']['h'] && (($currentHour === $magribNamazTime['min']['h'] && $currentMinutes >= $magribNamazTime['min']['m']) || ($currentHour === $magribNamazTime['max']['h'] && $currentMinutes <= $magribNamazTime['max']['m']))) {
-                                //     $magribTimeIsAvailable = true;
-                                // }
-
-                                // $ishaTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $ishaNamazTime['min']['h'] && $currentHour <= $ishaNamazTime['max']['h'] && (($currentHour === $ishaNamazTime['min']['h'] && $currentMinutes >= $ishaNamazTime['min']['m']) || ($currentHour === $ishaNamazTime['max']['h'] && $currentMinutes <= $ishaNamazTime['max']['m']))) {
-                                //     $ishaTimeIsAvailable = true;
-                                // }
-
-                                // $jumaTimeIsAvailable = false;
-                                // if ($isFriday && !$currentTimeIsAM && $currentHour >= $jumaNamazTime['min']['h'] && $currentHour <= $jumaNamazTime['max']['h'] && (($currentHour === $jumaNamazTime['min']['h'] && $currentMinutes >= $jumaNamazTime['min']['m']) || ($currentHour === $jumaNamazTime['max']['h'] && $currentMinutes <= $jumaNamazTime['max']['m']))) {
-                                //     $jumaTimeIsAvailable = true;
-                                // }
-
-                                // $fieldOptions = []; // the above logic did not work :( 
-                                // so commented it for now
                                 $fieldOptions = [
                                     NamazEnum::fajar->name => NamazEnum::fajar->name,
                                     NamazEnum::zohar->name => NamazEnum::zohar->name,
@@ -248,26 +202,6 @@ class Task extends Resource
                                     NamazEnum::isha->name => NamazEnum::isha->name,
                                     NamazEnum::juma->name => NamazEnum::juma->name
                                 ];
-
-                                // if ($fajarTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::fajar->name] = NamazEnum::fajar->name;
-                                // }
-                                // if ($zoharTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::zohar->name] = NamazEnum::zohar->name;
-                                // }
-                                // if ($asarTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::asar->name] = NamazEnum::asar->name;
-                                // }
-                                // if ($magribTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::magrib->name] = NamazEnum::magrib->name;
-                                // }
-                                // if ($ishaTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::isha->name] = NamazEnum::isha->name;
-                                // }
-                                // if ($jumaTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::juma->name] = NamazEnum::juma->name;
-                                // }
-
                                 return $fieldOptions;
                             });
                     }

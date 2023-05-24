@@ -88,6 +88,10 @@ enum PermissionsEnum: string
   case restore_reply = 'restore_reply';
   case forceDelete_reply = 'forceDelete_reply';
 
+    // Impersonation
+  case can_impersonate = 'can_impersonate';
+  case canBe_impersonate = 'canBe_impersonate';
+
   // case viewAny_ = 'viewAny_';
   // case view_ = 'view_';
   // case create_ = 'create_';

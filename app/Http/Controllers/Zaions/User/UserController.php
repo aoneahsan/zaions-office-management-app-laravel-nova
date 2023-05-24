@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Zaions\User;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\User\UserDataResource;
-use App\Models\User;
+use App\Models\Default\User;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 

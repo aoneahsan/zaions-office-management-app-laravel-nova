@@ -97,6 +97,9 @@ class RolePermissionsSeeder extends Seeder
         $replicateReplyPermission = Permission::create(['name' => PermissionsEnum::replicate_reply->name]);
         $restoreReplyPermission = Permission::create(['name' => PermissionsEnum::restore_reply->name]);
         $forceDeleteReplyPermission = Permission::create(['name' => PermissionsEnum::forceDelete_reply->name]);
+        // Impersonation Permissions
+        $canImpersonatePermission = Permission::create(['name' => PermissionsEnum::can_impersonate->name]);
+        $canBeImpersonatePermission = Permission::create(['name' => PermissionsEnum::canBe_impersonate->name]);
 
         $superAdminRolePermissions = [
             // Dashboard
@@ -172,15 +175,21 @@ class RolePermissionsSeeder extends Seeder
             $deleteReplyPermission,
             $replicateReplyPermission,
             $restoreReplyPermission,
-            $forceDeleteReplyPermission
+            $forceDeleteReplyPermission,
+            // Impersonation
+            $canImpersonatePermission,
+            // $canBeImpersonatePermission // this is commented by ahsan, as no one in app should impersonate super admin user account
         ];
 
         $adminRolePermissions = array_filter($superAdminRolePermissions, function ($permission) {
             return !Str::of($permission->name)->contains('restore_') && !Str::of($permission->name)->contains('forceDelete_');
         });
 
+        // add canBeImpersonatePermission Permission
+        array_push($adminRolePermissions, $canBeImpersonatePermission);
+
         $userRolePermissions = array_filter($adminRolePermissions, function ($permission) {
-            return !Str::of($permission->name)->contains('delete_') && !Str::of($permission->name)->contains('update_') && !Str::of($permission->name)->contains('_user') && !Str::of($permission->name)->contains('_role') && !Str::of($permission->name)->contains('_permission');
+            return !Str::of($permission->name)->contains('delete_') && !Str::of($permission->name)->contains('update_') && !Str::of($permission->name)->contains('_user') && !Str::of($permission->name)->contains('_role') && !Str::of($permission->name)->contains('_permission') && !Str::of($permission->name)->contains('Impersonate_');
         });
 
         // Assign permissions to roles

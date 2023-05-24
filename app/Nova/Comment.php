@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Models\Comment as ModelsComment;
+use App\Models\Default\Comment as ModelsComment;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -21,9 +21,9 @@ class Comment extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Comment>
+     * @var class-string<\App\Models\Default\Comment>
      */
-    public static $model = \App\Models\Comment::class;
+    public static $model = \App\Models\Default\Comment::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

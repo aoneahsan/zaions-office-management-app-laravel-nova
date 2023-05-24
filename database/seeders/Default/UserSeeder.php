@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\Default;
 
-use App\Models\User;
+use App\Models\Default\User;
 use App\Zaions\Enums\RolesEnum;
 use Carbon\Carbon;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
@@ -17,9 +17,9 @@ class UserSeeder extends Seeder
      */
     public function run(): void
     {
-        // \App\Models\User::factory(10)->create();
+        // \App\Models\Default\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
+        // \App\Models\Default\User::factory()->create([
         //     'name' => 'Test User',
         //     'email' => 'test@example.com',
         // ]);

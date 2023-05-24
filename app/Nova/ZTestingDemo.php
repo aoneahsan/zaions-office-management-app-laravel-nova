@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use AlexAzartsev\Heroicon\Heroicon;
-use App\Models\ZTestingDemo as ModelsZTestingDemo;
+use App\Models\Default\ZTestingDemo as ModelsZTestingDemo;
 use App\Nova\Actions\ZTestingDemoActions\ZTestActionZaionsLink;
 use App\Nova\Filters\ZTestingDemoFilters\CustomInputFilter;
 use App\Zaions\Helpers\ZHelpers;
@@ -45,9 +45,9 @@ class ZTestingDemo extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\ZTestingDemo>
+     * @var class-string<\App\Models\Default\ZTestingDemo>
      */
-    public static $model = \App\Models\ZTestingDemo::class;
+    public static $model = \App\Models\Default\ZTestingDemo::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -555,7 +555,7 @@ class ZTestingDemo extends Resource
 
             // https://novapackages.com/packages/abordage/nova-total-card
             /* with cache expiry time */
-            // new TotalCard(\App\Models\User::class, 'All users',  now()->addHour()),
+            // new TotalCard(\App\Models\Default\User::class, 'All users',  now()->addHour()),
         ];
     }
 

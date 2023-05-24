@@ -3,7 +3,7 @@
 namespace App\Nova;
 
 use AlexAzartsev\Heroicon\Heroicon;
-use App\Models\ZTaskSubType as ModelsZTaskSubType;
+use App\Models\Default\ZTaskSubType as ModelsZTaskSubType;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -21,9 +21,9 @@ class ZTaskSubType extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\ZTaskSubType>
+     * @var class-string<\App\Models\Default\ZTaskSubType>
      */
-    public static $model = \App\Models\ZTaskSubType::class;
+    public static $model = \App\Models\Default\ZTaskSubType::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

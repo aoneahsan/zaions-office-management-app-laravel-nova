@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Models\Attachment as ModelsAttachment;
+use App\Models\Default\Attachment as ModelsAttachment;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -23,9 +23,9 @@ class Attachment extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Attachment>
+     * @var class-string<\App\Models\Default\Attachment>
      */
-    public static $model = \App\Models\Attachment::class;
+    public static $model = \App\Models\Default\Attachment::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Models\Reply as ModelsReply;
+use App\Models\Default\Reply as ModelsReply;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -20,9 +20,9 @@ class Reply extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Reply>
+     * @var class-string<\App\Models\Default\Reply>
      */
-    public static $model = \App\Models\Reply::class;
+    public static $model = \App\Models\Default\Reply::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

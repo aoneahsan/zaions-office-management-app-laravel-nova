@@ -2,7 +2,7 @@
 
 namespace App\Nova;
 
-use App\Models\History as ModelsHistory;
+use App\Models\Default\History as ModelsHistory;
 use App\Zaions\Enums\HistoryTypeEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
@@ -24,9 +24,9 @@ class History extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\History>
+     * @var class-string<\App\Models\Default\History>
      */
-    public static $model = \App\Models\History::class;
+    public static $model = \App\Models\Default\History::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
