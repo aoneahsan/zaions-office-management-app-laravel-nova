@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\Default;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ZTestingDemoSeeder extends Seeder
+class ZStatusSeeder extends Seeder
 {
     /**
      * Run the database seeds.

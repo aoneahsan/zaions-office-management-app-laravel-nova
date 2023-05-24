@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\ZLink;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class HistorySeeder extends Seeder
+class ShortLinkSeeder extends Seeder
 {
     /**
      * Run the database seeds.
