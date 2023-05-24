@@ -121,9 +121,9 @@ class User extends Authenticatable
     // https://novapackages.com/packages/ebess/advanced-nova-media-library package setting - ends
 
     // https://novapackages.com/packages/bolechen/nova-activitylog package setting - starts
-    public function getActivitylogOptions(): LogOptions
-    {
-        return LogOptions::defaults();
-    }
+    // public function getActivitylogOptions(): LogOptions
+    // {
+    //     return LogOptions::defaults();
+    // }
     // https://novapackages.com/packages/bolechen/nova-activitylog package setting - ends
 }
