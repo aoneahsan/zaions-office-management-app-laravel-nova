@@ -30,7 +30,7 @@ class AuthController extends Controller
             'password' => ['required', 'string', new Password, 'confirmed'],
         ]);
         $user = User::create([
-            'unique_id' => uniqid(),
+            'uniqueId' => uniqid(),
             'username' => $request->username,
             'email' => $request->email,
             'password' => Hash::make($request->password),

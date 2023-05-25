@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('work_spaces', function (Blueprint $table) {
             $table->id();
+            $table->string('uniqueId')->nullable();
+            $table->unsignedBigInteger('userId');
+
+            $table->json('workspace_data')->nullable();
+            $table->string('title')->nullable();
+            $table->string('timezone')->nullable();
+
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->boolean('isActive')->default(true);
+            $table->json('extraAttributes')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

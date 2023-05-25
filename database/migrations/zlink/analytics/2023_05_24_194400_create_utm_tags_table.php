@@ -13,6 +13,20 @@ return new class extends Migration
     {
         Schema::create('utm_tags', function (Blueprint $table) {
             $table->id();
+            $table->string('uniqueId')->nullable();
+            $table->unsignedBigInteger('userId');
+
+            $table->string('templateName')->nullable();
+            $table->string('utmCampaign')->nullable();
+            $table->string('utmMedium')->nullable();
+            $table->string('utmSource')->nullable();
+            $table->string('utmTerm')->nullable();
+            $table->string('utmContent')->nullable();
+
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->boolean('isActive')->default(true);
+            $table->json('extraAttributes')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

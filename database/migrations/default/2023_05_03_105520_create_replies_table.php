@@ -13,17 +13,17 @@ return new class extends Migration
     {
         Schema::create('replies', function (Blueprint $table) {
             $table->id();
-
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('commentId');
-            $table->integer('sortOrderNo')->default(0)->nullable();
-            $table->boolean('isActive')->default(true);
+
             $table->text('content')->nullable();
 
+
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->boolean('isActive')->default(true);
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();
-
             $table->timestamps();
         });
     }

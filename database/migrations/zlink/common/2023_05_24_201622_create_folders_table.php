@@ -13,6 +13,23 @@ return new class extends Migration
     {
         Schema::create('folders', function (Blueprint $table) {
             $table->id();
+            $table->string('uniqueId')->nullable();
+            $table->unsignedBigInteger('userId');
+
+            $table->string('title')->nullable();
+            $table->string('icon')->nullable();
+            $table->boolean('isStared')->default(false)->nullable();
+            $table->boolean('isHidden')->default(false)->nullable();
+            $table->boolean('isFavorite')->default(false)->nullable();
+            $table->boolean('isPasswordProtected')->default(false)->nullable();
+            $table->string('password')->nullable();
+            $table->string('folderForModel'); // 'shortLink' | 'linkInBio'
+            $table->boolean('isDefault')->default(false)->nullable();
+
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->boolean('isActive')->default(true);
+            $table->json('extraAttributes')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

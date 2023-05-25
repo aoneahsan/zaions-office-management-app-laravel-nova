@@ -14,20 +14,19 @@ return new class extends Migration
     {
         Schema::create('histories', function (Blueprint $table) {
             $table->id();
-
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('taskId');
-            $table->integer('sortOrderNo')->default(0)->nullable();
-            $table->boolean('isActive')->default(true);
+
             $table->string('type')->default(HistoryTypeEnum::courseUpdate->name)->nullable();
             $table->integer('timeSpendOnCourse')->default(0)->nullable();
             $table->integer('timeSpendOnOfficeTask')->default(0)->nullable();
             $table->string('detail')->default(0)->nullable();
 
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->boolean('isActive')->default(true);
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();
-
             $table->timestamps();
         });
     }

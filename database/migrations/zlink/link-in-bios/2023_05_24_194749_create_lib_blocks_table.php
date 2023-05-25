@@ -13,6 +13,17 @@ return new class extends Migration
     {
         Schema::create('lib_blocks', function (Blueprint $table) {
             $table->id();
+            $table->string('uniqueId')->nullable();
+            $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('linkInBioId');
+
+            $table->string('blockType')->nullable();
+            $table->json('blockContent')->nullable();
+
+            $table->boolean('isActive')->default(true)->nullable();
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->json('extraAttributes')->nullable();
+            $table->softDeletes();
             $table->timestamps();
         });
     }

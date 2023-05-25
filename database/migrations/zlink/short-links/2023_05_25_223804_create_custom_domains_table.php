@@ -11,19 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('z_task_sub_types', function (Blueprint $table) {
+        Schema::create('custom_domains', function (Blueprint $table) {
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('zTaskTypeId');
 
-            $table->string('title')->nullable();
-            $table->text('description')->nullable();
-            $table->string('color')->nullable();
-            $table->string('icon')->nullable();
+            $table->string('domain')->nullable();
 
-            $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);
+            $table->integer('sortOrderNo')->default(0)->nullable();
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -35,6 +31,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('z_task_sub_types');
+        Schema::dropIfExists('custom_domains');
     }
 };

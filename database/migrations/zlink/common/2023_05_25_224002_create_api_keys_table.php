@@ -11,16 +11,15 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('z_task_sub_types', function (Blueprint $table) {
+        Schema::create('api_keys', function (Blueprint $table) {
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('zTaskTypeId');
 
             $table->string('title')->nullable();
-            $table->text('description')->nullable();
-            $table->string('color')->nullable();
-            $table->string('icon')->nullable();
+            $table->string('clientId')->nullable();
+            $table->string('clientSecret')->nullable();
+            $table->dateTime('expireDate')->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);
@@ -35,6 +34,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('z_task_sub_types');
+        Schema::dropIfExists('api_keys');
     }
 };

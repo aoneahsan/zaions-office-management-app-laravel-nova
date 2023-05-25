@@ -13,19 +13,18 @@ return new class extends Migration
     {
         Schema::create('z_task_types', function (Blueprint $table) {
             $table->id();
-
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
-            $table->integer('sortOrderNo')->default(0)->nullable();
-            $table->boolean('isActive')->default(true);
+
             $table->string('title')->nullable();
             $table->text('description')->nullable();
             $table->string('color')->nullable();
             $table->string('icon')->nullable();
 
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->boolean('isActive')->default(true);
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();
-
             $table->timestamps();
         });
     }

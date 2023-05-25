@@ -14,9 +14,9 @@ return new class extends Migration
     {
         Schema::create('tasks', function (Blueprint $table) {
             $table->id();
-
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
+
             $table->string('type');
             $table->string('namazOffered')->nullable();
             $table->string('namazOfferedAt')->nullable();  // this will be automatic when user enters this data
