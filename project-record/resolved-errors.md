@@ -1,0 +1,5 @@
+- Object of class stdClass could not be converted to string
+  - reason
+    - this happens when you don't add "cast" for "json" field in "model" file
+  - solution
+    - add the "array" cast for json field in model file

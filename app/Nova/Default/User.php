@@ -1,7 +1,8 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
+use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Dniccum\PhoneNumber\PhoneNumber;
 
@@ -167,6 +168,7 @@ class User extends Resource
 
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable'),
+
         ];
     }
 

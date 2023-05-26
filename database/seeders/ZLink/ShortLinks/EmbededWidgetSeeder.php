@@ -1,11 +1,11 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\ShortLinks;
 
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
-class ApiKeysSeeder extends Seeder
+class EmbededWidgetSeeder extends Seeder
 {
     /**
      * Run the database seeds.

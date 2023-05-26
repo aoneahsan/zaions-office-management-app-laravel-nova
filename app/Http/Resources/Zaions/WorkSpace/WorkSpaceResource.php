@@ -14,6 +14,18 @@ class WorkSpaceResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->uniqueId,
+
+            'workspaceName' => $this->title,
+            'workspaceTimezone' => $this->timezone,
+            'workspaceData' => $this->workspaceData,
+
+            'sortOrderNo' => $this->sortOrderNo,
+            'isActive' => $this->isActive,
+            'extraAttributes' => $this->extraAttributes,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at
+        ];
     }
 }

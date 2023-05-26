@@ -14,6 +14,16 @@ class LibBlockResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->uniqueId,
+            'blockType' => $this->blockType,
+            'blockContent' => $this->blockContent,
+
+            'isActive' => $this->isActive,
+            'sortOrderNo' => $this->sortOrderNo,
+            'extraAttributes' => $this->extraAttributes,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at
+        ];
     }
 }

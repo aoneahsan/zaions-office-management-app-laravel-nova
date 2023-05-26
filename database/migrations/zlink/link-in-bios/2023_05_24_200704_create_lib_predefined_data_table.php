@@ -14,20 +14,20 @@ return new class extends Migration
         Schema::create('lib_predefined_data', function (Blueprint $table) {
             $table->id();
             $table->string('uniqueId')->nullable();
-
             $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('linkInBioId');
 
             // fields to store data for "link in bios pre defined blocks/music|messengers|social-platforms/form-fields"
             $table->string('type')->nullable();
             $table->string('icon')->nullable();
             $table->string('title')->nullable();
-            $table->boolean('isActive')->default(true)->nullable();
-            $table->integer('sortOrderNo')->default(0)->nullable();
             // fields to store data for "link in bios pre defined themes"
             $table->json('background')->nullable();
             // this will tell us which type of predefined data is this (we will use this to get specific data from api)
             $table->string('preDefinedDataType'); // 'block' | 'musicPlatform' | 'messengerPlatform' | 'socialPlatform' | 'formField'
 
+            $table->boolean('isActive')->default(true)->nullable();
+            $table->integer('sortOrderNo')->default(0)->nullable();
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();
             $table->timestamps();

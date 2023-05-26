@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
 use App\Models\Default\Task as ModelsTask;
 use App\Nova\Actions\TaskActions\ApproveTaskAction;
@@ -12,6 +12,7 @@ use App\Nova\Lenses\TaskLens\PendingTaskLens;
 use App\Nova\Metrics\PartitionMetrics\TasksPerStatusPartitionMetrics;
 use App\Nova\Metrics\TrendMetrics\TasksPerWeekTrendMetrics;
 use App\Nova\Metrics\ValueMetrics\TaskCountValueMetrics;
+use App\Nova\Resource;
 use App\Zaions\Enums\NamazEnum;
 use App\Zaions\Enums\TaskStatusEnum;
 use App\Zaions\Enums\TaskTypeEnum;

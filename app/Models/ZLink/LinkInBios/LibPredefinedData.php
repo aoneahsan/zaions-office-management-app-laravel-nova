@@ -2,6 +2,7 @@
 
 namespace App\Models\ZLink\LinkInBios;
 
+use App\Models\Default\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +17,7 @@ class LibPredefinedData extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'background' => 'array'
 
     ];
 
@@ -23,5 +25,10 @@ class LibPredefinedData extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
+    }
+
+    public function libPredefinedData(): BelongsTo
+    {
+        return $this->belongsTo(LibPredefinedData::class, 'linkInBioId', 'id');
     }
 }

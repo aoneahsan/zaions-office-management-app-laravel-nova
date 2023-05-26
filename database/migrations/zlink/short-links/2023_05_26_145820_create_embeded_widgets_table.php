@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('embed_widgets', function (Blueprint $table) {
+        Schema::create('embeded_widgets', function (Blueprint $table) {
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
@@ -40,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('embed_widgets');
+        Schema::dropIfExists('embeded_widgets');
     }
 };

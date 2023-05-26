@@ -15,7 +15,8 @@ return new class extends Migration
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('folderId')->nullable();
+            $table->unsignedBigInteger('workspaceId');
+            $table->unsignedBigInteger('folderId');
 
             $table->json('theme')->nullable();
             $table->json('settings')->nullable();
@@ -24,7 +25,7 @@ return new class extends Migration
             $table->string('featureImg')->nullable();
             $table->string('title')->nullable();
             $table->text('description')->nullable();
-            $table->string('pixelIds')->nullable();
+            $table->json('pixelIds')->nullable();
             $table->json('utmTagInfo')->nullable();
             $table->json('shortUrl')->nullable();
             $table->string('notes')->nullable();

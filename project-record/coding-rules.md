@@ -1,0 +1,3 @@
+- function, variable etc naming rules
+  - we will use camel case
+  - should start lowercase

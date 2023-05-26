@@ -1,33 +1,30 @@
 <?php
 
-namespace App\Models\ZLink\LinkInBios;
+namespace App\Models\ZLink\ShortLinks;
 
-use App\Models\Default\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
 
-class LibBlock extends Model
+class EmbededWidget extends Model
 {
-    use HasFactory, SoftDeletes, Actionable;
+    use
+        HasFactory,
+        SoftDeletes,
+        Actionable;
 
     protected $guarded = [];
 
     protected $casts = [
         'extraAttributes' => 'array',
-        'blockContent' => 'array'
+
     ];
 
     // Relationship methods
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
-    }
-
-    public function linkInBio(): BelongsTo
-    {
-        return $this->belongsTo(LinkInBio::class, 'linkInBioId', 'id');
     }
 }

@@ -14,6 +14,19 @@ class LibPredefinedDataResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->uniqueId,
+            'type' => $this->type,
+            'title' => $this->title,
+            'icon' => $this->icon,
+            'background' => $this->background,
+            'preDefinedDataType' =>
+            $this->preDefinedDataType,
+            'isActive' => $this->isActive,
+            'sortOrderNo' => $this->sortOrderNo,
+            'extraAttributes' => $this->extraAttributes,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at
+        ];
     }
 }

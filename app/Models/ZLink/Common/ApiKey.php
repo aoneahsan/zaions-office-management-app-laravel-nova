@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Models\ZLink\LinkInBios;
+namespace App\Models\ZLink\Common;
 
 use App\Models\Default\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,7 +9,7 @@ use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
 
-class LibBlock extends Model
+class ApiKey extends Model
 {
     use HasFactory, SoftDeletes, Actionable;
 
@@ -17,17 +17,12 @@ class LibBlock extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
-        'blockContent' => 'array'
+
     ];
 
     // Relationship methods
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
-    }
-
-    public function linkInBio(): BelongsTo
-    {
-        return $this->belongsTo(LinkInBio::class, 'linkInBioId', 'id');
     }
 }

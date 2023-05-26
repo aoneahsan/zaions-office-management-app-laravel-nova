@@ -2,6 +2,8 @@
 
 namespace App\Models\ZLink\ShortLinks;
 
+use App\Models\Default\User;
+use App\Models\Default\WorkSpace;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -16,6 +18,13 @@ class ShortLink extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'target' => 'array',
+        'utmTagInfo' => 'array',
+        'shortUrl' => 'array',
+        'abTestingRotatorLinks' => 'array',
+        'geoLocationRotatorLinks' => 'array',
+        'linkExpirationInfo' => 'array',
+        'password' => 'array',
 
     ];
 
@@ -23,5 +32,10 @@ class ShortLink extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
+    }
+
+    public function workspace(): BelongsTo
+    {
+        return $this->belongsTo(WorkSpace::class, 'workspaceId', 'id');
     }
 }

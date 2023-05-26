@@ -1,38 +1,37 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
-use App\Models\Default\Attachment as ModelsAttachment;
+use AlexAzartsev\Heroicon\Heroicon;
+use App\Models\Default\ZStatus as ModelsZStatus;
+use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\Color;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
-use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\URL;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Attachment extends Resource
+class ZStatus extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Default\Attachment>
+     * @var class-string<\App\Models\Default\ZStatus>
      */
-    public static $model = \App\Models\Default\Attachment::class;
+    public static $model = \App\Models\Default\ZStatus::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -40,15 +39,8 @@ class Attachment extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'attachmentName'
+        'id', 'title', 'description'
     ];
-
-    /**
-     * The number of results to display when searching for relatable resources without Scout.
-     *
-     * @var int|null
-     */
-    public static $relatableSearchResults = 10;
 
     /**
      * Get the fields displayed by the resource.
@@ -77,24 +69,25 @@ class Attachment extends Resource
                     return $request->user()->getKey();
                 }),
 
-            File::make('Attachment', 'attachmentPath')
-                ->rules('file', 'required', 'size:4000')
-                ->disk(ZHelpers::getActiveFileDriver())
-                ->storeOriginalName('attachmentName')
-                ->storeSize('attachmentSize'),
+            Text::make('Title', 'title')
+                ->rules('nullable', 'string')
+                ->maxlength(100)
+                ->enforceMaxlength(),
 
-            URL::make('Attachment Download Link', 'attachmentDownloadLink')->exceptOnForms(),
-            Text::make('Attachment Name', 'attachmentName')->onlyOnDetail(),
 
-            Text::make('Attachment Size', 'attachmentSize')
-                ->exceptOnForms()
-                ->displayUsing(function ($value) {
-                    return number_format($value / 1024, 2) . 'kb';
-                }),
+            Trix::make('Description', 'description')
+                ->rules('nullable', 'string')
+                ->showOnIndex(true),
+
+            Color::make('Color', 'color')
+                ->rules('nullable'),
+
+            Heroicon::make('Icon', 'icon')
+                ->rules('nullable'),
 
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastItem = ModelsAttachment::latest()->first();
+                $lastItem = ModelsZStatus::latest()->first();
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 
@@ -106,8 +99,6 @@ class Attachment extends Resource
 
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
-
-            MorphMany::make('Comments'),
         ];
     }
 

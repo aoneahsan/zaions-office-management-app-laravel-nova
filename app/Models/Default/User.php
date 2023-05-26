@@ -2,6 +2,7 @@
 
 namespace App\Models\Default;
 
+use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\RolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Relations\HasMany;
@@ -22,12 +23,7 @@ class User extends Authenticatable
 {
     use HasApiTokens, HasFactory, Notifiable, HasRoles, HasTags, SoftDeletes, Impersonatable, Actionable, SortableTrait, ProtectWith2FA, HasNotes;
 
-    // protected $fillable = ['name', 'text'];
-
     protected $guarded = [];
-
-    // bolechen/nova-activitylog
-    // protected static $logAttributes = ['name', 'email'];
 
     // https://novapackages.com/packages/outl1ne/nova-sortable
     public $sortable = [
@@ -55,26 +51,14 @@ class User extends Authenticatable
         return false;
     }
 
-    /**
-     * Determine if the user can impersonate another user.
-     *
-     * @return bool
-     */
     public function canImpersonate()
     {
-        // return Gate::forUser($this)->check('viewNova');
-        return $this->hasRole(RolesEnum::superAdmin->name);
+        return $this->hasPermissionTo(PermissionsEnum::can_impersonate->name);
     }
 
-    /**
-     * Determine if the user can be impersonated.
-     *
-     * @return bool
-     */
     public function canBeImpersonated()
     {
-        // return true;
-        return !$this->hasRole(RolesEnum::superAdmin->name);
+        return $this->hasPermissionTo(PermissionsEnum::canBe_impersonate->name) && !$this->hasRole(RolesEnum::superAdmin->name);
     }
 
     // User Modal Attributes getter functions
@@ -89,6 +73,11 @@ class User extends Authenticatable
     }
 
     // Relationship data methods
+    public function workSpace(): HasMany
+    {
+        return $this->hasMany(workSpace::class, 'userId', 'id');
+    }
+
     public function tasks(): HasMany
     {
         return $this->hasMany(Task::class, 'userId', 'id');
@@ -103,26 +92,4 @@ class User extends Authenticatable
     {
         return $this->morphMany(Attachment::class, 'attachable');
     }
-
-    // https://novapackages.com/packages/ebess/advanced-nova-media-library package setting - starts
-    // public function registerMediaConversions(Media $media = null): void
-    // {
-    //     $this->addMediaConversion('thumb')
-    //         ->width(130)
-    //         ->height(130);
-    // }
-
-    // public function registerMediaCollections(): void
-    // {
-    //     $this->addMediaCollection('main')->singleFile();
-    //     $this->addMediaCollection('my_multi_collection');
-    // }
-    // https://novapackages.com/packages/ebess/advanced-nova-media-library package setting - ends
-
-    // https://novapackages.com/packages/bolechen/nova-activitylog package setting - starts
-    // public function getActivitylogOptions(): LogOptions
-    // {
-    //     return LogOptions::defaults();
-    // }
-    // https://novapackages.com/packages/bolechen/nova-activitylog package setting - ends
 }

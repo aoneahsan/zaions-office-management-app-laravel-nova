@@ -1,15 +1,15 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
 use AlexAzartsev\Heroicon\Heroicon;
-use App\Models\Default\ZTaskType as ModelsZTaskType;
+use App\Models\Default\ZTaskSubType as ModelsZTaskSubType;
+use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Color;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
@@ -17,14 +17,14 @@ use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class ZTaskType extends Resource
+class ZTaskSubType extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Default\ZTaskType>
+     * @var class-string<\App\Models\Default\ZTaskSubType>
      */
-    public static $model = \App\Models\Default\ZTaskType::class;
+    public static $model = \App\Models\Default\ZTaskSubType::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -63,12 +63,25 @@ class ZTaskType extends Resource
                 })
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
-            HasMany::make('Sub Type', 'subTaskTypes', ZTaskSubType::class),
+
+            BelongsTo::make('Parent', 'parentTaskType', ZTaskType::class)
+                ->hideFromIndex()
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->hideWhenCreating(function (NovaRequest $request) {
+                    return !ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->hideWhenUpdating(function (NovaRequest $request) {
+                    return !ZHelpers::isNRUserSuperAdmin($request);
+                }),
 
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
+
+
 
             Text::make('Title', 'title')
                 ->rules('nullable', 'string')
@@ -87,8 +100,9 @@ class ZTaskType extends Resource
                 ->rules('nullable'),
 
 
+
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastItem = ModelsZTaskType::latest()->first();
+                $lastItem = ModelsZTaskSubType::latest()->first();
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 

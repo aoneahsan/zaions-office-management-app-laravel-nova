@@ -1,0 +1,4 @@
+- model name should not be plural
+  - mean "ApiKeys" is wrong
+  - it should be "ApiKey"
+  - ask if needed

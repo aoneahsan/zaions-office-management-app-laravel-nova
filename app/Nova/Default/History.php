@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
 use App\Models\Default\History as ModelsHistory;
+use App\Nova\Resource;
 use App\Zaions\Enums\HistoryTypeEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;

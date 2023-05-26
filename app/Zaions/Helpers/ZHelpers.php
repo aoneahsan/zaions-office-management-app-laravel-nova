@@ -8,6 +8,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Mockery\Undefined;
 
 class ZHelpers
 {
@@ -212,7 +213,7 @@ class ZHelpers
       'errors' => $errors,
       'data' => [],
       'success' => false,
-      'status' => 500,
+      'status' => 400,
       'message' => 'Invalid params send, please send all required request params.'
     ], 500);
   }
@@ -321,5 +322,20 @@ class ZHelpers
       'offset' => 0,
       'giphyApiKey' => 'e2ch1pYIBKfkBbEKy5eaCWTAGA8QyUx1'
     ];
+  }
+
+  public static function zJsonDecode($value)
+  {
+    try {
+      if ($value && is_string($value)) {
+        return json_decode($value);
+      } else if (!$value) {
+        return null;
+      } else {
+        return $value;
+      }
+    } catch (\Throwable $th) {
+      return null;
+    }
   }
 }

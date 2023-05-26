@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
-use App\Models\Default\Reply as ModelsReply;
+use App\Models\Default\Comment as ModelsComment;
+use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -12,17 +13,18 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Reply extends Resource
+class Comment extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Default\Reply>
+     * @var class-string<\App\Models\Default\Comment>
      */
-    public static $model = \App\Models\Default\Reply::class;
+    public static $model = \App\Models\Default\Comment::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -39,6 +41,13 @@ class Reply extends Resource
     public static $search = [
         'id', 'content'
     ];
+
+    /**
+     * The number of results to display when searching for relatable resources without Scout.
+     *
+     * @var int|null
+     */
+    public static $relatableSearchResults = 10;
 
     /**
      * Get the fields displayed by the resource.
@@ -62,29 +71,22 @@ class Reply extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
-            BelongsTo::make('comment')
-                ->hideFromIndex()
-                ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
-
-
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
 
-            Textarea::make('Reply Text', 'content')
+            Text::make('Comment Text', 'content')
                 ->rules('nullable', 'string')
+                ->showOnIndex(true)
                 ->maxlength(1500)
-                ->enforceMaxlength()
-                ->alwaysShow(),
+                ->enforceMaxlength(),
+
+            HasMany::make('Replies', 'replies', Reply::class),
 
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastItem = ModelsReply::latest()->first();
+                $lastItem = ModelsComment::latest()->first();
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 

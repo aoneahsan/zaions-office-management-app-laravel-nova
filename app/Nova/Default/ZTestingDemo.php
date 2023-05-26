@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
 use AlexAzartsev\Heroicon\Heroicon;
 use App\Models\Default\ZTestingDemo as ModelsZTestingDemo;
 use App\Nova\Actions\ZTestingDemoActions\ZTestActionZaionsLink;
 use App\Nova\Filters\ZTestingDemoFilters\CustomInputFilter;
+use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Degecko\NovaFiltersSummary\FiltersSummary;
 use Devtical\Qrcode\Qrcode;
@@ -323,17 +324,17 @@ class ZTestingDemo extends Resource
             // ]),
 
             // https://novapackages.com/packages/mostafaznv/nova-video
-            Video::make(trans('Video'), 'randomDataTesting', 'media')
-                ->rules('file', 'max:150000', 'mimes:mp4', 'mimetypes:video/mp4')
-                ->creationRules('required')
-                ->updateRules('nullable'),
+            // Video::make(trans('Video'), 'randomDataTesting', 'media')
+            //     ->rules('file', 'max:150000', 'mimes:mp4', 'mimetypes:video/mp4')
+            //     ->creationRules('required')
+            //     ->updateRules('nullable'),
 
             // https://novapackages.com/packages/wdelfuego/nova-datetime
             // DateTime::make(__('Localized label'), 'attribute')
             //     ->withDateFormat('d-M-Y, H:i'),
 
             // https://novapackages.com/packages/oneduo/nova-file-manager
-            FileManager::make(__('Avatar'), 'randomDataTesting'),
+            // FileManager::make(__('Avatar'), 'randomDataTesting'),
 
             // https://novapackages.com/packages/alexazartsev/heroicon
             Heroicon::make('Icon', 'heroIconField'),
@@ -446,7 +447,7 @@ class ZTestingDemo extends Resource
             // (new HtmlCard())->width('1/3')->html('<h1>Hello World!</h1>'),
 
             // https://novapackages.com/packages/degecko/nova-filters-summary
-            FiltersSummary::make(),
+            // FiltersSummary::make(),
 
             // https://novapackages.com/packages/slash2nl/nova-back-button
             new NovaBackButton(),

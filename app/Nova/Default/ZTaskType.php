@@ -1,36 +1,38 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
-use App\Models\Default\Comment as ModelsComment;
+use AlexAzartsev\Heroicon\Heroicon;
+use App\Models\Default\ZTaskType as ModelsZTaskType;
+use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\Color;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
-use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Comment extends Resource
+class ZTaskType extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Default\Comment>
+     * @var class-string<\App\Models\Default\ZTaskType>
      */
-    public static $model = \App\Models\Default\Comment::class;
+    public static $model = \App\Models\Default\ZTaskType::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'id';
+    public static $title = 'title';
 
     /**
      * The columns that should be searched.
@@ -38,15 +40,8 @@ class Comment extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'content'
+        'id', 'title', 'description'
     ];
-
-    /**
-     * The number of results to display when searching for relatable resources without Scout.
-     *
-     * @var int|null
-     */
-    public static $relatableSearchResults = 10;
 
     /**
      * Get the fields displayed by the resource.
@@ -69,23 +64,32 @@ class Comment extends Resource
                 })
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
+            HasMany::make('Sub Type', 'subTaskTypes', ZTaskSubType::class),
 
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
 
-            Text::make('Comment Text', 'content')
+            Text::make('Title', 'title')
                 ->rules('nullable', 'string')
-                ->showOnIndex(true)
-                ->maxlength(1500)
+                ->maxlength(100)
                 ->enforceMaxlength(),
 
-            HasMany::make('Replies', 'replies', Reply::class),
+
+            Trix::make('Description', 'description')
+                ->rules('nullable', 'string')
+                ->showOnIndex(true),
+
+            Color::make('Color', 'color')
+                ->rules('nullable'),
+
+            Heroicon::make('Icon', 'icon')
+                ->rules('nullable'),
 
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastItem = ModelsComment::latest()->first();
+                $lastItem = ModelsZTaskType::latest()->first();
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 
@@ -97,8 +101,6 @@ class Comment extends Resource
 
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
-
-            MorphMany::make('Attachments'),
         ];
     }
 

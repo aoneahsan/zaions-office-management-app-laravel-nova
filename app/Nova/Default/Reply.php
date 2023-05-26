@@ -1,36 +1,36 @@
 <?php
 
-namespace App\Nova;
+namespace App\Nova\Default;
 
-use AlexAzartsev\Heroicon\Heroicon;
-use App\Models\Default\ZStatus as ModelsZStatus;
+use App\Models\Default\Reply as ModelsReply;
+use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\Color;
+use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
-use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Trix;
+use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class ZStatus extends Resource
+class Reply extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Default\ZStatus>
+     * @var class-string<\App\Models\Default\Reply>
      */
-    public static $model = \App\Models\Default\ZStatus::class;
+    public static $model = \App\Models\Default\Reply::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
      *
      * @var string
      */
-    public static $title = 'title';
+    public static $title = 'id';
 
     /**
      * The columns that should be searched.
@@ -38,7 +38,7 @@ class ZStatus extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'title', 'description'
+        'id', 'content'
     ];
 
     /**
@@ -63,30 +63,29 @@ class ZStatus extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
+            BelongsTo::make('comment')
+                ->hideFromIndex()
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
+
+
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
 
-            Text::make('Title', 'title')
+            Textarea::make('Reply Text', 'content')
                 ->rules('nullable', 'string')
-                ->maxlength(100)
-                ->enforceMaxlength(),
-
-
-            Trix::make('Description', 'description')
-                ->rules('nullable', 'string')
-                ->showOnIndex(true),
-
-            Color::make('Color', 'color')
-                ->rules('nullable'),
-
-            Heroicon::make('Icon', 'icon')
-                ->rules('nullable'),
+                ->maxlength(1500)
+                ->enforceMaxlength()
+                ->alwaysShow(),
 
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastItem = ModelsZStatus::latest()->first();
+                $lastItem = ModelsReply::latest()->first();
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 
@@ -98,6 +97,8 @@ class ZStatus extends Resource
 
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
+
+            MorphMany::make('Attachments'),
         ];
     }
 

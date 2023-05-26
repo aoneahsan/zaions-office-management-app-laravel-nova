@@ -5,9 +5,9 @@ namespace Database\Factories\ZLink\ShortLinks;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ZLink\ShortLinks\EmbedWidgets>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\ZLink\ShortLinks\EmbededWidget>
  */
-class EmbedWidgetsFactory extends Factory
+class EmbededWidgetFactory extends Factory
 {
     /**
      * Define the model's default state.
