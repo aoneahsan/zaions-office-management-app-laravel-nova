@@ -17,6 +17,7 @@ class ApiKey extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'expireDate' => 'datetime'
 
     ];
 

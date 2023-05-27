@@ -1,11 +1,13 @@
 <?php
 
-namespace App\Http\Resources\Zaions\ZLink\Analytics;
+namespace App\Http\Resources\Zaions\ZLink\Common;
 
+use App\Zaions\Helpers\ZHelpers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UtmTagResource extends JsonResource
+class ApiKeyResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +18,10 @@ class UtmTagResource extends JsonResource
     {
         return [
             'id' => $this->uniqueId,
-            'templateName' => $this->templateName,
-            'utmCampaign' => $this->utmCampaign,
-            'utmMedium' => $this->utmMedium,
-            'utmSource' => $this->utmSource,
-            'utmTerm' => $this->utmTerm,
-            'utmContent' => $this->utmContent,
+            'title' => $this->title,
+            'clientId' => $this->clientId,
+            'clientSecret' => $this->clientSecret,
+            'expireDate' => $this->expireDate ? Carbon::parse($this->expireDate, ZHelpers::getTimezone()) : null,
             'isActive' => $this->isActive,
             'extraAttributes' => $this->extraAttributes,
             'createdAt' => $this->created_at,

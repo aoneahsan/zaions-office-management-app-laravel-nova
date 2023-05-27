@@ -14,6 +14,15 @@ class PixelResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->uniqueId,
+            'platform' => $this->platform,
+            'title' => $this->title,
+            'pixelId' => $this->pixelId,
+            'isActive' => $this->isActive,
+            'extraAttributes' => $this->extraAttributes,
+            'createAt' => $this->created_at,
+            'updatedAt' => $this->updated_at
+        ];
     }
 }

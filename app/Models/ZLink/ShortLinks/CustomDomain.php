@@ -27,4 +27,9 @@ class CustomDomain extends Model
     {
         return $this->belongsTo(User::class, 'userId', 'id');
     }
+
+    public function shortLink(): BelongsTo
+    {
+        return $this->belongsTo(ShortLink::class, 'shortLinkId', 'id');
+    }
 }

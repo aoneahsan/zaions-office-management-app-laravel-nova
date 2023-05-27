@@ -18,20 +18,20 @@ class TestingController extends Controller
 
         // Test - working with Carbon date and time
         // $carbonNow = Carbon::now($request->user()?->userTimezone);
-        $carbonNow = Carbon::now();
-        $dateInfo = [
-            '$carbonNow' => $carbonNow,
-            '$carbonNow->hour' => $carbonNow->hour,
-            '$carbonNow->minute' => $carbonNow->minute,
-            '$carbonNow->month' => $carbonNow->month,
-            '$carbonNow->weekOfYear' => $carbonNow->weekOfYear,
-            '$carbonNow->day' => $carbonNow->day,
-            '$carbonNow->dayOfWeek' => $carbonNow->dayOfWeek,
-            '$carbonNow->dayName' => $carbonNow->dayName,
-            '12 hour format' => ZHelpers::convertTo12Hour($carbonNow)
-        ];
+        // $carbonNow = Carbon::now();
+        // $dateInfo = [
+        //     '$carbonNow' => $carbonNow,
+        //     '$carbonNow->hour' => $carbonNow->hour,
+        //     '$carbonNow->minute' => $carbonNow->minute,
+        //     '$carbonNow->month' => $carbonNow->month,
+        //     '$carbonNow->weekOfYear' => $carbonNow->weekOfYear,
+        //     '$carbonNow->day' => $carbonNow->day,
+        //     '$carbonNow->dayOfWeek' => $carbonNow->dayOfWeek,
+        //     '$carbonNow->dayName' => $carbonNow->dayName,
+        //     '12 hour format' => ZHelpers::convertTo12Hour($carbonNow)
+        // ];
 
-        dd($dateInfo, $request->user()?->userTimezone);
+        // dd($dateInfo, $request->user()?->userTimezone);
 
 
         return response()->json('working fine');

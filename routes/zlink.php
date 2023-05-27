@@ -5,10 +5,16 @@ use App\Http\Controllers\Zaions\StaticPageController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkSpaceController;
+use App\Http\Controllers\Zaions\ZLink\Analytics\PixelController;
+use App\Http\Controllers\Zaions\ZLink\Analytics\UtmTagController;
+use App\Http\Controllers\Zaions\ZLink\Common\ApiKeyController;
+use App\Http\Controllers\Zaions\ZLink\Common\FolderController;
 use App\Http\Controllers\Zaions\ZLink\LinkInBios\LibBlockController;
 use App\Http\Controllers\Zaions\ZLink\LinkInBios\LibPredefinedDataController;
 use App\Http\Controllers\Zaions\ZLink\LinkInBios\LinkInBioController;
 use App\Http\Controllers\Zaions\ZLink\ShortLinks\ShortLinkController;
+use App\Http\Controllers\Zaions\ZLink\ShortLinks\CustomDomainController;
+use App\Http\Controllers\Zaions\ZLink\ShortLinks\EmbededWidgetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
@@ -78,6 +84,63 @@ Route::middleware(['api'])->name('zlink.')->prefix('api/v1')->group(function () 
             Route::get('/user/workspaces/{workspaceId}/short-links/{itemId}', 'show');
             Route::put('/user/workspaces/{workspaceId}/short-links/{itemId}', 'update');
             Route::delete('/user/workspaces/{workspaceId}/short-links/{itemId}', 'destroy');
+        });
+
+        // Pixel
+        Route::controller(PixelController::class)->group(function () {
+            Route::get('/user/workspaces/{workspaceId}/pixel', 'index');
+            Route::post('/user/workspaces/{workspaceId}/pixel', 'store');
+            Route::get('/user/workspaces/{workspaceId}/pixel/{itemId}', 'show');
+            Route::put('/user/workspaces/{workspaceId}/pixel/{itemId}', 'update');
+            Route::delete('/user/workspaces/{workspaceId}/pixel/{itemId}', 'destroy');
+        });
+
+
+        // UTM Tags
+        Route::controller(UtmTagController::class)->group(function () {
+            Route::get('/user/workspaces/{workspaceId}/utm-tag', 'index');
+            Route::post('/user/workspaces/{workspaceId}/utm-tag', 'store');
+            Route::get('/user/workspaces/{workspaceId}/utm-tag/{itemId}', 'show');
+            Route::put('/user/workspaces/{workspaceId}/utm-tag/{itemId}', 'update');
+            Route::delete('/user/workspaces/{workspaceId}/utm-tag/{itemId}', 'destroy');
+        });
+
+        // API key
+        Route::controller(ApiKeyController::class)->group(function () {
+            Route::get('/user/workspaces/{workspaceId}/api-key', 'index');
+            Route::post('/user/workspaces/{workspaceId}/api-key', 'store');
+            Route::get('/user/workspaces/{workspaceId}/api-key/{itemId}', 'show');
+            Route::put('/user/workspaces/{workspaceId}/api-key/{itemId}', 'update');
+            Route::delete('/user/workspaces/{workspaceId}/api-key/{itemId}', 'destroy');
+        });
+
+        // Folder
+        Route::controller(FolderController::class)->group(function () {
+            Route::get('/user/workspaces/{workspaceId}/folder', 'index');
+            Route::post('/user/workspaces/{workspaceId}/folder', 'store');
+            // Route::put('/user/workspaces/{workspaceId}/folders/reorder', 'updateSortOrderNo');
+            Route::get('/user/workspaces/{workspaceId}/folder/{itemId}', 'show');
+            Route::put('/user/workspaces/{workspaceId}/folder/{itemId}', 'update');
+            Route::delete('/user/workspaces/{workspaceId}/folder/{itemId}', 'destroy');
+            Route::get('/user/workspaces/{workspaceId}/folder/{itemId}/short-links', 'getFolderShortLinks');
+        });
+
+        // ShortLink Custom domain
+        Route::controller(CustomDomainController::class)->group(function () {
+            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain', 'index');
+            Route::post('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain', 'store');
+            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain/{itemId}', 'show');
+            Route::put('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain/{itemId}', 'update');
+            Route::delete('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain/{itemId}', 'destroy');
+        });
+
+        // ShortLink Embeded widget
+        Route::controller(EmbededWidgetController::class)->group(function () {
+            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget', 'index');
+            Route::post('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget', 'store');
+            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget/{itemId}', 'show');
+            Route::put('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget/{itemId}', 'update');
+            Route::delete('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget/{itemId}', 'destroy');
         });
 
         // LinkInBio

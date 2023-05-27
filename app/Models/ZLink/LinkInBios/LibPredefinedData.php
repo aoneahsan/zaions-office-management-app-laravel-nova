@@ -27,8 +27,8 @@ class LibPredefinedData extends Model
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function libPredefinedData(): BelongsTo
+    public function linkInBio(): BelongsTo
     {
-        return $this->belongsTo(LibPredefinedData::class, 'linkInBioId', 'id');
+        return $this->belongsTo(LinkInBio::class, 'linkInBioId', 'id');
     }
 }

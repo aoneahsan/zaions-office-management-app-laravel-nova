@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Resources\Zaions\ZLink\Analytics;
+namespace App\Http\Resources\Zaions\ZLink\ShortLinks;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class UtmTagResource extends JsonResource
+class CustomDomainResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,12 +16,7 @@ class UtmTagResource extends JsonResource
     {
         return [
             'id' => $this->uniqueId,
-            'templateName' => $this->templateName,
-            'utmCampaign' => $this->utmCampaign,
-            'utmMedium' => $this->utmMedium,
-            'utmSource' => $this->utmSource,
-            'utmTerm' => $this->utmTerm,
-            'utmContent' => $this->utmContent,
+            'domain' => $this->domain,
             'isActive' => $this->isActive,
             'extraAttributes' => $this->extraAttributes,
             'createdAt' => $this->created_at,

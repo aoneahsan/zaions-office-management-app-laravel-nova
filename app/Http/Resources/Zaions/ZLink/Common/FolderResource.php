@@ -14,6 +14,22 @@ class FolderResource extends JsonResource
      */
     public function toArray(Request $request): array
     {
-        return parent::toArray($request);
+        return [
+            'id' => $this->uniqueId,
+            'title' => $this->title,
+            'icon' => $this->icon,
+            'isStared' => $this->isStared,
+            'isHidden' => $this->isHidden,
+            'isFavorite' => $this->isFavorite,
+            'isPasswordProtected' => $this->isPasswordProtected,
+            'password' => $this->password,
+            'folderForModel' => $this->folderForModel,
+            'isDefault' => $this->isDefault,
+            'sortOrderNo' => $this->sortOrderNo,
+            'isActive' => $this->isActive,
+            'extraAttributes' => $this->extraAttributes,
+            'createdAt' => $this->created_at,
+            'updatedAt' => $this->updated_at
+        ];
     }
 }

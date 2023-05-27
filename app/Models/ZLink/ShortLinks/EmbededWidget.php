@@ -2,6 +2,7 @@
 
 namespace App\Models\ZLink\ShortLinks;
 
+use App\Models\Default\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -26,5 +27,10 @@ class EmbededWidget extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
+    }
+
+    public function shortLink(): BelongsTo
+    {
+        return $this->belongsTo(ShortLink::class, 'userId', 'id');
     }
 }

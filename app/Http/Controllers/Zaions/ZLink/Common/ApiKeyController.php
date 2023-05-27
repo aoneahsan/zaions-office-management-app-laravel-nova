@@ -1,14 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\Zaions\ZLink\Analytics;
+namespace App\Http\Controllers\Zaions\ZLink\Common;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Zaions\ZLink\Analytics\UtmTagResource;
-use App\Models\ZLink\Analytics\UtmTag;
+use App\Http\Resources\Zaions\ZLink\Common\ApiKeyResource;
+use App\Models\ZLink\Common\ApiKey;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 
-class UtmTagController extends Controller
+class ApiKeyController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -19,15 +19,15 @@ class UtmTagController extends Controller
     {
         $userId = $request->user()->id;
         try {
-            $itemsCount = UtmTag::where('userId', $userId)->count();
-            $items = UtmTag::where('userId', $userId)->get();
+            $itemsCount = ApiKey::where('userId', $userId)->count();
+            $items = ApiKey::where('userId', $userId)->get();
 
             return response()->json([
                 'success' => true,
                 'errors' => [],
                 'message' => 'Request Completed Successfully!',
                 'data' => [
-                    'items' => UtmTagResource::collection($items),
+                    'items' => ApiKeyResource::collection($items),
                     'itemsCount' => $itemsCount
                 ],
                 'status' => 200
@@ -46,40 +46,33 @@ class UtmTagController extends Controller
     public function store(Request $request, $workspaceId)
     {
         $request->validate([
-            'templateName' => 'required|string|max:250',
-            'utmCampaign' => 'required|string|max:250',
-            'utmMedium' => 'required|string|max:250',
-            'utmSource' => 'required|string|max:250',
-            'utmTerm' => 'nullable|string|max:250',
-            'utmContent' => 'nullable|string|max:250',
+            'title' => 'required|string|max:250',
+            'clientId' => 'required|string|max:250',
+            'clientSecret' => 'required|string|max:250',
+            'expireDate' => 'nullable|string',
 
-            'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
         $userId = $request->user()->id;
         try {
-            $result = UtmTag::create([
+            $result = ApiKey::create([
                 'uniqueId' => uniqid(),
                 'userId' => $userId,
+                'title' => $request->has('title') ? $request->title : null,
+                'clientId' => $request->has('clientId') ? $request->clientId : null,
+                'clientSecret' => $request->has('clientSecret') ? $request->clientSecret : null,
+                'expireDate' => $request->has('expireDate') ? $request->expireDate : null,
 
-                'templateName' => $request->has('templateName') ? $request->templateName : null,
-                'utmCampaign' => $request->has('utmCampaign') ? $request->utmCampaign : null,
-                'utmMedium' => $request->has('utmMedium') ? $request->utmMedium : null,
-                'utmSource' => $request->has('utmSource') ? $request->utmSource : null,
-                'utmTerm' => $request->has('utmTerm') ? $request->utmTerm : null,
-                'utmContent' =>
-                $request->has('utmContent') ? $request->utmContent : null,
-                'sortOrderNo' =>
-                $request->has('sortOrderNo') ? $request->sortOrderNo : null,
-                'isActive' =>
-                $request->has('isActive') ? $request->isActive : null,
+                // 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
+                'isActive' => $request->has('isActive') ? $request->isActive
+                    : null,
                 'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : null,
             ]);
 
             if ($result) {
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new UtmTagResource($result)
+                    'item' => new ApiKeyResource($result)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([]);
@@ -99,11 +92,11 @@ class UtmTagController extends Controller
     {
         $userId = $request->user()->id;
         try {
-            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new UtmTagResource($item)
+                    'item' => new ApiKeyResource($item)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -115,6 +108,7 @@ class UtmTagController extends Controller
         }
     }
 
+
     /**
      * Update the specified resource in storage.
      *
@@ -125,39 +119,35 @@ class UtmTagController extends Controller
     public function update(Request $request, $workspaceId, $itemId)
     {
         $request->validate([
-            'templateName' => 'required|string|max:250',
-            'utmCampaign' => 'required|string|max:250',
-            'utmMedium' => 'required|string|max:250',
-            'utmSource' => 'required|string|max:250',
-            'utmTerm' => 'nullable|string|max:250',
-            'utmContent' => 'nullable|string|max:250',
+            'title' => 'required|string|max:250',
+            'clientId' => 'required|string|max:250',
+            'clientSecret' => 'required|string|max:250',
+            'expireDate' => 'nullable|string',
 
-            'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
 
         $userId = $request->user()->id;
         try {
-            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
 
             if ($item) {
                 $item->update([
-                    'templateName' => $request->has('templateName') ? $request->templateName : $item->templateName,
-                    'utmCampaign' => $request->has('utmCampaign') ? $request->utmCampaign : $item->utmCampaign,
-                    'utmMedium' => $request->has('utmMedium') ? $request->utmMedium : $item->utmMedium,
-                    'utmSource' => $request->has('utmSource') ? $request->utmSource : $item->utmSource,
-                    'utmTerm' => $request->has('utmTerm') ? $request->utmTerm : $item->utmTerm,
-                    'utmContent' => $request->has('utmContent') ? $request->utmContent : $item->utmContent,
+                    'title' => $request->has('title') ? $request->title :  $request->title,
+                    'clientId' => $request->has('clientId') ? $request->clientId : $request->clientId,
+                    'clientSecret' => $request->has('clientSecret') ? $request->clientSecret : $request->clientSecret,
+                    'expireDate' => $request->has('expireDate') ? $request->expireDate : $request->expireDate,
 
-                    'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->sortOrderNo,
-                    'isActive' => $request->has('isActive') ? $request->isActive : $item->isActive,
-                    'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $item->extraAttributes,
+                    // 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $request->sortOrderNo,
+                    'isActive' => $request->has('isActive') ? $request->isActive
+                        : $request->isActive,
+                    'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $request->extraAttributes,
                 ]);
 
-                $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new UtmTagResource($item)
+                    'item' => new ApiKeyResource($item)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -179,7 +169,7 @@ class UtmTagController extends Controller
     {
         $userId = $request->user()->id;
         try {
-            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
 
             if ($item) {
                 $item->forceDelete();

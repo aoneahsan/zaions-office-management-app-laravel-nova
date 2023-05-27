@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('shortLinkId');
 
             $table->string('domain')->nullable();
 

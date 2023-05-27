@@ -16,7 +16,6 @@ class Pixel extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
-
     ];
 
     // Relationship methods

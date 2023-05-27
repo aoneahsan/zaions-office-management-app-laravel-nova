@@ -1,47 +1,47 @@
 <?php
 
-namespace App\Http\Controllers\Zaions\ZLink\LinkInBios;
+namespace App\Http\Controllers\Zaions\ZLink\ShortLinks;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Zaions\ZLink\LinkInBios\LibPredefinedDataResource;
+use App\Http\Resources\Zaions\ZLink\ShortLinks\CustomDomainResource;
 use App\Models\Default\WorkSpace;
-use App\Models\ZLink\LinkInBios\LibPredefinedData;
-use App\Models\ZLink\LinkInBios\LinkInBio;
+use App\Models\ZLink\ShortLinks\CustomDomain;
+use App\Models\ZLink\ShortLinks\ShortLink;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 
-class LibPredefinedDataController extends Controller
+class CustomDomainController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $workspaceId, $linkInBioId)
+    public function index(Request $request, $workspaceId, $shortLinkId)
     {
         try {
             $userId = $request->user()->id;
             // getting workspace
             $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
 
-            // getting link-in-bio in workspace
-            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            // getting Short-link in workspace
+            $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
 
-            if (!$linkInBio) {
+            if (!$ShortLink) {
                 return ZHelpers::sendBackInvalidParamsResponse([
-                    "item" => ['No link-in-bio found!']
+                    "item" => ['No Short-link found!']
                 ]);
             }
 
-            $itemsCount = LibPredefinedData::where('linkInBioId', $linkInBio->id)->where('userId', $userId)->count();
-            $items = LibPredefinedData::where('linkInBioId', $linkInBio->id)->where('userId', $userId)->get();
+            $itemsCount = CustomDomain::where('shortLinkId', $ShortLink->id)->where('userId', $userId)->count();
+            $items = CustomDomain::where('shortLinkId', $ShortLink->id)->where('userId', $userId)->get();
 
             return response()->json([
                 'success' => true,
                 'errors' => [],
                 'message' => 'Request Completed Successfully!',
                 'data' => [
-                    'items' => LibPredefinedDataResource::collection($items),
+                    'items' => CustomDomainResource::collection($items),
                     'itemsCount' => $itemsCount
                 ],
                 'status' => 200
@@ -58,7 +58,7 @@ class LibPredefinedDataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $workspaceId, $linkInBioId)
+    public function store(Request $request, $workspaceId, $shortLinkId)
     {
 
         $userId = $request->user()->id;
@@ -66,44 +66,36 @@ class LibPredefinedDataController extends Controller
         // getting workspace
         $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
 
-        // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        // getting Short-link in workspace
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
 
-        if (!$linkInBio) {
+        if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
-                "item" => ['No link-in-bio found!']
+                "item" => ['No Short-link found!']
             ]);
         }
 
         $request->validate([
-            'type' => 'required|string',
-            'icon' => 'required|string',
-            'title' => 'required|string',
-            'preDefinedDataType' => 'nullable|string',
+            'domain' => 'required|string',
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
-            'background' => 'nullable|json',
             'extraAttributes' => 'nullable|json',
         ]);
 
         try {
-            $result = LibPredefinedData::create([
+            $result = CustomDomain::create([
                 'uniqueId' => uniqid(),
                 'userId' => $userId,
-                'linkInBioId' => $linkInBio->id,
-                'type' => $request->has('type') ? $request->type : null,
-                'icon' => $request->has('icon') ? $request->icon : null,
-                'title' => $request->has('title') ? $request->title : null,
+                'shortLinkId' => $ShortLink->id,
+                'domain' => $request->has('domain') ? $request->domain : null,
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
                 'isActive' => $request->has('isActive') ? $request->isActive : null,
-                'background' => $request->has('background') ? $request->background : null,
-                'preDefinedDataType' => $request->has('preDefinedDataType') ? $request->preDefinedDataType : null,
                 'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : null,
             ]);
 
             if ($result) {
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new LibPredefinedDataResource($result)
+                    'item' => new CustomDomainResource($result)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([]);
@@ -119,7 +111,7 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $workspaceId, $linkInBioId, $itemId)
+    public function show(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
         try {
             $userId = $request->user()->id;
@@ -127,20 +119,20 @@ class LibPredefinedDataController extends Controller
             // getting workspace
             $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
 
-            // getting link-in-bio in workspace
-            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            // getting Short-link in workspace
+            $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
 
-            if (!$linkInBio) {
+            if (!$ShortLink) {
                 return ZHelpers::sendBackInvalidParamsResponse([
-                    "item" => ['No link-in-bio found!']
+                    "item" => ['No Short-link found!']
                 ]);
             }
 
-            $item = LibPredefinedData::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $userId)->first();
+            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $userId)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new LibPredefinedDataResource($item)
+                    'item' => new CustomDomainResource($item)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -159,7 +151,7 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $workspaceId, $linkInBioId, $itemId)
+    public function update(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
 
         $userId = $request->user()->id;
@@ -167,44 +159,36 @@ class LibPredefinedDataController extends Controller
         // getting workspace
         $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
 
-        // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        // getting Short-link in workspace
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
 
-        if (!$linkInBio) {
+        if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
-                "item" => ['No link-in-bio found!']
+                "item" => ['No Short-link found!']
             ]);
         }
 
         $request->validate([
-            'type' => 'required|string',
-            'icon' => 'required|string',
-            'title' => 'required|string',
-            'preDefinedDataType' => 'nullable|string',
+            'domain' => 'required|string',
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
-            'background' => 'nullable|json',
             'extraAttributes' => 'nullable|json',
         ]);
 
         try {
-            $item = LibPredefinedData::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $userId)->first();
+            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $userId)->first();
 
             if ($item) {
                 $item->update([
-                    'type' => $request->has('type') ? $request->type : $item->type,
-                    'icon' => $request->has('icon') ? $request->icon : $item->icon,
-                    'title' => $request->has('title') ? $request->title : $item->title,
+                    'domain' => $request->has('domain') ? $request->domain : $item->domain,
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
                     'isActive' => $request->has('isActive') ? $request->isActive : null,
-                    'background' => $request->has('background') ? $request->background : null,
-                    'preDefinedDataType' => $request->has('preDefinedDataType') ? $request->preDefinedDataType : $request->preDefinedDataType,
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $request->extraAttributes,
                 ]);
 
-                $item = LibPredefinedData::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = CustomDomain::where('uniqueId', $itemId)->where('userId', $userId)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new LibPredefinedDataResource($item)
+                    'item' => new CustomDomainResource($item)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -222,24 +206,24 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $workspaceId, $linkInBioId, $itemId)
+    public function destroy(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
         $userId = $request->user()->id;
 
         // getting workspace
         $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
 
-        // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        // getting Short-link in workspace
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
 
-        if (!$linkInBio) {
+        if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
-                "item" => ['No link-in-bio found!']
+                "item" => ['No Short-link found!']
             ]);
         }
 
         try {
-            $item = LibPredefinedData::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $userId)->first();
+            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $userId)->first();
 
             if ($item) {
                 $item->forceDelete();
