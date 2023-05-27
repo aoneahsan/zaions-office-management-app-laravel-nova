@@ -26,6 +26,20 @@ return new class extends Migration
             $table->softDeletes();
             $table->timestamps();
         });
+
+        Schema::create('workspace_members', function (Blueprint $table) {
+            $table->id();
+            $table->string('uniqueId')->nullable();
+            $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('workspaceId');
+            $table->unsignedBigInteger('roleId');
+
+            $table->integer('sortOrderNo')->default(0)->nullable();
+            $table->boolean('isActive')->default(true);
+            $table->json('extraAttributes')->nullable();
+            $table->softDeletes();
+            $table->timestamps();
+        });
     }
 
     /**
@@ -34,5 +48,6 @@ return new class extends Migration
     public function down(): void
     {
         Schema::dropIfExists('work_spaces');
+        Schema::dropIfExists('workspace_members');
     }
 };
