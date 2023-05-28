@@ -5,6 +5,7 @@ use App\Http\Controllers\Zaions\StaticPageController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkSpaceController;
+use App\Http\Controllers\Zaions\WorkSpace\WorkspaceModalConnectionsController;
 use App\Http\Controllers\Zaions\ZLink\Analytics\PixelController;
 use App\Http\Controllers\Zaions\ZLink\Analytics\UtmTagController;
 use App\Http\Controllers\Zaions\ZLink\Common\ApiKeyController;
@@ -75,6 +76,13 @@ Route::middleware(['api'])->name('zlink.')->prefix('api/v1')->group(function () 
             Route::get('/user/workspaces/{itemId}', 'show');
             Route::put('/user/workspaces/{itemId}', 'update');
             Route::delete('/user/workspaces/{itemId}', 'destroy');
+        });
+
+        // Attach modal (pixel, UTM tag etc.) to workspace.
+        Route::controller(WorkspaceModalConnectionsController::class)->group(function () {
+            Route::get('/user/wmc/{workspaceId}/modal/{modalType}', 'viewAll');
+            Route::post('/user/wmc/{workspaceId}/modal/{modalType}/modalId/{modalId}', 'attach');
+            Route::delete('/user/wmc/{workspaceId}/modal/{modalType}/modalId/{modalId}', 'detach');
         });
 
         // ShortLink

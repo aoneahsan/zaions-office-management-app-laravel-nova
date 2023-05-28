@@ -2,6 +2,7 @@
 
 namespace App\Nova\ZLink\Analytics;
 
+use App\Nova\Default\WorkSpace;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
@@ -10,6 +11,7 @@ use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -49,7 +51,6 @@ class Pixel extends Resource
         return [
             ID::make()->sortable(),
 
-            // 
             Gravatar::make()->maxWidth(50),
 
             // Hidden fields
@@ -61,6 +62,16 @@ class Pixel extends Resource
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
+
+            MorphToMany::make('Workspace', 'workspaces', WorkSpace::class)->fields(function ($request, $relatedModel) {
+
+                return [
+                    Hidden::make('userId', 'userId')
+                        ->default(function (NovaRequest $request) {
+                            return $request->user()->getKey();
+                        }),
+                ];
+            }),
 
             // Normal fields
             Text::make('Unique Id', 'uniqueId')

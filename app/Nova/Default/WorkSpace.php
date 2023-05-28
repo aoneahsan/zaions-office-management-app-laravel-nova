@@ -3,13 +3,15 @@
 namespace App\Nova\Default;
 
 use App\Nova\Resource;
+use App\Nova\ZLink\Analytics\Pixel;
+use App\Nova\ZLink\Analytics\UtmTag;
 use App\Zaions\Helpers\ZHelpers;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Timezone;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -88,6 +90,26 @@ class WorkSpace extends Resource
 
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable'),
+
+            MorphToMany::make('Pixel', 'pixel', Pixel::class)->fields(function ($request, $relatedModel) {
+
+                return [
+                    Hidden::make('userId', 'userId')
+                        ->default(function (NovaRequest $request) {
+                            return $request->user()->getKey();
+                        }),
+                ];
+            }),
+
+            MorphToMany::make('UTM tags', 'UTMTag', UtmTag::class)->fields(function ($request, $relatedModel) {
+
+                return [
+                    Hidden::make('userId', 'userId')
+                        ->default(function (NovaRequest $request) {
+                            return $request->user()->getKey();
+                        }),
+                ];
+            }),
 
         ];
     }
