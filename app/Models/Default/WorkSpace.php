@@ -9,6 +9,7 @@ use App\Models\ZLink\ShortLinks\ShortLink;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
@@ -49,5 +50,11 @@ class WorkSpace extends Model
     public function UTMTag(): MorphToMany
     {
         return $this->morphedByMany(UtmTag::class, 'modal', 'workspace_modal_connections');
+    }
+
+    // Workspace can belong to many member added by the workspace owner.
+    public function members(): BelongsToMany
+    {
+        return $this->belongsToMany(User::class, 'workspace_members');
     }
 }
