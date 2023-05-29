@@ -22,6 +22,14 @@ class RolePermissionsSeeder extends Seeder
         $adminRole = Role::create(['name' => RolesEnum::admin->name]);
         $userRole = Role::create(['name' => RolesEnum::user->name]);
 
+        // workspace member roles
+        $wsContributor = Role::create(['name' => RolesEnum::ws_contributor->name]);
+        $wsAdministrator = Role::create(['name' => RolesEnum::ws_administrator->name]);
+        $wsWriter = Role::create(['name' => RolesEnum::ws_writer->name]);
+        $wsApprover = Role::create(['name' => RolesEnum::ws_approver->name]);
+        $wsGuest = Role::create(['name' => RolesEnum::ws_guest->name]);
+
+
         // All App Permissions
         // Dashboard Permissions
         $viewDashboardPermission = Permission::create(['name' => PermissionsEnum::view_dashboard->name]);

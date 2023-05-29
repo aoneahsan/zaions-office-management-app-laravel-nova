@@ -218,4 +218,35 @@ class UserController extends Controller
             return ZHelpers::sendBackServerErrorResponse($th);
         }
     }
+
+    public function getUserPermissions(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            $result = $user->roles()->first();
+
+            if ($result) {
+                return ZHelpers::sendBackRequestCompletedResponse([
+                    'item' => [
+                        'is_success' => true,
+                        'result' => [
+                            'role' => $result->name,
+                            'permissions' =>  $result->permissions()->pluck('name')
+                        ],
+                    ]
+                ]);
+            } else {
+                return ZHelpers::sendBackRequestFailedResponse([
+                    'item' => [
+                        'is_success' => false,
+                        'result' => $result
+                    ]
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
+    }
 }

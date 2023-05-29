@@ -11,7 +11,7 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('workspace_members', function (Blueprint $table) {
+        Schema::create('workspace_members_old', function (Blueprint $table) {
             $table->primary(['user_id', 'work_space_id']);
 
             $table->unsignedBigInteger('user_id');

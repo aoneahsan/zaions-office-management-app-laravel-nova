@@ -5,6 +5,7 @@ use App\Http\Controllers\Zaions\StaticPageController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkSpaceController;
+use App\Http\Controllers\Zaions\Workspace\WorkspaceMemberController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkspaceModalConnectionsController;
 use App\Http\Controllers\Zaions\ZLink\Analytics\PixelController;
 use App\Http\Controllers\Zaions\ZLink\Analytics\UtmTagController;
@@ -35,7 +36,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::middleware(['api'])->name('zlink.')->prefix('api/v1')->group(function () {
+Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function () {
     // Test Routes
     Route::controller(TestController::class)->group(function () {
         Route::get('/notify-user', 'notifyUser');
@@ -62,6 +63,7 @@ Route::middleware(['api'])->name('zlink.')->prefix('api/v1')->group(function () 
         Route::controller(UserController::class)->group(function () {
             Route::get('/list-users', 'listUsers');
             Route::get('/user', 'index');
+            Route::get('/user/role/permissions', 'getUserPermissions');
             Route::post('/user', 'updateAccountInfo');
             Route::post('/user/username/check', 'checkIfUsernameIsAvailable');
             Route::post('/user/username/update', 'updateUsername');
@@ -83,6 +85,18 @@ Route::middleware(['api'])->name('zlink.')->prefix('api/v1')->group(function () 
             Route::get('/user/wmc/{workspaceId}/modal/{modalType}', 'viewAll');
             Route::post('/user/wmc/{workspaceId}/modal/{modalType}/modalId/{modalId}', 'attach');
             Route::delete('/user/wmc/{workspaceId}/modal/{modalType}/modalId/{modalId}', 'detach');
+        });
+
+        // Workspace member
+        Route::controller(WorkspaceMemberController::class)->group(function () {
+            Route::post('/user/workspace/{workspaceId}/add-member', 'attachMember');
+            Route::delete('/user/workspace/{workspaceId}/remove-member/{memberId}', 'detachMember');
+            Route::get('/user/workspace/{workspaceId}/members', 'viewWorkspaceMembers');
+            Route::get(
+                '/user/workspace/user-collaborated',
+                'collaboratedWorkspaces'
+            );
+            Route::get('/user/workspace/{workspaceId}/user-collaborated-role', 'collaboratedWorkspaceRole');
         });
 
         // ShortLink

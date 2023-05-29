@@ -6,6 +6,7 @@ use App\Nova\Resource;
 use App\Nova\ZLink\Analytics\Pixel;
 use App\Nova\ZLink\Analytics\UtmTag;
 use App\Zaions\Helpers\ZHelpers;
+use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Hidden;
@@ -110,6 +111,8 @@ class WorkSpace extends Resource
                         }),
                 ];
             }),
+
+            BelongsToMany::make('Members', 'members', User::class),
 
         ];
     }

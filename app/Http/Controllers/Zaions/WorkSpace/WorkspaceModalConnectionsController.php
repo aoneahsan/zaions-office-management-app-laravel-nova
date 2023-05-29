@@ -62,7 +62,7 @@ class WorkspaceModalConnectionsController extends Controller
         }
     }
 
-    public function attach(Request $request, $workspaceId, $modalType, $modalId)
+    public function detach(Request $request, $workspaceId, $modalType, $modalId)
     {
         $userId = $request->user()->id;
 
@@ -128,7 +128,8 @@ class WorkspaceModalConnectionsController extends Controller
         }
     }
 
-    public function detach(Request $request, $workspaceId, $modalType, $modalId)
+
+    public function attach(Request $request, $workspaceId, $modalType, $modalId)
     {
         $userId = $request->user()->id;
 
