@@ -204,6 +204,20 @@ class RolePermissionsSeeder extends Seeder
         $replicateEmbededWidgetPermission = Permission::create(['name' => PermissionsEnum::replicate_embededWidget->name]);
         $restoreEmbededWidgetPermission = Permission::create(['name' => PermissionsEnum::restore_embededWidget->name]);
         $forceDeleteEmbededWidgetPermission = Permission::create(['name' => PermissionsEnum::forceDelete_embededWidget->name]);
+        // Workspace pixel connections
+        $attachPixelToWorkspacePermission = Permission::create(['name' => PermissionsEnum::attach_pixel_to_workspace->name]);
+        $detachPixelFromWorkspacePermission = Permission::create(['name' => PermissionsEnum::detach_pixel_from_workspace->name]);
+        $updateWorkspacePixelPermission = Permission::create(['name' => PermissionsEnum::update_workspace_pixel->name]);
+        // Workspace utm tags connections
+        $attachUtmTagToWorkspacePermission = Permission::create(['name' => PermissionsEnum::attach_utm_tag_to_workspace->name]);
+        $detachUtmTagFromWorkspacePermission = Permission::create(['name' => PermissionsEnum::detach_utm_tag_from_workspace->name]);
+        $updateWorkspaceUtmTagPermission = Permission::create(['name' => PermissionsEnum::update_workspace_utm_tag->name]);
+
+        // Workspace Members
+        $attachWorkspaceMemberPermission = Permission::create(['name' => PermissionsEnum::attach_workspace_members->name]);
+        $detachWorkspaceMemberPermission = Permission::create(['name' => PermissionsEnum::detach_workspace_members->name]);
+        $updateWorkspaceMemberPermission = Permission::create(['name' => PermissionsEnum::update_workspace_members->name]);
+
         // Impersonation Permissions
         $canImpersonatePermission = Permission::create(['name' => PermissionsEnum::can_impersonate->name]);
         $canBeImpersonatePermission = Permission::create(['name' => PermissionsEnum::canBe_impersonate->name]);
@@ -382,6 +396,18 @@ class RolePermissionsSeeder extends Seeder
             $replicateEmbededWidgetPermission,
             $restoreEmbededWidgetPermission,
             $forceDeleteEmbededWidgetPermission,
+            // Workspace pixel connections
+            $attachPixelToWorkspacePermission,
+            $detachPixelFromWorkspacePermission,
+            $updateWorkspacePixelPermission,
+            // Workspace utm tag connections
+            $attachUtmTagToWorkspacePermission,
+            $detachUtmTagFromWorkspacePermission,
+            $updateWorkspaceUtmTagPermission,
+            // Workspace member
+            $attachWorkspaceMemberPermission,
+            $detachWorkspaceMemberPermission,
+            $updateWorkspaceMemberPermission,
 
             // Impersonation
             $canImpersonatePermission,
