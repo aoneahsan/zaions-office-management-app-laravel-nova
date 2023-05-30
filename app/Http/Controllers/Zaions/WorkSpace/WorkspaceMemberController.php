@@ -8,8 +8,12 @@ use App\Http\Resources\Zaions\WorkSpace\WorkSpaceResource;
 use App\Models\Default\WorkSpace;
 use App\Models\Default\WorkspaceMember;
 use App\Models\Default\workspaceMembers;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Spatie\Permission\Models\Role;
 
 class WorkspaceMemberController extends Controller
@@ -18,9 +22,11 @@ class WorkspaceMemberController extends Controller
     public function viewWorkspaceMembers(Request $request, $workspaceId)
     {
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
 
-            $workspace = WorkSpace::where('userId', $userId)->where('uniqueId', $workspaceId)->first();
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_workspace_members->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+            $workspace = WorkSpace::where('userId', $currentUser->id)->where('uniqueId', $workspaceId)->first();
 
             if ($workspace) {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -41,9 +47,11 @@ class WorkspaceMemberController extends Controller
     public function collaboratedWorkspaces(Request $request)
     {
         try {
-            $user = $request->user();
+            $currentUser = $request->user();
 
-            $result = $user->asMember()->get();
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_workspace_members->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+            $result = $currentUser->asMember()->get();
 
             if ($result) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -62,9 +70,11 @@ class WorkspaceMemberController extends Controller
     public function collaboratedWorkspaceRole(Request $request, $workspaceId)
     {
         try {
-            $user = $request->user();
+            $currentUser = $request->user();
 
-            $workspace = WorkSpace::where('userId', $user->id)->where('uniqueId', $workspaceId)->first();
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_workspace_members->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+            $workspace = WorkSpace::where('userId', $currentUser->id)->where('uniqueId', $workspaceId)->first();
 
             if (!$workspace) {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -78,7 +88,7 @@ class WorkspaceMemberController extends Controller
 
             // $result = $workspace->members()->where('user_id', $userId)->get();
             // $result = $user->asMember()->where('work_space_id', $workspace->id)->first();
-            $result = workspaceMembers::where('user_id', $user->id)->get();
+            $result = workspaceMembers::where('user_id', $currentUser->id)->get();
 
             if ($result) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -103,9 +113,11 @@ class WorkspaceMemberController extends Controller
     public function attachMember(Request $request, $workspaceId)
     {
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
 
-            $workspace = WorkSpace::where('userId', $userId)->where('uniqueId', $workspaceId)->first();
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::attach_workspace_members->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+            $workspace = WorkSpace::where('userId', $currentUser->id)->where('uniqueId', $workspaceId)->first();
 
             if (!$workspace) {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -120,7 +132,7 @@ class WorkspaceMemberController extends Controller
 
             $result =
                 $workspace->members()->attach(
-                    $userId,
+                    $currentUser->id,
                     [
                         'roleId' => $request->has('roleId') ? $request->roleId : null,
                         'user_id' => $request->has('userId') ? $request->userId : null
@@ -150,9 +162,11 @@ class WorkspaceMemberController extends Controller
     public function detachMember(Request $request, $workspaceId, $memberId)
     {
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
 
-            $workspace = WorkSpace::where('userId', $userId)->where('uniqueId', $workspaceId)->first();
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::detach_workspace_members->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+            $workspace = WorkSpace::where('userId', $currentUser->id)->where('uniqueId', $workspaceId)->first();
 
             if (!$workspace) {
                 return ZHelpers::sendBackRequestFailedResponse([

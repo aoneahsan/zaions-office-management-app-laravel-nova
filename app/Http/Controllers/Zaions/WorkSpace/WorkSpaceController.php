@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Zaions\WorkSpace;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\WorkSpace\WorkSpaceResource;
 use App\Models\Default\WorkSpace;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class WorkSpaceController extends Controller
 {
@@ -17,10 +21,13 @@ class WorkSpaceController extends Controller
      */
     public function index(Request $request)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $itemsCount = WorkSpace::where('userId', $userId)->count();
-            $items = WorkSpace::where('userId', $userId)->get();
+            $itemsCount = WorkSpace::where('userId', $currentUser->id)->count();
+            $items = WorkSpace::where('userId', $currentUser->id)->get();
 
             return response()->json([
                 'success' => true,
@@ -55,7 +62,9 @@ class WorkSpaceController extends Controller
             'extraAttributes' => 'nullable|json',
         ]);
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         $workspaceData = $request->has('workspaceData') ? (is_string($request->workspaceData) ? json_decode($request->workspaceData) : $request->workspaceData) : null;
         $extraAttributes = $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : null;
@@ -63,7 +72,7 @@ class WorkSpaceController extends Controller
             $result = WorkSpace::create([
                 'uniqueId' => uniqid(),
 
-                'userId' => $userId,
+                'userId' => $currentUser->id,
                 'title' => $request->has('title') ? $request->title : null,
                 'timezone' => $request->has('timezone') ? $request->timezone : null,
                 'workspaceData' => $workspaceData,
@@ -93,9 +102,12 @@ class WorkSpaceController extends Controller
      */
     public function show(Request $request, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -131,11 +143,15 @@ class WorkSpaceController extends Controller
             'extraAttributes' => 'nullable|json',
         ]);
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
         $workspaceData = $request->has('workspaceData') ? (is_string($request->workspaceData) ? json_decode($request->workspaceData) : $request->workspaceData) : $request->workspaceData;
         $extraAttributes = $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : $request->extraAttributes;
         try {
-            $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -149,7 +165,7 @@ class WorkSpaceController extends Controller
                     'extraAttributes' => $extraAttributes,
                 ]);
 
-                $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new WorkSpaceResource($item)
                 ]);
@@ -171,9 +187,13 @@ class WorkSpaceController extends Controller
      */
     public function destroy(Request $request, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
         try {
-            $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();

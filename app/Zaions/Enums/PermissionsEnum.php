@@ -102,6 +102,21 @@ enum PermissionsEnum: string
   case restore_workspace = 'restore_workspace';
   case forceDelete_workspace = 'forceDelete_workspace';
 
+    // Workspace Members
+  case attach_workspace_members = 'attach_workspace_members';
+  case detach_workspace_members = 'view_workspace_members';
+  case update_workspace_members = 'create_workspace_members';
+
+    // Workspace pixel connections
+  case attach_pixel_to_workspace = 'attach_pixel_to_workspace';
+  case detach_pixel_from_workspace = 'detach_pixel_from_workspace';
+  case update_workspace_pixel = 'update_workspace_pixel';
+
+    // Workspace utm tags connections
+  case attach_utm_tag_to_workspace = 'attach_utm_tag_to_workspace';
+  case detach_utm_tag_from_workspace = 'detach_utm_tag_from_workspace';
+  case update_workspace_utm_tag = 'update_workspace_utm_tag';
+
     // Pixel
   case viewAny_pixel = 'viewAny_pixel';
   case view_pixel = 'view_pixel';

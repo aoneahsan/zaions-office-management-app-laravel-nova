@@ -7,8 +7,12 @@ use App\Http\Resources\Zaions\ZLink\LinkInBios\LibBlockResource;
 use App\Models\Default\WorkSpace;
 use App\Models\ZLink\LinkInBios\LibBlock;
 use App\Models\ZLink\LinkInBios\LinkInBio;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LibBlockController extends Controller
 {
@@ -20,13 +24,15 @@ class LibBlockController extends Controller
     public function index(Request $request, $workspaceId, $linkInBioId)
     {
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
+
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_libBlock->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
             // getting workspace
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
             // getting link-in-bio in workspace
-            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
             if (!$linkInBio) {
                 return ZHelpers::sendBackInvalidParamsResponse([
@@ -34,8 +40,8 @@ class LibBlockController extends Controller
                 ]);
             }
 
-            $itemsCount = LibBlock::where('linkInBioId', $linkInBio->id)->where('userId', $userId)->count();
-            $items = LibBlock::where('linkInBioId', $linkInBio->id)->where('userId', $userId)->orderBy('sortOrderNo', 'asc')->get();
+            $itemsCount = LibBlock::where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->count();
+            $items = LibBlock::where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->orderBy('sortOrderNo', 'asc')->get();
 
             return response()->json([
                 'success' => true,
@@ -60,13 +66,15 @@ class LibBlockController extends Controller
      */
     public function store(Request $request, $workspaceId, $linkInBioId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_libBlock->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$linkInBio) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -152,13 +160,15 @@ class LibBlockController extends Controller
      */
     public function show(Request $request, $workspaceId, $linkInBioId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_libBlock->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$linkInBio) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -166,7 +176,7 @@ class LibBlockController extends Controller
             ]);
         }
         try {
-            $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $userId)->first();
+            $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -192,13 +202,15 @@ class LibBlockController extends Controller
      */
     public function update(Request $request, $workspaceId, $linkInBioId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_libBlock->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$linkInBio) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -214,7 +226,7 @@ class LibBlockController extends Controller
         ]);
 
         try {
-            $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $userId)->first();
+            $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -227,7 +239,7 @@ class LibBlockController extends Controller
 
                 ]);
 
-                $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $userId)->first();
+                $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new LibBlockResource($item)
                 ]);
@@ -252,13 +264,15 @@ class LibBlockController extends Controller
 
 
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
+
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_libBlock->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
             // getting workspace
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
             // getting link-in-bio in workspace
-            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
             if (!$linkInBio) {
                 return ZHelpers::sendBackInvalidParamsResponse([
@@ -266,7 +280,7 @@ class LibBlockController extends Controller
                 ]);
             }
 
-            $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $userId)->first();
+            $item = LibBlock::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();

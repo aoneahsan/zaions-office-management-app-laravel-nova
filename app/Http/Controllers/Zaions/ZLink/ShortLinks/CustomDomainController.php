@@ -7,8 +7,12 @@ use App\Http\Resources\Zaions\ZLink\ShortLinks\CustomDomainResource;
 use App\Models\Default\WorkSpace;
 use App\Models\ZLink\ShortLinks\CustomDomain;
 use App\Models\ZLink\ShortLinks\ShortLink;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class CustomDomainController extends Controller
 {
@@ -20,12 +24,15 @@ class CustomDomainController extends Controller
     public function index(Request $request, $workspaceId, $shortLinkId)
     {
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
+
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_customDomain->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
             // getting workspace
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
             // getting Short-link in workspace
-            $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
             if (!$ShortLink) {
                 return ZHelpers::sendBackInvalidParamsResponse([
@@ -33,8 +40,8 @@ class CustomDomainController extends Controller
                 ]);
             }
 
-            $itemsCount = CustomDomain::where('shortLinkId', $ShortLink->id)->where('userId', $userId)->count();
-            $items = CustomDomain::where('shortLinkId', $ShortLink->id)->where('userId', $userId)->get();
+            $itemsCount = CustomDomain::where('shortLinkId', $ShortLink->id)->where('userId', $currentUser->id)->count();
+            $items = CustomDomain::where('shortLinkId', $ShortLink->id)->where('userId', $currentUser->id)->get();
 
             return response()->json([
                 'success' => true,
@@ -61,13 +68,15 @@ class CustomDomainController extends Controller
     public function store(Request $request, $workspaceId, $shortLinkId)
     {
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_customDomain->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -85,7 +94,7 @@ class CustomDomainController extends Controller
         try {
             $result = CustomDomain::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
                 'shortLinkId' => $ShortLink->id,
                 'domain' => $request->has('domain') ? $request->domain : null,
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
@@ -114,13 +123,15 @@ class CustomDomainController extends Controller
     public function show(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
+
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_customDomain->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
             // getting workspace
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
             // getting Short-link in workspace
-            $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
             if (!$ShortLink) {
                 return ZHelpers::sendBackInvalidParamsResponse([
@@ -128,7 +139,7 @@ class CustomDomainController extends Controller
                 ]);
             }
 
-            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $userId)->first();
+            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -154,13 +165,15 @@ class CustomDomainController extends Controller
     public function update(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_linkInBio->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -176,7 +189,7 @@ class CustomDomainController extends Controller
         ]);
 
         try {
-            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $userId)->first();
+            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -186,7 +199,7 @@ class CustomDomainController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $request->extraAttributes,
                 ]);
 
-                $item = CustomDomain::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = CustomDomain::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new CustomDomainResource($item)
                 ]);
@@ -208,13 +221,15 @@ class CustomDomainController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_linkInBio->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -223,7 +238,7 @@ class CustomDomainController extends Controller
         }
 
         try {
-            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $userId)->first();
+            $item = CustomDomain::where('uniqueId', $itemId)->where('shortLinkId', $ShortLink->id)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();

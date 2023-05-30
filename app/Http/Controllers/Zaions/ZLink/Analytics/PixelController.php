@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Zaions\ZLink\Analytics;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\Analytics\PixelResource;
 use App\Models\ZLink\Analytics\Pixel;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class PixelController extends Controller
 {
@@ -17,7 +21,12 @@ class PixelController extends Controller
      */
     public function index(Request $request, $workspaceId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        // check for access
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_pixel->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $userId = $currentUser->id;
         try {
             $itemsCount = Pixel::where('userId', $userId)->count();
             $items = Pixel::where('userId', $userId)->get();
@@ -53,7 +62,12 @@ class PixelController extends Controller
             'isActive' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
-        $userId = $request->user()->id;
+
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_pixel->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $userId = $currentUser->id;
         try {
             $result = Pixel::create([
                 'uniqueId' => uniqid(),
@@ -87,9 +101,14 @@ class PixelController extends Controller
      */
     public function show(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_pixel->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
         try {
-            $item = Pixel::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Pixel::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -123,9 +142,12 @@ class PixelController extends Controller
             'extraAttributes' => 'nullable|json',
         ]);
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_pixel->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = Pixel::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Pixel::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -138,7 +160,7 @@ class PixelController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $request->extraAttributes,
                 ]);
 
-                $item = Pixel::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = Pixel::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new PixelResource($item)
                 ]);
@@ -160,9 +182,12 @@ class PixelController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_pixel->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = Pixel::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Pixel::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();

@@ -125,7 +125,7 @@ class WorkSpace extends Resource
             //     ->options($roles)
             //     ->displayUsingLabels()
             //     ->searchable(),
-            BelongsToMany::make('Members', 'members', User::class)->fields(function ($request, $relatedModel) {
+            BelongsToMany::make('Members', 'members', User::class)->searchable()->fields(function ($request, $relatedModel) {
 
                 $wsRoles = [
                     RolesEnum::ws_administrator->name => RolesEnum::ws_administrator->name,
@@ -135,8 +135,12 @@ class WorkSpace extends Resource
                 ];
 
                 $roles = Role::whereIn('name', $wsRoles)->pluck('name', 'id');
-
-                return [];
+                return [
+                    Select::make('role id', 'roleId')
+                        ->options($roles)
+                        ->displayUsingLabels()
+                        ->searchable()->rules('require'),
+                ];
             }),
 
         ];

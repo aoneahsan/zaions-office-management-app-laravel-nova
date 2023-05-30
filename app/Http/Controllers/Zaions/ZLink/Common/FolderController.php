@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Zaions\ZLink\Common;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\Common\FolderResource;
 use App\Models\ZLink\Common\Folder;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class FolderController extends Controller
@@ -18,10 +22,13 @@ class FolderController extends Controller
      */
     public function index(Request $request, $workspaceId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $itemsCount = Folder::where('userId', $userId)->count();
-            $items = Folder::where('userId', $userId)->orderBy('sortOrderNo', 'asc')->get();
+            $itemsCount = Folder::where('userId', $currentUser->id)->count();
+            $items = Folder::where('userId', $currentUser->id)->orderBy('sortOrderNo', 'asc')->get();
 
             return response()->json([
                 'success' => true,
@@ -59,11 +66,14 @@ class FolderController extends Controller
             'isActive' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
             $result = Folder::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
                 'title' => $request->has('title') ? $request->title : null,
                 'icon' => $request->has('icon') ? $request->icon : null,
                 'isStared' => $request->has('isStared') ? $request->isStared : false,
@@ -97,9 +107,12 @@ class FolderController extends Controller
      */
     public function show(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -138,9 +151,12 @@ class FolderController extends Controller
             'extraAttributes' => 'nullable|json',
         ]);
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -157,7 +173,7 @@ class FolderController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $item->extraAttributes,
                 ]);
 
-                $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new FolderResource($item)
                 ]);
@@ -179,9 +195,12 @@ class FolderController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();
@@ -221,6 +240,11 @@ class FolderController extends Controller
 
     public function updateSortOrderNo(Request $request, $workspaceId)
     {
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
         $request->validate([
             'folders' => 'required' // array of all folders ids ()  {id: string}[]
         ]);

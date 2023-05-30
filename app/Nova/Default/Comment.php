@@ -5,7 +5,6 @@ namespace App\Nova\Default;
 use App\Models\Default\Comment as ModelsComment;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
@@ -14,7 +13,6 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class Comment extends Resource
@@ -60,7 +58,7 @@ class Comment extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('user')
+            BelongsTo::make('User', 'user', User::class)
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 })
@@ -99,7 +97,7 @@ class Comment extends Resource
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
 
-            MorphMany::make('Attachments'),
+            MorphMany::make('Attachments', 'attachments', Attachment::class),
         ];
     }
 

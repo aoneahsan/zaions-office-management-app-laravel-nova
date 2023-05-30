@@ -7,24 +7,34 @@ use App\Models\Default\WorkSpace;
 use App\Models\ZLink\Analytics\Pixel;
 use App\Models\ZLink\Analytics\UtmTag;
 use App\Zaions\Enums\ModalsEnum;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class WorkspaceModalConnectionsController extends Controller
 {
     //
     public function viewAll(Request $request, $workspaceId, $modalType)
     {
-        $userId = $request->user()->id;
 
         if (!$modalType) {
             return ZHelpers::sendBackRequestFailedResponse([
                 'item' => ['Modal type is incorrect!']
             ]);
         }
+        $currentUser = $request->user();
+
+        if ($modalType === ModalsEnum::pixel->name) {
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_workspace_pixel->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        } elseif ($modalType === ModalsEnum::UTMTag->name) {
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_workspace_utm_tag->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        }
 
         try {
-            $workspace = WorkSpace::where('userId', $userId)->where('uniqueId', $workspaceId)->first();
+            $workspace = WorkSpace::where('userId', $currentUser->id)->where('uniqueId', $workspaceId)->first();
             switch ($modalType) {
                 case ModalsEnum::pixel->name:
                     $pixels = $workspace->pixel;
@@ -64,22 +74,28 @@ class WorkspaceModalConnectionsController extends Controller
 
     public function detach(Request $request, $workspaceId, $modalType, $modalId)
     {
-        $userId = $request->user()->id;
-
         if (!$modalId || !$modalType) {
             return ZHelpers::sendBackRequestFailedResponse([
                 'item' => ['Modal information is incorrect!']
             ]);
         }
 
+        $currentUser = $request->user();
+
+        if ($modalType === ModalsEnum::pixel->name) {
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::attach_pixel_to_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        } elseif ($modalType === ModalsEnum::UTMTag->name) {
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::attach_utm_tag_to_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        }
+
         try {
-            $workspace = WorkSpace::where('userId', $userId)->where('uniqueId', $workspaceId)->first();
+            $workspace = WorkSpace::where('userId', $currentUser->id)->where('uniqueId', $workspaceId)->first();
             switch ($modalType) {
                 case ModalsEnum::pixel->name:
                     $pixel = Pixel::where('id', $modalId)->first();
 
                     if ($pixel) {
-                        $pixels = $workspace->pixel()->detach($modalId, ['userId' => $userId]);
+                        $pixels = $workspace->pixel()->detach($modalId, ['userId' => $currentUser->id]);
 
                         return response()->json([
                             'success' => true,
@@ -100,7 +116,7 @@ class WorkspaceModalConnectionsController extends Controller
                     $UTMTag = UtmTag::where('id', $modalId)->first();
 
                     if ($UTMTag) {
-                        $UTMTag = $workspace->UTMTag()->detach($modalId, ['userId' => $userId]);
+                        $UTMTag = $workspace->UTMTag()->detach($modalId, ['userId' => $currentUser->id]);
 
                         return response()->json([
                             'success' => true,
@@ -131,22 +147,28 @@ class WorkspaceModalConnectionsController extends Controller
 
     public function attach(Request $request, $workspaceId, $modalType, $modalId)
     {
-        $userId = $request->user()->id;
-
         if (!$modalId || !$modalType) {
             return ZHelpers::sendBackRequestFailedResponse([
                 'item' => ['Modal information is incorrect!']
             ]);
         }
 
+        $currentUser = $request->user();
+
+        if ($modalType === ModalsEnum::pixel->name) {
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::detach_pixel_from_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        } elseif ($modalType === ModalsEnum::UTMTag->name) {
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::detach_utm_tag_from_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        }
+
         try {
-            $workspace = WorkSpace::where('userId', $userId)->where('uniqueId', $workspaceId)->first();
+            $workspace = WorkSpace::where('userId', $currentUser->id)->where('uniqueId', $workspaceId)->first();
             switch ($modalType) {
                 case ModalsEnum::pixel->name:
                     $pixel = Pixel::where('id', $modalId)->first();
 
                     if ($pixel) {
-                        $pixels = $workspace->pixel()->attach($modalId, ['userId' => $userId]);
+                        $pixels = $workspace->pixel()->attach($modalId, ['userId' => $currentUser->id]);
 
                         return response()->json([
                             'success' => true,
@@ -167,7 +189,7 @@ class WorkspaceModalConnectionsController extends Controller
                     $UTMTag = UtmTag::where('id', $modalId)->first();
 
                     if ($UTMTag) {
-                        $UTMTag = $workspace->UTMTag()->attach($modalId, ['userId' => $userId]);
+                        $UTMTag = $workspace->UTMTag()->attach($modalId, ['userId' => $currentUser->id]);
 
                         return response()->json([
                             'success' => true,

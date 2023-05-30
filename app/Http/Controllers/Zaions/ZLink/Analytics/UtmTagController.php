@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Zaions\ZLink\Analytics;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\Analytics\UtmTagResource;
 use App\Models\ZLink\Analytics\UtmTag;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class UtmTagController extends Controller
 {
@@ -17,10 +21,12 @@ class UtmTagController extends Controller
      */
     public function index(Request $request, $workspaceId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_utmTag->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
         try {
-            $itemsCount = UtmTag::where('userId', $userId)->count();
-            $items = UtmTag::where('userId', $userId)->get();
+            $itemsCount = UtmTag::where('userId', $currentUser->id)->count();
+            $items = UtmTag::where('userId', $currentUser->id)->get();
 
             return response()->json([
                 'success' => true,
@@ -57,11 +63,14 @@ class UtmTagController extends Controller
             'isActive' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_utmTag->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
             $result = UtmTag::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
 
                 'templateName' => $request->has('templateName') ? $request->templateName : null,
                 'utmCampaign' => $request->has('utmCampaign') ? $request->utmCampaign : null,
@@ -97,9 +106,11 @@ class UtmTagController extends Controller
      */
     public function show(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_utmTag->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
         try {
-            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -137,9 +148,11 @@ class UtmTagController extends Controller
             'extraAttributes' => 'nullable|json',
         ]);
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_utmTag->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
         try {
-            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -155,7 +168,7 @@ class UtmTagController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $item->extraAttributes,
                 ]);
 
-                $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = UtmTag::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new UtmTagResource($item)
                 ]);
@@ -177,9 +190,11 @@ class UtmTagController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_utmTag->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
         try {
-            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = UtmTag::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();

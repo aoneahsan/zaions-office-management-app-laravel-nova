@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\LinkInBios\LinkInBioResource;
 use App\Models\Default\WorkSpace;
 use App\Models\ZLink\LinkInBios\LinkInBio;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class LinkInBioController extends Controller
 {
@@ -19,9 +23,11 @@ class LinkInBioController extends Controller
     public function index(Request $request, $workspaceId)
     {
         try {
-            $userId = $request->user()->id;
+            $currentUser = $request->user();
 
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_linkInBio->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
             if (!$workspace) {
                 return ZHelpers::sendBackInvalidParamsResponse([
@@ -29,10 +35,10 @@ class LinkInBioController extends Controller
                 ]);
             }
 
-            $itemsCount = LinkInBio::where('userId', $userId)->where('workspaceId', $workspace->id)->count();
+            $itemsCount = LinkInBio::where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->count();
             // $items = LinkInBio::where('userId', $userId)->where('workspaceId', $workspace->id)->with('blocks')->get();
 
-            $items = LinkInBio::where('userId', $userId)->where('workspaceId', $workspace->id)->get();
+            $items = LinkInBio::where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->get();
 
             // return response()->json(['$items' => $items]);
 
@@ -59,9 +65,11 @@ class LinkInBioController extends Controller
      */
     public function store(Request $request, $workspaceId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
 
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_linkInBio->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -96,7 +104,7 @@ class LinkInBioController extends Controller
         try {
             $result = LinkInBio::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
                 'workspaceId' => $workspace->id,
 
                 'linkInBioTitle' => $request->has('linkInBioTitle') ? $request->linkInBioTitle : null,
@@ -142,8 +150,11 @@ class LinkInBioController extends Controller
      */
     public function show(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_linkInBio->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -152,7 +163,7 @@ class LinkInBioController extends Controller
         }
 
         try {
-            $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -178,9 +189,11 @@ class LinkInBioController extends Controller
      */
     public function update(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
 
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_linkInBio->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -214,7 +227,7 @@ class LinkInBioController extends Controller
         ]);
 
         try {
-            $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -241,7 +254,7 @@ class LinkInBioController extends Controller
                     'isActive' => $request->has('isActive') ? $request->isActive : $request->isActive,
                 ]);
 
-                $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new LinkInBioResource($item)
                 ]);
@@ -263,9 +276,11 @@ class LinkInBioController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
 
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_linkInBio->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -274,7 +289,7 @@ class LinkInBioController extends Controller
         }
 
         try {
-            $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            $item = LinkInBio::where('uniqueId', $itemId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
             if ($item) {
                 $item->forceDelete();

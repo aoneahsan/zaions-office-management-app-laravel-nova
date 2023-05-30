@@ -6,8 +6,12 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\ShortLinks\ShortLinkResource;
 use App\Models\Default\WorkSpace;
 use App\Models\ZLink\ShortLinks\ShortLink;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ShortLinkController extends Controller
 {
@@ -19,8 +23,12 @@ class ShortLinkController extends Controller
     public function index(Request $request, $workspaceId)
     {
         try {
-            $userId = $request->user()->id;
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+            $currentUser = $request->user();
+
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_shortLink->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
+            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
             if (!$workspace) {
                 return ZHelpers::sendBackInvalidParamsResponse([
@@ -28,8 +36,8 @@ class ShortLinkController extends Controller
                 ]);
             }
 
-            $itemsCount = ShortLink::where('userId', $userId)->where('workspaceId', $workspace->id)->count();
-            $items = ShortLink::where('userId', $userId)->where('workspaceId', $workspace->id)->get();
+            $itemsCount = ShortLink::where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->count();
+            $items = ShortLink::where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->get();
 
             return response()->json([
                 'success' => true,
@@ -54,9 +62,11 @@ class ShortLinkController extends Controller
      */
     public function store(Request $request, $workspaceId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
 
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_shortLink->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -90,7 +100,7 @@ class ShortLinkController extends Controller
         try {
             $result = ShortLink::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
                 'workspaceId' => $workspace->id,
 
                 'type' => $request->has('type') ? $request->type : null,
@@ -136,8 +146,11 @@ class ShortLinkController extends Controller
      */
     public function show(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_shortLink->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -146,7 +159,7 @@ class ShortLinkController extends Controller
         }
 
         try {
-            $item = ShortLink::where('uniqueId', $itemId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            $item = ShortLink::where('uniqueId', $itemId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -171,9 +184,11 @@ class ShortLinkController extends Controller
      */
     public function update(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
 
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_shortLink->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -206,7 +221,7 @@ class ShortLinkController extends Controller
         ]);
 
         try {
-            $item = ShortLink::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = ShortLink::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -234,7 +249,7 @@ class ShortLinkController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? ZHelpers::zJsonDecode($request->extraAttributes) : $request->extraAttributes,
                 ]);
 
-                $item = ShortLink::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = ShortLink::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new ShortLinkResource($item)
                 ]);
@@ -256,8 +271,11 @@ class ShortLinkController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_shortLink->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         if (!$workspace) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -265,7 +283,7 @@ class ShortLinkController extends Controller
             ]);
         }
         try {
-            $item = ShortLink::where('uniqueId', $itemId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+            $item = ShortLink::where('uniqueId', $itemId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
             if ($item) {
                 $item->forceDelete();
