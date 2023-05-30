@@ -229,7 +229,7 @@ class UserController extends Controller
             if ($result) {
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => [
-                        'is_success' => true,
+                        'isSuccess' => true,
                         'result' => [
                             'role' => $result->name,
                             'permissions' =>  $result->permissions()->pluck('name')
@@ -239,7 +239,7 @@ class UserController extends Controller
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
                     'item' => [
-                        'is_success' => false,
+                        'isSuccess' => false,
                         'result' => $result
                     ]
                 ]);
