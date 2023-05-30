@@ -5,6 +5,7 @@ namespace App\Nova\Default;
 use App\Nova\Resource;
 use App\Nova\ZLink\Analytics\Pixel;
 use App\Nova\ZLink\Analytics\UtmTag;
+use App\Zaions\Enums\RolesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Laravel\Nova\Fields\BelongsToMany;
 use Laravel\Nova\Fields\Boolean;
@@ -13,9 +14,11 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphToMany;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Timezone;
 use Laravel\Nova\Http\Requests\NovaRequest;
+use Spatie\Permission\Models\Role;
 
 class WorkSpace extends Resource
 {
@@ -111,8 +114,30 @@ class WorkSpace extends Resource
                         }),
                 ];
             }),
+            // Hidden::make('userId', 'user_id')
+            // ->default(function (NovaRequest $request) {
+            //     return $request->user()->id;
+            // }),
 
-            BelongsToMany::make('Members', 'members', User::class),
+            // Select::make('role id', 'roleId')
+            // ->default(RolesEnum::ws_approver->name)
+            //     ->hide()
+            //     ->options($roles)
+            //     ->displayUsingLabels()
+            //     ->searchable(),
+            BelongsToMany::make('Members', 'members', User::class)->fields(function ($request, $relatedModel) {
+
+                $wsRoles = [
+                    RolesEnum::ws_administrator->name => RolesEnum::ws_administrator->name,
+                    RolesEnum::ws_contributor->name => RolesEnum::ws_contributor->name,
+                    RolesEnum::ws_approver->name => RolesEnum::ws_approver->name,
+                    RolesEnum::ws_guest->name => RolesEnum::ws_guest->name
+                ];
+
+                $roles = Role::whereIn('name', $wsRoles)->pluck('name', 'id');
+
+                return [];
+            }),
 
         ];
     }

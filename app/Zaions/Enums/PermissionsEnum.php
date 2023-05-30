@@ -172,7 +172,7 @@ enum PermissionsEnum: string
   case restore_customDomain = 'restore_customDomain';
   case forceDelete_customDomain = 'forceDelete_customDomain';
 
-    // custom domain
+    // api key
   case viewAny_apiKey = 'viewAny_apiKey';
   case view_apiKey = 'view_apiKey';
   case create_apiKey = 'create_apiKey';
