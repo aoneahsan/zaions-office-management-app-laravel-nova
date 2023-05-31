@@ -24,18 +24,7 @@ Route::get('/', function () {
 // Route::get('/z-testing', [TestingController::class, 'zTestingRouteRes']);
 Route::get('/z-testing', function () {
 
-
-    $wsRoles = [
-        RolesEnum::ws_administrator->name => RolesEnum::ws_administrator->name,
-        RolesEnum::ws_contributor->name => RolesEnum::ws_contributor->name,
-        RolesEnum::ws_approver->name => RolesEnum::ws_approver->name,
-        RolesEnum::ws_guest->name => RolesEnum::ws_guest->name
-    ];
-
-    $roles = Role::whereIn('name', $wsRoles)->pluck('name', 'id');
-
-
-    dd($roles);
+    dd('okay working');
 });
 
 Route::redirect('/', config('nova.path'));

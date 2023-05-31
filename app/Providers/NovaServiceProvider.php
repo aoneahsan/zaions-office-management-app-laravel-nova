@@ -3,16 +3,13 @@
 namespace App\Providers;
 
 use App\Zaions\Enums\PermissionsEnum;
-// use Bakerkretzmar\NovaSettingsTool\SettingsTool;
-// use CodencoDev\NovaGridSystem\NovaGridSystem;
-// use Dniccum\NovaDocumentation\NovaDocumentation;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Support\Facades\Gate;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Blade;
-// use Oneduo\NovaFileManager\NovaFileManager;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -107,7 +104,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            NovaPermissionTool::make(),
+            NovaPermissionTool::make()->canSee(function (Request $request) {
+                return ZHelpers::isNRUserSuperAdmin($request);
+            }),
 
             // https://novapackages.com/packages/vmitchell85/nova-links
             // (new \vmitchell85\NovaLinks\Links('Extra Links'))

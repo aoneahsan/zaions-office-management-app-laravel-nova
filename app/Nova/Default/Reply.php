@@ -42,6 +42,18 @@ class Reply extends Resource
     ];
 
     /**
+     * The number of results to display when searching for relatable resources without Scout.
+     *
+     * @var int|null
+     */
+    public static $relatableSearchResults = 1;
+    public static $displayInNavigation = false;
+    public static $globallySearchable = false;
+    public static $globalSearchResults = 0;
+    public static $scoutSearchResults = 1;
+    public static $searchable = false;
+
+    /**
      * Get the fields displayed by the resource.
      *
      * @param  \Laravel\Nova\Http\Requests\NovaRequest  $request

@@ -27,6 +27,7 @@ return new class extends Migration
             $table->integer('dailyMinOfficeTimeActivity')->default(85)->min(75)->max(100)->nullable();
             $table->string('timezone')->nullable();
             $table->string('address')->nullable();
+            $table->string('cnic')->nullable();
 
             $table->boolean('isActive')->default(true);
             $table->integer('sortOrderNo')->default(0)->nullable();

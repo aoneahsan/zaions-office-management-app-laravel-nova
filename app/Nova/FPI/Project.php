@@ -1,32 +1,30 @@
 <?php
 
-namespace App\Nova\Default;
+namespace App\Nova\FPI;
 
-use App\Models\Default\Attachment as ModelsAttachment;
+use App\Models\FPI\Project as FPIProject;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
-use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\File;
-use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\Number;
+use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Textarea;
-use Laravel\Nova\Fields\URL;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Attachment extends Resource
+class Project extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Default\Attachment>
+     * @var class-string<\App\Models\FPI\Project>
      */
-    public static $model = \App\Models\Default\Attachment::class;
+    public static $model = \App\Models\FPI\Project::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -41,20 +39,8 @@ class Attachment extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'attachmentName'
+        'id', 'title'
     ];
-
-    /**
-     * The number of results to display when searching for relatable resources without Scout.
-     *
-     * @var int|null
-     */
-    public static $relatableSearchResults = 1;
-    public static $displayInNavigation = false;
-    public static $globallySearchable = false;
-    public static $globalSearchResults = 0;
-    public static $scoutSearchResults = 1;
-    public static $searchable = false;
 
     /**
      * Get the fields displayed by the resource.
@@ -67,53 +53,72 @@ class Attachment extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('user')
-                ->default(function (NovaRequest $request) {
-                    return $request->user()->getKey();
-                })
-                ->hideFromIndex()
-                ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
-
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
 
-            File::make('Attachment', 'attachmentPath')
-                ->rules('file', 'required', 'size:4000')
-                ->disk(ZHelpers::getActiveFileDriver())
-                ->storeOriginalName('attachmentName')
-                ->storeSize('attachmentSize'),
+            MorphMany::make('Task Attachments', 'attachments', Attachment::class),
 
-            URL::make('Attachment Download Link', 'attachmentDownloadLink')->exceptOnForms(),
-            Text::make('Attachment Name', 'attachmentName')->onlyOnDetail(),
 
-            Text::make('Attachment Size', 'attachmentSize')
-                ->exceptOnForms()
-                ->displayUsing(function ($value) {
-                    return number_format($value / 1024, 2) . 'kb';
+            // Normal fields
+            Text::make('Unique Id', 'uniqueId')
+                ->onlyOnDetail()
+                ->default(function () {
+                    return uniqid();
                 }),
 
+            Text::make('Title', 'title')
+                ->rules('required', 'max:255', 'string'),
 
-            Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
-                $lastItem = ModelsAttachment::latest()->first();
+            Trix::make('Description', 'description')
+                ->rules('required', 'string', 'max:3000'),
+
+            Number::make('Per Square Feet Price', 'perSquareFeetPrice')
+                ->min(0)
+                ->rules('required', 'numeric'),
+
+            Trix::make('Why Invest In This Project', 'whyInvest')
+                ->rules('required', 'string', 'max:3000'),
+
+            Text::make('Location', 'location')
+                ->rules('required', 'max:255'),
+
+            Text::make('Type', 'type')
+                ->rules('required', 'max:255'),
+
+            // Text::make('Coordinates', 'coordinates')
+            //     ->rules('required', 'max:255'),
+
+            KeyValue::make('Bank Details', 'bankDetails')
+                ->rules('required', 'json'),
+
+            Number::make('Rebate Percentage', 'rebatePercentage')
+                ->min(0)->max(100)
+                ->rules('required', 'numeric'),
+
+            Number::make('Total Units', 'totalUnits')
+                ->min(0)
+                ->rules('required', 'numeric'),
+
+            Number::make('Remaining Units', 'remainingUnits')
+                ->exceptOnForms()
+                ->min(0)
+                ->rules('nullable', 'numeric'),
+
+
+            Hidden::make('Sort Order No', 'sortOrderNo')->default(function () {
+                $lastItem = FPIProject::latest()->first();
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
-
 
             Boolean::make('isActive', 'isActive')->default(true)
                 ->show(function (NovaRequest $request) {
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
 
-            KeyValue::make('Extra Attributes', 'extraAttributes')
-                ->rules('nullable', 'json'),
-
-            MorphMany::make('Comments'),
+            KeyValue::make('Extra attributes', 'extraAttributes')
+                ->rules('nullable'),
         ];
     }
 

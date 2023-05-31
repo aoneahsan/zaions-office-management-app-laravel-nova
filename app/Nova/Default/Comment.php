@@ -31,6 +31,7 @@ class Comment extends Resource
      */
     public static $title = 'id';
 
+
     /**
      * The columns that should be searched.
      *
@@ -45,7 +46,12 @@ class Comment extends Resource
      *
      * @var int|null
      */
-    public static $relatableSearchResults = 10;
+    public static $relatableSearchResults = 1;
+    public static $displayInNavigation = false;
+    public static $globallySearchable = false;
+    public static $globalSearchResults = 0;
+    public static $scoutSearchResults = 1;
+    public static $searchable = false;
 
     /**
      * Get the fields displayed by the resource.
