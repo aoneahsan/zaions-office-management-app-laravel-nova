@@ -110,21 +110,21 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
 
         // Pixel
         Route::controller(PixelController::class)->group(function () {
-            Route::get('/user/workspaces/{workspaceId}/pixel', 'index');
-            Route::post('/user/workspaces/{workspaceId}/pixel', 'store');
-            Route::get('/user/workspaces/{workspaceId}/pixel/{itemId}', 'show');
-            Route::put('/user/workspaces/{workspaceId}/pixel/{itemId}', 'update');
-            Route::delete('/user/workspaces/{workspaceId}/pixel/{itemId}', 'destroy');
+            Route::get('/user/pixel', 'index');
+            Route::post('/user/pixel', 'store');
+            Route::get('/user/pixel/{itemId}', 'show');
+            Route::put('/user/pixel/{itemId}', 'update');
+            Route::delete('/user/pixel/{itemId}', 'destroy');
         });
 
 
         // UTM Tags
         Route::controller(UtmTagController::class)->group(function () {
-            Route::get('/user/workspaces/{workspaceId}/utm-tag', 'index');
-            Route::post('/user/workspaces/{workspaceId}/utm-tag', 'store');
-            Route::get('/user/workspaces/{workspaceId}/utm-tag/{itemId}', 'show');
-            Route::put('/user/workspaces/{workspaceId}/utm-tag/{itemId}', 'update');
-            Route::delete('/user/workspaces/{workspaceId}/utm-tag/{itemId}', 'destroy');
+            Route::get('/user/utm-tag', 'index');
+            Route::post('/user/utm-tag', 'store');
+            Route::get('/user/utm-tag/{itemId}', 'show');
+            Route::put('/user/utm-tag/{itemId}', 'update');
+            Route::delete('/user/utm-tag/{itemId}', 'destroy');
         });
 
         // API key

@@ -101,7 +101,9 @@ class AuthController extends Controller
             return response()->json([
                 'success' => true,
                 'errors' => [],
-                'data' => [],
+                'data' => [
+                    'isSuccess' => true
+                ],
                 'message' => 'Request Completed Successfully!',
                 'status' => 200
             ], 200);
@@ -109,7 +111,9 @@ class AuthController extends Controller
             return response()->json([
                 'success' => false,
                 'errors' => [],
-                'data' => [],
+                'data' => [
+                    'isSuccess' => false
+                ],
                 'message' => 'Request failed.',
                 'status' => 400
             ], 400);

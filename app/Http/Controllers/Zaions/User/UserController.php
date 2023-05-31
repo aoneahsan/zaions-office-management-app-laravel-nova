@@ -18,6 +18,7 @@ class UserController extends Controller
             'items' => $items,
         ]);
     }
+
     public function index(Request $request)
     {
         try {

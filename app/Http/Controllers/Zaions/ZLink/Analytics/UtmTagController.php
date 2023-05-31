@@ -19,7 +19,7 @@ class UtmTagController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $workspaceId)
+    public function index(Request $request)
     {
         $currentUser = $request->user();
 
@@ -49,7 +49,7 @@ class UtmTagController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $workspaceId)
+    public function store(Request $request)
     {
         $request->validate([
             'templateName' => 'required|string|max:250',
@@ -104,7 +104,7 @@ class UtmTagController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $workspaceId, $itemId)
+    public function show(Request $request, $itemId)
     {
         $currentUser = $request->user();
 
@@ -133,7 +133,7 @@ class UtmTagController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $workspaceId, $itemId)
+    public function update(Request $request, $itemId)
     {
         $request->validate([
             'templateName' => 'required|string|max:250',
@@ -188,7 +188,7 @@ class UtmTagController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $workspaceId, $itemId)
+    public function destroy(Request $request, $itemId)
     {
         $currentUser = $request->user();
 
