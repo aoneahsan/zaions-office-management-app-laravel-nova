@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\Zaions\Auth\AuthController;
+use App\Http\Controllers\Zaions\Common\FileUploadController;
 use App\Http\Controllers\Zaions\StaticPageController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
@@ -58,6 +59,17 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::post('/logout', 'logout');
         });
 
+
+        // File Upload Controller APIs
+        Route::controller(FileUploadController::class)->group(function () {
+            Route::post('/file-upload/getSingleFileUrl', 'getSingleFileUrl');
+            Route::post('/file-upload/uploadSingleFile', 'uploadSingleFile');
+            Route::put('/file-upload/deleteSingleFile', 'deleteSingleFile');
+            Route::post('/file-upload/checkIfSingleFileExists', 'checkIfSingleFileExists');
+            Route::post('/file-upload/uploadFiles', 'uploadFiles');
+
+            // Route::post('/file-upload/get-image-from-url/url={ImageUrl}', 'uploadSingleFileFromUrl');
+        });
 
         // User Account Related Routes
         Route::controller(UserController::class)->group(function () {
@@ -185,11 +197,11 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
 
         // LinkInBio pre defined data
         Route::controller(LibPredefinedDataController::class)->group(function () {
-            Route::get('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-pdd', 'index');
-            Route::post('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-pdd', 'store');
-            Route::get('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-pdd/{itemId}', 'show');
-            Route::put('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-pdd/{itemId}', 'update');
-            Route::delete('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-pdd/{itemId}', 'destroy');
+            Route::get('/user/lib-pdd/{pddType}', 'index');
+            Route::post('/user/lib-pdd/{pddType}', 'store');
+            Route::get('/user/lib-pdd/{pddType}/{itemId}', 'show');
+            Route::put('/user/lib-pdd/{pddType}/{itemId}', 'update');
+            Route::delete('/user/lib-pdd/{pddType}/{itemId}', 'destroy');
         });
     });
 });

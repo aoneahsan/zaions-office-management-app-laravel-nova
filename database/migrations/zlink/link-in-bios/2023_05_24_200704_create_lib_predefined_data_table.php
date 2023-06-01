@@ -15,7 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
-            $table->unsignedBigInteger('linkInBioId');
+            // $table->unsignedBigInteger('linkInBioId');
 
             // fields to store data for "link in bios pre defined blocks/music|messengers|social-platforms/form-fields"
             $table->string('type')->nullable();
@@ -24,7 +24,7 @@ return new class extends Migration
             // fields to store data for "link in bios pre defined themes"
             $table->json('background')->nullable();
             // this will tell us which type of predefined data is this (we will use this to get specific data from api)
-            $table->string('preDefinedDataType')->nullable(); // 'block' | 'musicPlatform' | 'messengerPlatform' | 'socialPlatform' | 'formField'
+            $table->string('preDefinedDataType')->nullable(); //  'musicPlatform' | 'messengerPlatform' | 'socialPlatform' | 'formField'
 
             $table->boolean('isActive')->default(true)->nullable();
             $table->integer('sortOrderNo')->default(0)->nullable();

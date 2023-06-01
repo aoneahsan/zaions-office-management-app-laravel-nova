@@ -21,7 +21,7 @@ class LibPredefinedDataController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request, $workspaceId, $linkInBioId)
+    public function index(Request $request, $pddType)
     {
         try {
             $currentUser = $request->user();
@@ -29,19 +29,19 @@ class LibPredefinedDataController extends Controller
             Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_libPerDefinedData->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
             // getting workspace
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+            // $Pdd = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
             // getting link-in-bio in workspace
-            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
+            // $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
-            if (!$linkInBio) {
-                return ZHelpers::sendBackInvalidParamsResponse([
-                    "item" => ['No link-in-bio found!']
-                ]);
-            }
+            // if (!$linkInBio) {
+            //     return ZHelpers::sendBackInvalidParamsResponse([
+            //         "item" => ['No link-in-bio found!']
+            //     ]);
+            // }
 
-            $itemsCount = LibPredefinedData::where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->count();
-            $items = LibPredefinedData::where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->get();
+            $itemsCount = LibPredefinedData::where('userId', $currentUser->id)->where('preDefinedDataType', $pddType)->count();
+            $items = LibPredefinedData::where('userId', $currentUser->id)->get();
 
             return response()->json([
                 'success' => true,
@@ -65,7 +65,7 @@ class LibPredefinedDataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request, $workspaceId, $linkInBioId)
+    public function store(Request $request)
     {
 
         $currentUser = $request->user();
@@ -73,16 +73,16 @@ class LibPredefinedDataController extends Controller
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_libPerDefinedData->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+        // $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
-        // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
+        // // getting link-in-bio in workspace
+        // $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
-        if (!$linkInBio) {
-            return ZHelpers::sendBackInvalidParamsResponse([
-                "item" => ['No link-in-bio found!']
-            ]);
-        }
+        // if (!$linkInBio) {
+        //     return ZHelpers::sendBackInvalidParamsResponse([
+        //         "item" => ['No link-in-bio found!']
+        //     ]);
+        // }
 
         $request->validate([
             'type' => 'required|string',
@@ -99,7 +99,7 @@ class LibPredefinedDataController extends Controller
             $result = LibPredefinedData::create([
                 'uniqueId' => uniqid(),
                 'userId' => $currentUser->id,
-                'linkInBioId' => $linkInBio->id,
+                // 'linkInBioId' => $linkInBio->id,
                 'type' => $request->has('type') ? $request->type : null,
                 'icon' => $request->has('icon') ? $request->icon : null,
                 'title' => $request->has('title') ? $request->title : null,
@@ -128,7 +128,7 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $workspaceId, $linkInBioId, $itemId)
+    public function show(Request $request,  $itemId)
     {
         try {
             $currentUser = $request->user();
@@ -136,18 +136,18 @@ class LibPredefinedDataController extends Controller
             Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_libPerDefinedData->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
             // getting workspace
-            $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+            // $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
-            // getting link-in-bio in workspace
-            $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
+            // // getting link-in-bio in workspace
+            // $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
-            if (!$linkInBio) {
-                return ZHelpers::sendBackInvalidParamsResponse([
-                    "item" => ['No link-in-bio found!']
-                ]);
-            }
+            // if (!$linkInBio) {
+            //     return ZHelpers::sendBackInvalidParamsResponse([
+            //         "item" => ['No link-in-bio found!']
+            //     ]);
+            // }
 
-            $item = LibPredefinedData::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->first();
+            $item = LibPredefinedData::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -170,24 +170,24 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $workspaceId, $linkInBioId, $itemId)
+    public function update(Request $request,  $itemId)
     {
 
         $currentUser = $request->user();
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_libPerDefinedData->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
-        // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+        // // getting workspace
+        // $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
-        // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
+        // // getting link-in-bio in workspace
+        // $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
-        if (!$linkInBio) {
-            return ZHelpers::sendBackInvalidParamsResponse([
-                "item" => ['No link-in-bio found!']
-            ]);
-        }
+        // if (!$linkInBio) {
+        //     return ZHelpers::sendBackInvalidParamsResponse([
+        //         "item" => ['No link-in-bio found!']
+        //     ]);
+        // }
 
         $request->validate([
             'type' => 'required|string',
@@ -201,7 +201,7 @@ class LibPredefinedDataController extends Controller
         ]);
 
         try {
-            $item = LibPredefinedData::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->first();
+            $item = LibPredefinedData::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -235,26 +235,26 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $workspaceId, $linkInBioId, $itemId)
+    public function destroy(Request $request,  $itemId)
     {
         $currentUser = $request->user();
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_libPerDefinedData->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+        // $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
-        // getting link-in-bio in workspace
-        $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
+        // // getting link-in-bio in workspace
+        // $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
-        if (!$linkInBio) {
-            return ZHelpers::sendBackInvalidParamsResponse([
-                "item" => ['No link-in-bio found!']
-            ]);
-        }
+        // if (!$linkInBio) {
+        //     return ZHelpers::sendBackInvalidParamsResponse([
+        //         "item" => ['No link-in-bio found!']
+        //     ]);
+        // }
 
         try {
-            $item = LibPredefinedData::where('uniqueId', $itemId)->where('linkInBioId', $linkInBio->id)->where('userId', $currentUser->id)->first();
+            $item = LibPredefinedData::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();

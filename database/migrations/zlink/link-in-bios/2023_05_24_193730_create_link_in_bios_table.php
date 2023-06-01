@@ -16,7 +16,7 @@ return new class extends Migration
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('workspaceId');
-            $table->unsignedBigInteger('folderId');
+            $table->unsignedBigInteger('folderId')->default(1);
 
             $table->json('theme')->nullable();
             $table->json('settings')->nullable();
