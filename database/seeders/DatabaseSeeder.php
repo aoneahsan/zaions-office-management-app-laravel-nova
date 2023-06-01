@@ -8,6 +8,7 @@ use Database\Seeders\Default\AttachmentSeeder;
 use Database\Seeders\Default\CommentSeeder;
 use Database\Seeders\Default\RolePermissionsSeeder;
 use Database\Seeders\Default\UserSeeder;
+use Database\Seeders\FPI\ProjectSeeder;
 use Illuminate\Database\Seeder;
 
 class DatabaseSeeder extends Seeder
@@ -23,6 +24,9 @@ class DatabaseSeeder extends Seeder
             UserSeeder::class,
             CommentSeeder::class,
             AttachmentSeeder::class,
+
+            // FPI DB Seeders
+            ProjectSeeder::class
 
         ]);
     }

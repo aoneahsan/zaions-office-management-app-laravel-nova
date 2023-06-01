@@ -72,6 +72,16 @@ enum PermissionsEnum: string
   case can_impersonate = 'can_impersonate';
   case canBe_impersonate = 'canBe_impersonate';
 
+    // Reply
+  case viewAny_project = 'viewAny_project';
+  case view_project = 'view_project';
+  case create_project = 'create_project';
+  case update_project = 'update_project';
+  case delete_project = 'delete_project';
+  case replicate_project = 'replicate_project';
+  case restore_project = 'restore_project';
+  case forceDelete_project = 'forceDelete_project';
+
   // case viewAny_ = 'viewAny_';
   // case view_ = 'view_';
   // case create_ = 'create_';

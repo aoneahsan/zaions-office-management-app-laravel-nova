@@ -3,9 +3,12 @@
 namespace App\Nova\FPI;
 
 use App\Models\FPI\Project as FPIProject;
+use App\Nova\Default\Attachment;
+use App\Nova\Default\User;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
@@ -52,6 +55,17 @@ class Project extends Resource
     {
         return [
             ID::make()->sortable(),
+
+            BelongsTo::make('Owner', 'user', User::class)
+                ->default(function (NovaRequest $request) {
+                    return $request->user()->getKey();
+                })
+                ->hideFromIndex()
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->hideWhenCreating()
+                ->hideWhenUpdating(),
 
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {

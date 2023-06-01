@@ -1,7 +1,9 @@
 <?php
 
-namespace Database\Seeders;
+namespace Database\Seeders\FPI;
 
+use App\Models\Default\User;
+use App\Models\FPI\Project;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 
@@ -12,6 +14,21 @@ class ProjectSeeder extends Seeder
      */
     public function run(): void
     {
-        //
+        $user = User::where('email', 'ahsan@zaions.com')->first();
+
+        if ($user) {
+            Project::create([
+                'userId' => optional($user)->id,
+                'title' => 'demo project',
+                'description' => 'demo project description',
+                'perSquareFeetPrice' => 10,
+                'whyInvest' => 'whyInvest',
+                'location' => 'lahore',
+                'type' => 'house',
+                'rebatePercentage' => 14,
+                'totalUnits' => 1000,
+                'sortOrderNo' => 1
+            ]);
+        }
     }
 }

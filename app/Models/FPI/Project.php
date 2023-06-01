@@ -3,6 +3,7 @@
 namespace App\Models\FPI;
 
 use App\Models\Default\Attachment;
+use App\Models\Default\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;

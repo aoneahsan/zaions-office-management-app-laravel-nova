@@ -67,7 +67,7 @@ class Attachment extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('user')
+            BelongsTo::make('User', 'user', User::class)
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 })
@@ -113,7 +113,7 @@ class Attachment extends Resource
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
 
-            MorphMany::make('Comments'),
+            MorphMany::make('Comments', 'comments', Comment::class),
         ];
     }
 

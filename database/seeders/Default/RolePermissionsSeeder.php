@@ -83,6 +83,15 @@ class RolePermissionsSeeder extends Seeder
         // Impersonation Permissions
         $canImpersonatePermission = Permission::create(['name' => PermissionsEnum::can_impersonate->name]);
         $canBeImpersonatePermission = Permission::create(['name' => PermissionsEnum::canBe_impersonate->name]);
+        // Projects Model Permissions
+        $viewAnyProjectPermission = Permission::create(['name' => PermissionsEnum::viewAny_project->name]);
+        $viewProjectPermission = Permission::create(['name' => PermissionsEnum::view_project->name]);
+        $addProjectPermission = Permission::create(['name' => PermissionsEnum::create_project->name]);
+        $updateProjectPermission = Permission::create(['name' => PermissionsEnum::update_project->name]);
+        $deleteProjectPermission = Permission::create(['name' => PermissionsEnum::delete_project->name]);
+        $replicateProjectPermission = Permission::create(['name' => PermissionsEnum::replicate_project->name]);
+        $restoreProjectPermission = Permission::create(['name' => PermissionsEnum::restore_project->name]);
+        $forceDeleteProjectPermission = Permission::create(['name' => PermissionsEnum::forceDelete_project->name]);
 
         $superAdminRolePermissions = [
             // Dashboard
@@ -144,6 +153,15 @@ class RolePermissionsSeeder extends Seeder
             // Impersonation
             $canImpersonatePermission,
             // $canBeImpersonatePermission // this is commented by ahsan, as no one in app should impersonate super admin user account
+            // Project
+            $viewAnyProjectPermission,
+            $viewProjectPermission,
+            $addProjectPermission,
+            $updateProjectPermission,
+            $deleteProjectPermission,
+            $replicateProjectPermission,
+            $restoreProjectPermission,
+            $forceDeleteProjectPermission,
         ];
 
         $adminRolePermissions = array_filter($superAdminRolePermissions, function ($permission) {

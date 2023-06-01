@@ -64,7 +64,7 @@ class Reply extends Resource
         return [
             ID::make()->sortable(),
 
-            BelongsTo::make('user')
+            BelongsTo::make('User', 'user', User::class)
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 })
@@ -75,7 +75,7 @@ class Reply extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
-            BelongsTo::make('comment')
+            BelongsTo::make('Comment', 'comment', Comment::class)
                 ->hideFromIndex()
                 ->showOnDetail(function (NovaRequest $request) {
                     return ZHelpers::isNRUserSuperAdmin($request);
@@ -110,7 +110,7 @@ class Reply extends Resource
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
 
-            MorphMany::make('Attachments'),
+            MorphMany::make('Attachments', 'attachments', Attachment::class),
         ];
     }
 
