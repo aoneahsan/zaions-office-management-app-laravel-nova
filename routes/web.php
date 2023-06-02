@@ -1,11 +1,7 @@
 <?php
 
-use App\Http\Controllers\Zaions\Auth\AuthController;
-use App\Http\Controllers\Zaions\TestingController;
-use App\Zaions\Enums\RolesEnum;
-use Illuminate\Support\Facades\Redirect;
+use App\Http\Controllers\ProfileController;
 use Illuminate\Support\Facades\Route;
-use Spatie\Permission\Models\Role;
 
 /*
 |--------------------------------------------------------------------------
@@ -22,14 +18,14 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-// Route::get('/z-testing', [TestingController::class, 'zTestingRouteRes']);
-Route::get('/z-testing', function () {
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth', 'verified'])->name('dashboard');
 
-    dd('okay working');
+Route::middleware('auth')->group(function () {
+    Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
+    Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
+    Route::delete('/profile', [ProfileController::class, 'destroy'])->name('profile.destroy');
 });
 
-// Route::controller(AuthController::class)->group(function () {
-//     Route::get('/login', 'showLoginPage');
-// });
-
-Route::redirect('/', config('nova.path'));
+require __DIR__.'/auth.php';
