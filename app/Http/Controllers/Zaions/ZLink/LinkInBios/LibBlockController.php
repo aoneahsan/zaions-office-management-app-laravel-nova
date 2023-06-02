@@ -231,7 +231,7 @@ class LibBlockController extends Controller
             if ($item) {
                 $item->update([
                     'blockType' => $request->has('blockType') ? $request->blockType : $item->blockType,
-                    'blockContent' => $request->has('blockContent') ? $request->blockContent : $item->blockContent,
+                    'blockContent' => $request->has('blockContent') ? ZHelpers::zJsonDecode($request->blockContent) : ZHelpers::zJsonDecode($item->blockContent),
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $item->extraAttributes,
                     'isActive' =>
                     $request->has('isActive') ? $request->isActive : $request->isActive,
