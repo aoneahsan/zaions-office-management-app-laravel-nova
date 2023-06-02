@@ -4,15 +4,16 @@ namespace App\Http\Controllers\Zaions\ZLink\LinkInBios;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\LinkInBios\LibPredefinedDataResource;
-use App\Models\Default\WorkSpace;
 use App\Models\ZLink\LinkInBios\LibPredefinedData;
 use App\Models\ZLink\LinkInBios\LinkInBio;
+use App\Zaions\Enums\LibPreDefinedDataModalEnum;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\ResponseCodesEnum;
 use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
+use Illuminate\Support\Facades\Validator;
 
 class LibPredefinedDataController extends Controller
 {
@@ -23,10 +24,26 @@ class LibPredefinedDataController extends Controller
      */
     public function index(Request $request, $pddType)
     {
+        // $validator = Validator::make($pddType, [
+        //     LibPreDefinedDataModalEnum::block,
+        //     LibPreDefinedDataModalEnum::musicPlatform,
+        //     LibPreDefinedDataModalEnum::messengerPlatform,
+        //     LibPreDefinedDataModalEnum::socialPlatform,
+        //     LibPreDefinedDataModalEnum::formField,
+        //     LibPreDefinedDataModalEnum::blocks,
+        // ]);
+
         try {
             $currentUser = $request->user();
 
             Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_libPerDefinedData->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
+            if (!$pddType) {
+                return ZHelpers::sendBackInvalidParamsResponse([
+                    "item" => ['No modal found!'],
+                ]);
+            }
 
             // getting workspace
             // $Pdd = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
@@ -41,7 +58,7 @@ class LibPredefinedDataController extends Controller
             // }
 
             $itemsCount = LibPredefinedData::where('userId', $currentUser->id)->where('preDefinedDataType', $pddType)->count();
-            $items = LibPredefinedData::where('userId', $currentUser->id)->get();
+            $items = LibPredefinedData::where('userId', $currentUser->id)->where('preDefinedDataType', $pddType)->get();
 
             return response()->json([
                 'success' => true,
@@ -51,7 +68,8 @@ class LibPredefinedDataController extends Controller
                     'items' => LibPredefinedDataResource::collection($items),
                     'itemsCount' => $itemsCount
                 ],
-                'status' => 200
+                'status' => 200,
+                'author' => 'MTI'
             ]);
         } catch (\Throwable $th) {
             return ZHelpers::sendBackServerErrorResponse($th);
@@ -65,24 +83,19 @@ class LibPredefinedDataController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $pddType)
     {
 
         $currentUser = $request->user();
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_libPerDefinedData->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
-        // getting workspace
-        // $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
-        // // getting link-in-bio in workspace
-        // $linkInBio = LinkInBio::where('uniqueId', $linkInBioId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
-
-        // if (!$linkInBio) {
-        //     return ZHelpers::sendBackInvalidParamsResponse([
-        //         "item" => ['No link-in-bio found!']
-        //     ]);
-        // }
+        if (!$pddType) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No modal found!'],
+            ]);
+        }
 
         $request->validate([
             'type' => 'required|string',
@@ -99,7 +112,6 @@ class LibPredefinedDataController extends Controller
             $result = LibPredefinedData::create([
                 'uniqueId' => uniqid(),
                 'userId' => $currentUser->id,
-                // 'linkInBioId' => $linkInBio->id,
                 'type' => $request->has('type') ? $request->type : null,
                 'icon' => $request->has('icon') ? $request->icon : null,
                 'title' => $request->has('title') ? $request->title : null,
@@ -128,7 +140,7 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request,  $itemId)
+    public function show(Request $request, $pddType, $itemId)
     {
         try {
             $currentUser = $request->user();
@@ -170,7 +182,7 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request,  $itemId)
+    public function update(Request $request, $pddType,  $itemId)
     {
 
         $currentUser = $request->user();
@@ -235,7 +247,7 @@ class LibPredefinedDataController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request,  $itemId)
+    public function destroy(Request $request, $pddType,  $itemId)
     {
         $currentUser = $request->user();
 

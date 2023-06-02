@@ -197,7 +197,7 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
 
         // LinkInBio pre defined data
         Route::controller(LibPredefinedDataController::class)->group(function () {
-            Route::get('/user/lib-pdd/{pddType}', 'index');
+            Route::get('/user/lib-pre-dd/{pddType}', 'index');
             Route::post('/user/lib-pdd/{pddType}', 'store');
             Route::get('/user/lib-pdd/{pddType}/{itemId}', 'show');
             Route::put('/user/lib-pdd/{pddType}/{itemId}', 'update');

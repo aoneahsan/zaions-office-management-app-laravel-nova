@@ -6,12 +6,25 @@ namespace App\Zaions\Enums;
 enum LibPreDefinedDataModalEnum: string
 {
     // Modal types
+  case themes = 'themes';
   case block = 'block';
   case musicPlatform = 'musicPlatform';
   case messengerPlatform = 'messengerPlatform';
   case socialPlatform = 'socialPlatform';
   case formField = 'formField';
   case blocks = 'blocks';
+
+  public static function getValues(): array
+  {
+    return [
+      self::block,
+      self::musicPlatform,
+      self::messengerPlatform,
+      self::socialPlatform,
+      self::formField,
+      self::blocks,
+    ];
+  }
 
     // global
   case youtube = 'youtube';
