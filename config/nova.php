@@ -6,6 +6,7 @@ use Laravel\Nova\Http\Middleware\Authorize;
 use Laravel\Nova\Http\Middleware\BootTools;
 use Laravel\Nova\Http\Middleware\DispatchServingNovaEvent;
 use Laravel\Nova\Http\Middleware\HandleInertiaRequests;
+use Vyuldashev\NovaPermission\ForgetCachedPermissions;
 
 return [
 
@@ -59,7 +60,8 @@ return [
     |
     */
 
-    'path' => '/nova',
+    // 'path' => '/zaions',
+    'path' => '/',
 
     /*
     |--------------------------------------------------------------------------
@@ -103,6 +105,9 @@ return [
         HandleInertiaRequests::class,
         DispatchServingNovaEvent::class,
         BootTools::class,
+        ForgetCachedPermissions::class,
+        // https://novapackages.com/packages/Visanduma/nova-two-factor
+        \Visanduma\NovaTwoFactor\Http\Middleware\TwoFa::class
     ],
 
     'api_middleware' => [
@@ -122,7 +127,7 @@ return [
     |
     */
 
-    'pagination' => 'simple',
+    'pagination' => 'links',
 
     /*
     |--------------------------------------------------------------------------
@@ -148,7 +153,7 @@ return [
     |
     */
 
-    'currency' => 'USD',
+    'currency' => 'PKR',
 
     /*
     |--------------------------------------------------------------------------
@@ -162,15 +167,15 @@ return [
     |
     */
 
-    // 'brand' => [
-    //     'logo' => resource_path('/img/example-logo.svg'),
+    'brand' => [
+        'logo' => resource_path('/assets/images/zaions.svg'),
 
-    //     'colors' => [
-    //         "400" => "24, 182, 155, 0.5",
-    //         "500" => "24, 182, 155",
-    //         "600" => "24, 182, 155, 0.75",
-    //     ]
-    // ],
+        'colors' => [
+            "400" => "24, 182, 155, 0.5",
+            "500" => "24, 182, 155",
+            "600" => "24, 182, 155, 0.75",
+        ]
+    ],
 
     /*
     |--------------------------------------------------------------------------

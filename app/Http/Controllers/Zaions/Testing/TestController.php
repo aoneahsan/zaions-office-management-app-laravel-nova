@@ -3,7 +3,7 @@
 namespace App\Http\Controllers\Zaions\Testing;
 
 use App\Http\Controllers\Controller;
-use App\Models\Default\User;
+use App\Models\User;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Notifications\NovaNotification;

@@ -2,7 +2,7 @@
 
 namespace App\Policies;
 
-use App\Models\Default\User;
+use App\Models\User;
 use App\Zaions\Enums\PermissionsEnum;
 use Illuminate\Auth\Access\HandlesAuthorization;
 

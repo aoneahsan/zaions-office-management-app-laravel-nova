@@ -2,7 +2,7 @@
 
 namespace Database\Seeders\FPI;
 
-use App\Models\Default\User;
+use App\Models\User;
 use App\Models\FPI\Project;
 use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;

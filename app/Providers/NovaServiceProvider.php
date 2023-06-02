@@ -2,6 +2,9 @@
 
 namespace App\Providers;
 
+use App\Nova\Dashboards\Main;
+use App\Nova\FPI\Project;
+use App\Nova\User;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Support\Facades\Gate;
@@ -9,7 +12,14 @@ use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Http\Request;
+use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
+use Illuminate\Support\Facades\Route;
+use Laravel\Nova\Dashboard;
+use Laravel\Nova\Menu\Menu;
+use Laravel\Nova\Menu\MenuGroup;
+use Laravel\Nova\Menu\MenuItem;
+use Laravel\Nova\Menu\MenuSection;
 use Vyuldashev\NovaPermission\NovaPermissionTool;
 
 class NovaServiceProvider extends NovaApplicationServiceProvider
@@ -64,10 +74,44 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
      */
     protected function routes()
     {
+        Nova::withAuthentication();
+        Route::namespace('Laravel\Nova\Http\Controllers')
+            ->domain(config('nova.domain', null))
+            ->middleware(config('nova.middleware', []))
+            ->prefix(Nova::path())
+            ->group(function (Router $router) {
+                $router->post('/logout', [LoginController::class, 'logout'])->name('nova.logout');
+            });
         Nova::routes()
-            ->withAuthenticationRoutes()
-            ->withPasswordResetRoutes()
+            // ->withAuthenticationRoutes()
+            // ->withPasswordResetRoutes()
             ->register();
+
+
+        // Top Bar User Menu
+        Nova::userMenu(function (Request $request, Menu $menu) {
+            return $menu
+                ->prepend(MenuItem::externalLink('Edit Profile', '/profile'));
+        });
+
+        // Side Bar User Menu
+        Nova::mainMenu(function (Request $request, Menu $menu) {
+            return [
+                MenuSection::make('Dashboard', [
+                    MenuItem::dashboard(Main::class),
+                    MenuGroup::make('Resources', [
+                        MenuItem::resource(User::class),
+                        MenuItem::resource(Project::class),
+                    ]),
+
+                    MenuGroup::make('My Account', [
+                        MenuItem::externalLink('Edit Profile', '/profile'),
+                        MenuItem::externalLink('2FA', '/nova-two-factor'),
+                        // MenuItem::lens(User::class, MostValuableUsers::class),
+                    ]),
+                ]),
+            ];
+        });
     }
 
     /**
@@ -130,7 +174,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             //     ->hideMenu(false), // Hide MenuBuilder defined MenuSection.
 
             // https://novapackages.com/packages/Visanduma/nova-two-factor
-            new \Visanduma\NovaTwoFactor\NovaTwoFactor(),
+            \Visanduma\NovaTwoFactor\NovaTwoFactor::make(),
 
             // https://novapackages.com/packages/oneduo/nova-file-manager
             // NovaFileManager::make(),

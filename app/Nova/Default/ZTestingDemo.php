@@ -561,7 +561,7 @@ class ZTestingDemo extends Resource
 
             // https://novapackages.com/packages/abordage/nova-total-card
             /* with cache expiry time */
-            // new TotalCard(\App\Models\Default\User::class, 'All users',  now()->addHour()),
+            // new TotalCard(\App\Models\User::class, 'All users',  now()->addHour()),
         ];
     }
 

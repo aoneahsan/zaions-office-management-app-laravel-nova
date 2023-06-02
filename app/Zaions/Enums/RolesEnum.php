@@ -7,5 +7,8 @@ enum RolesEnum: string
 {
   case superAdmin = 'superAdmin';
   case admin = 'admin';
-  case user = 'user';
+  case broker = 'broker';
+  case developer = 'developer';
+  case investor = 'investor';
+  case simpleUser = 'simpleUser';
 }

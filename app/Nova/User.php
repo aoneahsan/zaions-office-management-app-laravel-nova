@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova\Default;
+namespace App\Nova;
 
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
@@ -26,9 +26,9 @@ class User extends Resource
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\Default\User>
+     * @var class-string<\App\Models\User>
      */
-    public static $model = \App\Models\Default\User::class;
+    public static $model = \App\Models\User::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.

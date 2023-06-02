@@ -1,7 +1,9 @@
 <?php
 
-namespace App\Models\Default;
+namespace App\Models;
 
+use App\Models\Default\Attachment;
+use App\Models\Default\Comment;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\RolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;

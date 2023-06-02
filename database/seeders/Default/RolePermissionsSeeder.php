@@ -20,7 +20,10 @@ class RolePermissionsSeeder extends Seeder
         // Default Roles
         $superAdminRole = Role::create(['name' => RolesEnum::superAdmin->name]);
         $adminRole = Role::create(['name' => RolesEnum::admin->name]);
-        $userRole = Role::create(['name' => RolesEnum::user->name]);
+        $simpleUserRole = Role::create(['name' => RolesEnum::simpleUser->name]);
+        $brokerRole = Role::create(['name' => RolesEnum::broker->name]);
+        $developerRole = Role::create(['name' => RolesEnum::developer->name]);
+        $investorRole = Role::create(['name' => RolesEnum::investor->name]);
 
 
         // All App Permissions
@@ -92,6 +95,10 @@ class RolePermissionsSeeder extends Seeder
         $replicateProjectPermission = Permission::create(['name' => PermissionsEnum::replicate_project->name]);
         $restoreProjectPermission = Permission::create(['name' => PermissionsEnum::restore_project->name]);
         $forceDeleteProjectPermission = Permission::create(['name' => PermissionsEnum::forceDelete_project->name]);
+        // Profile Permissions
+        $viewProfilePermission = Permission::create(['name' => PermissionsEnum::view_profile->name]);
+        $updateProfilePermission = Permission::create(['name' => PermissionsEnum::update_profile->name]);
+        $deleteProfilePermission = Permission::create(['name' => PermissionsEnum::delete_profile->name]);
 
         $superAdminRolePermissions = [
             // Dashboard
@@ -162,6 +169,10 @@ class RolePermissionsSeeder extends Seeder
             $replicateProjectPermission,
             $restoreProjectPermission,
             $forceDeleteProjectPermission,
+            // Profile
+            $viewProfilePermission,
+            $updateProfilePermission,
+            $deleteProfilePermission
         ];
 
         $adminRolePermissions = array_filter($superAdminRolePermissions, function ($permission) {
@@ -171,13 +182,21 @@ class RolePermissionsSeeder extends Seeder
         // add canBeImpersonatePermission Permission
         array_push($adminRolePermissions, $canBeImpersonatePermission);
 
-        $userRolePermissions = array_filter($adminRolePermissions, function ($permission) {
+        $brokerRolePermissions = array_filter($adminRolePermissions, function ($permission) {
             return !Str::of($permission->name)->contains('delete_') && !Str::of($permission->name)->contains('update_') && !Str::of($permission->name)->contains('_user') && !Str::of($permission->name)->contains('_role') && !Str::of($permission->name)->contains('_permission') && !Str::of($permission->name)->contains('Impersonate_');
         });
+
+        $investorRolePermissions = $brokerRolePermissions;
+
+        $simpleUserRolePermissions = [$viewDashboardPermission];
+        $developerRolePermissions = $simpleUserRolePermissions;
 
         // Assign permissions to roles
         $superAdminRole->syncPermissions($superAdminRolePermissions);
         $adminRole->syncPermissions($adminRolePermissions);
-        $userRole->syncPermissions($userRolePermissions);
+        $simpleUserRole->syncPermissions($simpleUserRolePermissions);
+        $brokerRole->syncPermissions($brokerRolePermissions);
+        $developerRole->syncPermissions($developerRolePermissions);
+        $investorRole->syncPermissions($investorRolePermissions);
     }
 }

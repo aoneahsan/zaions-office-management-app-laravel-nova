@@ -7,7 +7,7 @@ namespace Database\Seeders;
 use Database\Seeders\Default\AttachmentSeeder;
 use Database\Seeders\Default\CommentSeeder;
 use Database\Seeders\Default\RolePermissionsSeeder;
-use Database\Seeders\Default\UserSeeder;
+use Database\Seeders\UserSeeder;
 use Database\Seeders\FPI\ProjectSeeder;
 use Illuminate\Database\Seeder;
 
