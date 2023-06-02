@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\Zaions\Auth\AuthController;
 use App\Http\Controllers\Zaions\TestingController;
 use App\Zaions\Enums\RolesEnum;
 use Illuminate\Support\Facades\Redirect;
@@ -26,5 +27,9 @@ Route::get('/z-testing', function () {
 
     dd('okay working');
 });
+
+// Route::controller(AuthController::class)->group(function () {
+//     Route::get('/login', 'showLoginPage');
+// });
 
 Route::redirect('/', config('nova.path'));

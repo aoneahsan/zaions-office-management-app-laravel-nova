@@ -86,7 +86,7 @@ class Comment extends Resource
                 ->maxlength(1500)
                 ->enforceMaxlength(),
 
-            HasMany::make('Replies', 'replies', Reply::class),
+            // HasMany::make('Replies', 'replies', Reply::class),
 
 
             Hidden::make('sortOrderNo', 'sortOrderNo')->default(function () {
@@ -103,7 +103,7 @@ class Comment extends Resource
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
 
-            MorphMany::make('Attachments', 'attachments', Attachment::class),
+            // MorphMany::make('Attachments', 'attachments', Attachment::class),
         ];
     }
 

@@ -13,6 +13,7 @@ use Laravel\Fortify\Rules\Password;
 
 class AuthController extends Controller
 {
+    // API Methods - Starts
     public function register(Request $request)
     {
         $request->validate([
@@ -119,5 +120,12 @@ class AuthController extends Controller
     public function verifyAuthState(Request $request)
     {
         return response()->json(['data' => true]);
+    }
+    // API Methods - Ends
+
+    // Web App Methods - Starts
+    public function showLoginPage(Request $request)
+    {
+        return view('auth.login');
     }
 }

@@ -110,7 +110,7 @@ class Reply extends Resource
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
 
-            MorphMany::make('Attachments', 'attachments', Attachment::class),
+            // MorphMany::make('Attachments', 'attachments', Attachment::class),
         ];
     }
 

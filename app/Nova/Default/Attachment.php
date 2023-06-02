@@ -84,9 +84,10 @@ class Attachment extends Resource
                 }),
 
             File::make('Attachment', 'attachmentPath')
-                ->rules('file', 'required', 'size:4000')
+                ->rules('file', 'required', 'max:4000')
                 ->disk(ZHelpers::getActiveFileDriver())
                 ->storeOriginalName('attachmentName')
+                ->placeholder('Upload File, max file size 4MB')
                 ->storeSize('attachmentSize'),
 
             URL::make('Attachment Download Link', 'attachmentDownloadLink')->exceptOnForms(),
@@ -113,7 +114,7 @@ class Attachment extends Resource
             KeyValue::make('Extra Attributes', 'extraAttributes')
                 ->rules('nullable', 'json'),
 
-            MorphMany::make('Comments', 'comments', Comment::class),
+            // MorphMany::make('Comments', 'comments', Comment::class),
         ];
     }
 
