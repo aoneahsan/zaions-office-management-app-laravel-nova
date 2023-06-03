@@ -7,6 +7,7 @@ use App\Nova\Metrics\ValueMetrics\UserCountValueMetrics;
 use App\Zaions\Enums\PermissionsEnum;
 use Illuminate\Http\Request;
 use Laravel\Nova\Dashboards\Main as Dashboard;
+use Zaions\Welcomecard\Welcomecard;
 
 class Main extends Dashboard
 {
@@ -28,11 +29,16 @@ class Main extends Dashboard
             // ])->defaultTimezone('Africa/Nairobi'),
 
             UserCountValueMetrics::make()->canSee(function (Request $request) {
-                $request->user()->hasPermissionTo(PermissionsEnum::viewAny_user->name);
+                return $request->user()->hasPermissionTo(PermissionsEnum::viewAny_user->name);
             }),
             ProjectCountValueMetrics::make()->canSee(function (Request $request) {
-                $request->user()->hasPermissionTo(PermissionsEnum::viewAny_project->name);
+                return $request->user()->hasPermissionTo(PermissionsEnum::viewAny_project->name);
             }),
+
+            Welcomecard::make()->canSee(function (Request $request) {
+                $currentUser = $request->user();
+                return !$currentUser->hasPermissionTo(PermissionsEnum::viewAny_user->name) && !$currentUser->hasPermissionTo(PermissionsEnum::viewAny_project->name);
+            })
 
         ];
     }

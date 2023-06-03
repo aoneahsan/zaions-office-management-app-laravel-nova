@@ -2,10 +2,12 @@
 
 namespace App\Zaions\Helpers;
 
+use App\Models\User;
 use App\Zaions\Enums\RolesEnum;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
 
 class ZHelpers
 {
@@ -211,5 +213,22 @@ class ZHelpers
     } catch (\Throwable $th) {
       return null;
     }
+  }
+
+  public static function getUniqueReferralCode(): string
+  {
+    // Generate a unique referral code
+    $referralCode = Str::random(8); // Generate an 8-character random string
+
+    // Check if the generated referral code already exists in the database
+    $isUnique = !User::where('referralCode', $referralCode)->exists();
+
+    // If the generated referral code is not unique, generate a new one until it is unique
+    while (!$isUnique) {
+      $referralCode = Str::random(8);
+      $isUnique = !User::where('referralCode', $referralCode)->exists();
+    }
+
+    return $referralCode;
   }
 }

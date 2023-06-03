@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Models\User;
 use App\Providers\RouteServiceProvider;
 use App\Zaions\Enums\RolesEnum;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Auth\Events\Registered;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Http\Request;
@@ -43,10 +44,6 @@ class RegisteredUserController extends Controller
             'type' => ['string', new Enum(RolesEnum::class)]
         ]);
 
-        // if ($request->type != RolesEnum::broker->name && $request->type != RolesEnum::broker->name && $request->type != RolesEnum::broker->name) {
-
-        // }
-
         $user = User::create([
             'name' => $request->name,
             'email' => $request->email,
@@ -55,6 +52,7 @@ class RegisteredUserController extends Controller
             'cnic' => $request->cnic,
         ]);
 
+        // Assign Role to user
         if ($request->type == RolesEnum::broker->name) {
             $brokerRole = Role::where('name', RolesEnum::broker->name)->get();
             $user->assignRole($brokerRole);
@@ -70,6 +68,10 @@ class RegisteredUserController extends Controller
             $simpleUserRole = Role::where('name', RolesEnum::simpleUser->name)->get();
             $user->assignRole($simpleUserRole);
         }
+
+        // Create and assign a referral code to user
+        $user->referralCode = ZHelpers::getUniqueReferralCode();
+        $user->save();
 
         event(new Registered($user));
 

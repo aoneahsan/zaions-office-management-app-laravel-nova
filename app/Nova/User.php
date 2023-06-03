@@ -5,7 +5,6 @@ namespace App\Nova;
 use App\Models\User as ModelsUser;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
-use Dniccum\PhoneNumber\PhoneNumber;
 use Illuminate\Http\Request;
 use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
@@ -16,10 +15,6 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\Password;
 use Laravel\Nova\Fields\Text;
-use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Timezone;
-use Laravel\Nova\Fields\Image;
-use Outl1ne\NovaInputFilter\InputFilter;
 use Outl1ne\NovaSortable\Traits\HasSortableRows;
 
 class User extends Resource
@@ -39,14 +34,11 @@ class User extends Resource
      */
     public function title()
     {
-        // return $this->name . ' - Email: ' . $this->phoneNumber;
         return 'Name: ' . $this->name;
     }
 
     public function subtitle()
     {
-        // return 'Email: ' . $this->email . ' & Phone Number: ' . $this->phoneNumber;
-        // return 'Email: ' . $this->email;
         return 'Phone Number: ' . $this->phoneNumber;
     }
 
@@ -130,66 +122,15 @@ class User extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
 
-            // Image::make('Profile Pitcher', 'profilePitcher')
-            //     ->rules('nullable', 'image')
-            //     ->disk(ZHelpers::getActiveFileDriver())
-            //     ->maxWidth(300),
-
-            // https://novapackages.com/packages/dniccum/phone-number
-            // PhoneNumber::make('Phone Number', 'phoneNumber')
-            // ->format('#### #######')
-            // ->country('PK')
-            // ->rules('required', 'digits:11', Rule::unique(ModelsUser::class)->ignore($this->id)),
             Text::make('Phone Number', 'phoneNumber')
                 ->rules('required', 'digits:11', Rule::unique(ModelsUser::class)->ignore($this->id)),
 
             Text::make('CNIC', 'cnic')
                 ->rules('required', 'digits:13', Rule::unique(ModelsUser::class)->ignore($this->id)),
 
-            // Timezone::make('Timezone', 'timezone')->searchable()->default(ZHelpers::getTimezone()),
-
-            // Number::make('dailyMinOfficeTime', 'dailyMinOfficeTime')
-            //     ->default(function () {
-            //         return 8;
-            //     })
-            //     ->min(3)
-            //     ->max(12)
-            //     ->step('any')
-            //     ->rules('required', 'numeric', 'min:3', 'max:12')
-            //     ->showOnIndex(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->showOnCreating(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->showOnUpdating(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->showOnDetail(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     }),
-
-            // Number::make('dailyMinOfficeTimeActivity', 'dailyMinOfficeTimeActivity')
-            //     ->default(function ($request) {
-            //         return 85;
-            //     })
-            //     ->min(70)
-            //     ->max(100)
-            //     ->step('any')
-            //     ->rules('required', 'numeric', 'min:70', 'max:100')
-            //     ->showOnIndex(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->showOnCreating(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->showOnUpdating(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     })
-            //     ->showOnDetail(function (NovaRequest $request) {
-            //         return ZHelpers::isNRUserSuperAdmin($request);
-            //     }),
-
+            Text::make('Referral Code', 'referralCode')
+                ->exceptOnForms()
+                ->copyable(),
 
             Boolean::make('isActive', 'isActive')->default(true)
                 ->show(function (NovaRequest $request) {
@@ -226,9 +167,7 @@ class User extends Resource
 
     protected function myFilters()
     {
-        return [
-            InputFilter::make()->forColumns(['email'])->withName('Email')
-        ];
+        return [];
     }
 
     /**

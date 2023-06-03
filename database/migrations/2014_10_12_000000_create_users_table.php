@@ -28,6 +28,7 @@ return new class extends Migration
             $table->string('timezone')->nullable();
             $table->string('address')->nullable();
             $table->string('cnic')->nullable();
+            $table->string('referralCode')->nullable();
 
             $table->boolean('isActive')->default(true);
             $table->integer('sortOrderNo')->default(0)->nullable();

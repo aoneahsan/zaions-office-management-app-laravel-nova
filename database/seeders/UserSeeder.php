@@ -4,6 +4,7 @@ namespace Database\Seeders;
 
 use App\Models\User;
 use App\Zaions\Enums\RolesEnum;
+use App\Zaions\Helpers\ZHelpers;
 use Carbon\Carbon;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
@@ -34,7 +35,8 @@ class UserSeeder extends Seeder
             'dailyMinOfficeTime' => 8,
             'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619706',
-            'cnic' => '3520209598315'
+            'cnic' => '3520209598315',
+            'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
         $superAdminUser = User::create([
             'uniqueId' => uniqid(),
@@ -46,7 +48,8 @@ class UserSeeder extends Seeder
             'dailyMinOfficeTime' => 8,
             'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619705',
-            'cnic' => '3520209598316'
+            'cnic' => '3520209598316',
+            'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
 
         // create admin user
@@ -60,7 +63,8 @@ class UserSeeder extends Seeder
             'dailyMinOfficeTime' => 8,
             'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619707',
-            'cnic' => '3520209598317'
+            'cnic' => '3520209598317',
+            'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
 
         // create simpleUser user
@@ -74,7 +78,8 @@ class UserSeeder extends Seeder
             'dailyMinOfficeTime' => 8,
             'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619708',
-            'cnic' => '3520209598318'
+            'cnic' => '3520209598318',
+            'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
 
         // create broker user
@@ -88,7 +93,8 @@ class UserSeeder extends Seeder
             'dailyMinOfficeTime' => 8,
             'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619709',
-            'cnic' => '3520209598319'
+            'cnic' => '3520209598319',
+            'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
 
         // create developer user
@@ -102,7 +108,8 @@ class UserSeeder extends Seeder
             'dailyMinOfficeTime' => 8,
             'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619710',
-            'cnic' => '3520209598310'
+            'cnic' => '3520209598310',
+            'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
 
         // create investor user
@@ -116,7 +123,8 @@ class UserSeeder extends Seeder
             'dailyMinOfficeTime' => 8,
             'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619710',
-            'cnic' => '3520209598310'
+            'cnic' => '3520209598310',
+            'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
 
         // Assign Roles

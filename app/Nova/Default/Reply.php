@@ -73,7 +73,8 @@ class Reply extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 })
                 ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->hideWhenUpdating()
+                ->withoutTrashed(),
 
             BelongsTo::make('Comment', 'comment', Comment::class)
                 ->hideFromIndex()
@@ -81,7 +82,8 @@ class Reply extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 })
                 ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->hideWhenUpdating()
+                ->withoutTrashed(),
 
 
             Hidden::make('userId', 'userId')

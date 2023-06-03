@@ -76,7 +76,8 @@ class Attachment extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 })
                 ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                ->hideWhenUpdating()
+                ->withoutTrashed(),
 
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
