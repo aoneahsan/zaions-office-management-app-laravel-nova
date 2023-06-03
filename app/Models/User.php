@@ -62,6 +62,11 @@ class User extends Authenticatable
         return $this->hasPermissionTo(PermissionsEnum::canBe_impersonate->name) && !$this->hasRole(RolesEnum::superAdmin->name);
     }
 
+    public function getAssignedRoleNameAttribute()
+    {
+        return optional(optional($this->roles())->first())->name;
+    }
+
     // User Modal Attributes getter functions
     public function getUserTimezoneAttribute()
     {

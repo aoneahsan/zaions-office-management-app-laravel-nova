@@ -2,10 +2,12 @@
 
 namespace App\Nova;
 
+use App\Models\User as ModelsUser;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Dniccum\PhoneNumber\PhoneNumber;
-
+use Illuminate\Http\Request;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -35,11 +37,17 @@ class User extends Resource
      *
      * @var string
      */
-    public static $title = 'name';
+    public function title()
+    {
+        // return $this->name . ' - Email: ' . $this->phoneNumber;
+        return 'Name: ' . $this->name;
+    }
+
     public function subtitle()
     {
         // return 'Email: ' . $this->email . ' & Phone Number: ' . $this->phoneNumber;
-        return 'Email: ' . $this->email;
+        // return 'Email: ' . $this->email;
+        return 'Phone Number: ' . $this->phoneNumber;
     }
 
     /**
@@ -56,7 +64,12 @@ class User extends Resource
      *
      * @var int|null
      */
-    public static $relatableSearchResults = 10;
+    public static $relatableSearchResults = 1;
+    public static $displayInNavigation = true;
+    public static $globallySearchable = false;
+    public static $globalSearchResults = 1;
+    public static $scoutSearchResults = 1;
+    public static $searchable = true;
 
     /**
      * Get the fields displayed by the resource.
@@ -75,6 +88,12 @@ class User extends Resource
                 ->onlyOnDetail()
                 ->default(function () {
                     return uniqid();
+                }),
+
+            Text::make('Role', 'assignedRoleName')
+                ->exceptOnForms()
+                ->canSee(function (Request $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
                 }),
 
             Text::make('Name')
@@ -111,59 +130,65 @@ class User extends Resource
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
 
-            Image::make('Profile Pitcher', 'profilePitcher')
-                ->rules('nullable', 'image')
-                ->disk(ZHelpers::getActiveFileDriver())
-                ->maxWidth(300),
+            // Image::make('Profile Pitcher', 'profilePitcher')
+            //     ->rules('nullable', 'image')
+            //     ->disk(ZHelpers::getActiveFileDriver())
+            //     ->maxWidth(300),
 
             // https://novapackages.com/packages/dniccum/phone-number
-            PhoneNumber::make('Phone Number', 'phoneNumber')
-                ->format('+## ### ### ####')
-                ->country('PK'),
+            // PhoneNumber::make('Phone Number', 'phoneNumber')
+            // ->format('#### #######')
+            // ->country('PK')
+            // ->rules('required', 'digits:11', Rule::unique(ModelsUser::class)->ignore($this->id)),
+            Text::make('Phone Number', 'phoneNumber')
+                ->rules('required', 'digits:11', Rule::unique(ModelsUser::class)->ignore($this->id)),
 
-            Timezone::make('Timezone', 'timezone')->searchable()->default(ZHelpers::getTimezone()),
+            Text::make('CNIC', 'cnic')
+                ->rules('required', 'digits:13', Rule::unique(ModelsUser::class)->ignore($this->id)),
 
-            Number::make('dailyMinOfficeTime', 'dailyMinOfficeTime')
-                ->default(function () {
-                    return 8;
-                })
-                ->min(3)
-                ->max(12)
-                ->step('any')
-                ->rules('required', 'numeric', 'min:3', 'max:12')
-                ->showOnIndex(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnCreating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnUpdating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                }),
+            // Timezone::make('Timezone', 'timezone')->searchable()->default(ZHelpers::getTimezone()),
 
-            Number::make('dailyMinOfficeTimeActivity', 'dailyMinOfficeTimeActivity')
-                ->default(function ($request) {
-                    return 85;
-                })
-                ->min(70)
-                ->max(100)
-                ->step('any')
-                ->rules('required', 'numeric', 'min:70', 'max:100')
-                ->showOnIndex(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnCreating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnUpdating(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->showOnDetail(function (NovaRequest $request) {
-                    return ZHelpers::isNRUserSuperAdmin($request);
-                }),
+            // Number::make('dailyMinOfficeTime', 'dailyMinOfficeTime')
+            //     ->default(function () {
+            //         return 8;
+            //     })
+            //     ->min(3)
+            //     ->max(12)
+            //     ->step('any')
+            //     ->rules('required', 'numeric', 'min:3', 'max:12')
+            //     ->showOnIndex(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     })
+            //     ->showOnCreating(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     })
+            //     ->showOnUpdating(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     })
+            //     ->showOnDetail(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     }),
+
+            // Number::make('dailyMinOfficeTimeActivity', 'dailyMinOfficeTimeActivity')
+            //     ->default(function ($request) {
+            //         return 85;
+            //     })
+            //     ->min(70)
+            //     ->max(100)
+            //     ->step('any')
+            //     ->rules('required', 'numeric', 'min:70', 'max:100')
+            //     ->showOnIndex(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     })
+            //     ->showOnCreating(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     })
+            //     ->showOnUpdating(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     })
+            //     ->showOnDetail(function (NovaRequest $request) {
+            //         return ZHelpers::isNRUserSuperAdmin($request);
+            //     }),
 
 
             Boolean::make('isActive', 'isActive')->default(true)

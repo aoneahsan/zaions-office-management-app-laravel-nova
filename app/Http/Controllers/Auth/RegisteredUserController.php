@@ -38,8 +38,8 @@ class RegisteredUserController extends Controller
             'name' => ['required', 'string', 'max:255'],
             'email' => ['required', 'string', 'email', 'max:255', 'unique:' . User::class],
             'password' => ['required', 'confirmed', Rules\Password::defaults()],
-            'phoneNumber' => ['numeric', 'digits_between:10,16', Rule::unique(User::class)],
-            'cnic' => ['numeric', 'digits:13', Rule::unique(User::class)],
+            'phoneNumber' => ['required', 'digits:11', Rule::unique(User::class)],
+            'cnic' => ['required', 'digits:13', Rule::unique(User::class)],
             'type' => ['string', new Enum(RolesEnum::class)]
         ]);
 

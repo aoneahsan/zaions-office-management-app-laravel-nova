@@ -6,16 +6,13 @@ use App\Nova\Dashboards\Main;
 use App\Nova\FPI\Project;
 use App\Nova\User;
 use App\Zaions\Enums\PermissionsEnum;
-use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Support\Facades\Gate;
-use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Nova;
 use Laravel\Nova\NovaApplicationServiceProvider;
 use Illuminate\Http\Request;
 use Illuminate\Routing\Router;
 use Illuminate\Support\Facades\Blade;
 use Illuminate\Support\Facades\Route;
-use Laravel\Nova\Dashboard;
 use Laravel\Nova\Menu\Menu;
 use Laravel\Nova\Menu\MenuGroup;
 use Laravel\Nova\Menu\MenuItem;
@@ -34,28 +31,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
         parent::boot();
 
         // BreadCrumbs in App
-        // Nova::withBreadcrumbs();
-        Nova::withBreadcrumbs(function (NovaRequest $request) {
-            if ($request->user()) {
-                return $request->user()->wantsBreadcrumbs();
-            } else {
-                return false;
-            }
-        });
+        Nova::withBreadcrumbs(false);
 
 
         // LTR in App
-        // Nova::enableRTL();
-        // Nova::enableRTL(function (Request $request) {
-        //     if ($request->user()) {
-        //         return $request->user()->wantsRTL();
-        //     } else {
-        //         return false;
-        //     }
-        // });
-
-        // Theme Switcher
-        // Nova::withoutThemeSwitcher();
+        Nova::enableRTL(false);
 
         // set the timezone to user current timezone
         Nova::userTimezone(function (Request $request) {
@@ -65,6 +45,13 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                 return "Asia/Karachi";
             }
         });
+
+
+        // disable the global search
+        Nova::withoutGlobalSearch();
+
+        // disable nova theme switcher
+        Nova::withoutThemeSwitcher();
     }
 
     /**
@@ -82,9 +69,8 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
             ->group(function (Router $router) {
                 $router->post('/logout', [LoginController::class, 'logout'])->name('nova.logout');
             });
+
         Nova::routes()
-            // ->withAuthenticationRoutes()
-            // ->withPasswordResetRoutes()
             ->register();
 
 
@@ -106,7 +92,9 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
                     MenuGroup::make('My Account', [
                         MenuItem::externalLink('Edit Profile', '/profile'),
-                        MenuItem::externalLink('2FA', '/nova-two-factor'),
+                        MenuItem::externalLink('2FA', '/nova-two-factor')->canSee(function () {
+                            return false;
+                        }),
                         // MenuItem::lens(User::class, MostValuableUsers::class),
                     ]),
                 ]),
@@ -149,55 +137,14 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     {
         return [
             NovaPermissionTool::make()->canSee(function (Request $request) {
-                return ZHelpers::isNRUserSuperAdmin($request);
+                // return ZHelpers::isNRUserSuperAdmin($request);
+                return false;
             }),
 
-            // https://novapackages.com/packages/vmitchell85/nova-links
-            // (new \vmitchell85\NovaLinks\Links('Extra Links'))
-            //     ->addExternalLink('Zaions', 'https://zaions.com', true),
-
-            // https://novapackages.com/packages/bolechen/nova-activitylog
-            // new \Bolechen\NovaActivitylog\NovaActivitylog(),
-
-            // https://novapackages.com/packages/bakerkretzmar/nova-settings-tool
-            // new SettingsTool,
-
-            // https://novapackages.com/packages/codenco-dev/nova-grid-system#screenshots
-            // new NovaGridSystem,
-
-            // https://novapackages.com/packages/outl1ne/nova-menu-builder
-            // mainly to create menus in laravel nova and then get them in frontend using API
-            // \Outl1ne\MenuBuilder\MenuBuilder::make()
-            //     // Optional customization
-            //     ->title('Menus') // Define a new name for sidebar
-            //     ->icon('adjustments') // Customize menu icon, supports heroicons
-            //     ->hideMenu(false), // Hide MenuBuilder defined MenuSection.
-
             // https://novapackages.com/packages/Visanduma/nova-two-factor
-            \Visanduma\NovaTwoFactor\NovaTwoFactor::make(),
-
-            // https://novapackages.com/packages/oneduo/nova-file-manager
-            // NovaFileManager::make(),
-
-            // https://novapackages.com/packages/spatie/nova-backup-tool
-            // Getting error: Undefined constant \"Spatie\\Backup\\Tasks\\Backup\\SIGINT\"
-            // Solution: https://github.com/spatie/laravel-backup/issues/1445
-            // new \Spatie\BackupTool\BackupTool(),
-
-            // https://novapackages.com/packages/whitecube/nova-page
-            // \Whitecube\NovaPage\NovaPageTool::make(),
-
-
-            // https://novapackages.com/packages/dniccum/nova-documentation
-            // new NovaDocumentation,
-
-            // https://novapackages.com/packages/stepanenko3/nova-health
-            // new \Stepanenko3\NovaHealth\NovaHealth,
-
-            // https://novapackages.com/packages/llaski/nova-scheduled-jobs
-            // new \Llaski\NovaScheduledJobs\NovaScheduledJobsCard,
-
-
+            \Visanduma\NovaTwoFactor\NovaTwoFactor::make()->canSee(function () {
+                return false;
+            }),
         ];
     }
 

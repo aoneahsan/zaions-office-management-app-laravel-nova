@@ -20,6 +20,7 @@ return new class extends Migration
             $table->string('attachmentName')->nullable();
             $table->string('attachmentSize')->nullable();
             $table->morphs('attachable');
+            $table->text('attachmentInfo')->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);

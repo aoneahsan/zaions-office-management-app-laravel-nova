@@ -2,7 +2,10 @@
 
 namespace App\Nova\Dashboards;
 
+use App\Nova\Metrics\ValueMetrics\Projects\ProjectCountValueMetrics;
 use App\Nova\Metrics\ValueMetrics\UserCountValueMetrics;
+use App\Zaions\Enums\PermissionsEnum;
+use Illuminate\Http\Request;
 use Laravel\Nova\Dashboards\Main as Dashboard;
 
 class Main extends Dashboard
@@ -24,7 +27,13 @@ class Main extends Dashboard
             //     'Asia/Tokyo',
             // ])->defaultTimezone('Africa/Nairobi'),
 
-            UserCountValueMetrics::make()
+            UserCountValueMetrics::make()->canSee(function (Request $request) {
+                $request->user()->hasPermissionTo(PermissionsEnum::viewAny_user->name);
+            }),
+            ProjectCountValueMetrics::make()->canSee(function (Request $request) {
+                $request->user()->hasPermissionTo(PermissionsEnum::viewAny_project->name);
+            }),
+
         ];
     }
 }

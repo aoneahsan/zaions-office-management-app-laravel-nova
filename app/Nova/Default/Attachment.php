@@ -93,6 +93,9 @@ class Attachment extends Resource
             URL::make('Attachment Download Link', 'attachmentDownloadLink')->exceptOnForms(),
             Text::make('Attachment Name', 'attachmentName')->onlyOnDetail(),
 
+            Textarea::make('Attachment Info', 'attachmentInfo')
+                ->alwaysShow(),
+
             Text::make('Attachment Size', 'attachmentSize')
                 ->exceptOnForms()
                 ->displayUsing(function ($value) {

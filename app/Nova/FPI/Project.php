@@ -4,7 +4,7 @@ namespace App\Nova\FPI;
 
 use App\Models\FPI\Project as FPIProject;
 use App\Nova\Default\Attachment;
-use App\Nova\Default\User;
+use App\Nova\User;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
@@ -15,7 +15,6 @@ use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
-use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -72,7 +71,7 @@ class Project extends Resource
                     return $request->user()->getKey();
                 }),
 
-            MorphMany::make('Task Attachments', 'attachments', Attachment::class),
+            MorphMany::make('Attachments', 'attachments', Attachment::class),
 
 
             // Normal fields

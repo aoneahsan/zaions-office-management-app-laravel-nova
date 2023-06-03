@@ -13,6 +13,14 @@ class TestingController extends Controller
 {
     public function zTestingRouteRes(Request $request)
     {
+        // check user Role Test
+        $this->checkUserRoleTest($request);
+
+        return response()->json('working fine');
+    }
+
+    public function checkUserWorkSpacePixelTest(Request $request)
+    {
         // Test check if user is super admin
         // $user = $request->user();
         // dd($user->roles()->pluck('name'), $user->hasRole(RolesEnum::superAdmin->name));
@@ -40,7 +48,16 @@ class TestingController extends Controller
         // )->first();
 
         // dd($workspace, $workspace->pixel);
+    }
 
-        return response()->json('working fine');
+    public function checkUserRoleTest(Request $request)
+    {
+        $user = $request->user();
+
+        $roles = $user->roles();
+        $role = $roles->first();
+        $roleName = optional($role)->name;
+
+        dd($user, $roles, $role, $roleName);
     }
 }
