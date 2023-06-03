@@ -15,6 +15,13 @@ class AuthServiceProvider extends ServiceProvider
     protected $policies = [
         // 'App\Models\Model' => 'App\Policies\ModelPolicy',
         'App\Models\User' => 'App\Policies\UserPolicy',
+        // Default Folder Models Policies
+        'App\Models\Default\Attachment' => 'App\Policies\Default\AttachmentPolicy',
+        'App\Models\Default\Comment' => 'App\Policies\Default\CommentPolicy',
+        'App\Models\Default\Reply' => 'App\Policies\Default\ReplyPolicy',
+        // FPI Folder Models Policies
+        'App\Models\FPI\Project' => 'App\Policies\FPI\ProjectPolicy',
+        'App\Models\FPI\ProjectTransaction' => 'App\Policies\FPI\ProjectTransactionPolicy',
     ];
 
     /**

@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\Default;
 
 use App\Models\User;
 use App\Zaions\Enums\PermissionsEnum;

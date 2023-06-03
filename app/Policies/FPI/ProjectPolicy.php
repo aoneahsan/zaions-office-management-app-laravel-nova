@@ -1,9 +1,11 @@
 <?php
 
-namespace App\Policies;
+namespace App\Policies\FPI;
 
+use App\Models\FPI\Project;
 use App\Models\User;
 use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class ProjectPolicy
@@ -51,13 +53,18 @@ class ProjectPolicy
         return $user->hasPermissionTo(PermissionsEnum::forceDelete_project->name);
     }
 
-    public function runAction(User  $user)
+    public function runAction(User $user)
     {
         return $user->hasPermissionTo(PermissionsEnum::create_project->name) && $user->hasPermissionTo(PermissionsEnum::update_project->name);
     }
 
-    public function runDestructiveAction(User  $user)
+    public function runDestructiveAction(User $user)
     {
         return $user->hasPermissionTo(PermissionsEnum::update_project->name) && $user->hasPermissionTo(PermissionsEnum::delete_project->name);
+    }
+
+    public function addAttachment(User $user, Project $project)
+    {
+        return $project->userId === $user->id || ZHelpers::isSuperAdmin($user) || ZHelpers::isAdmin($user);
     }
 }

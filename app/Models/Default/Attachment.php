@@ -13,7 +13,7 @@ use Laravel\Nova\Actions\Actionable;
 
 class Attachment extends Model
 {
-    use HasFactory, SoftDeletes, Actionable;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = [];
 

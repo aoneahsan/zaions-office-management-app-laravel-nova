@@ -4,6 +4,7 @@ namespace App\Nova\Default;
 
 use App\Models\Default\Comment as ModelsComment;
 use App\Nova\Resource;
+use App\Nova\User;
 use App\Zaions\Helpers\ZHelpers;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -38,7 +39,7 @@ class Comment extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'content'
+        'content'
     ];
 
     /**

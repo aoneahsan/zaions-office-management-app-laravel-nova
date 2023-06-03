@@ -22,7 +22,7 @@ use Visanduma\NovaTwoFactor\ProtectWith2FA;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasTags, SoftDeletes, Impersonatable, Actionable, SortableTrait, ProtectWith2FA, HasNotes;
+    use HasApiTokens, HasFactory, Notifiable, HasRoles, HasTags, SoftDeletes, Impersonatable, SortableTrait, ProtectWith2FA, HasNotes;
 
     protected $guarded = [];
 

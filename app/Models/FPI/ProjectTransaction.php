@@ -2,14 +2,14 @@
 
 namespace App\Models\FPI;
 
-use App\Models\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
 
-class ProjectSellRecord extends Model
+class ProjectTransaction extends Model
 {
     use HasFactory, SoftDeletes;
 
@@ -25,8 +25,8 @@ class ProjectSellRecord extends Model
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function project(): BelongsTo
+    public function project(): HasOne
     {
-        return $this->belongsTo(Project::class, 'projectId', 'id');
+        return $this->hasOne(Project::class, 'projectId', 'id');
     }
 }

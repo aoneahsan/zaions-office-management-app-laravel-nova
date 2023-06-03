@@ -4,8 +4,10 @@ namespace App\Nova\FPI;
 
 use App\Models\FPI\Project as FPIProject;
 use App\Nova\Default\Attachment;
+use App\Nova\Lenses\Projects\ProjectRebateListPageLens;
 use App\Nova\User;
 use App\Nova\Resource;
+use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -41,7 +43,7 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'title'
+        'title', 'location', 'type'
     ];
 
     /**
@@ -166,7 +168,12 @@ class Project extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            ProjectRebateListPageLens::make()->canSee(function (Request $request) {
+                $currentUser = $request->user();
+                return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_projectRebateListPage->name);
+            })
+        ];
     }
 
     /**

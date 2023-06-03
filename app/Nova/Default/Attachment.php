@@ -4,6 +4,7 @@ namespace App\Nova\Default;
 
 use App\Models\Default\Attachment as ModelsAttachment;
 use App\Nova\Resource;
+use App\Nova\User;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -41,7 +42,7 @@ class Attachment extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'attachmentName'
+        'attachmentName'
     ];
 
     /**

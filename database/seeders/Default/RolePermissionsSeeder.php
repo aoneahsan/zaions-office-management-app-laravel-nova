@@ -2,7 +2,6 @@
 
 namespace Database\Seeders\Default;
 
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Spatie\Permission\Models\Permission;
 use Spatie\Permission\Models\Role;
@@ -38,6 +37,7 @@ class RolePermissionsSeeder extends Seeder
         $replicateUserPermission = Permission::create(['name' => PermissionsEnum::replicate_user->name]);
         $restoreUserPermission = Permission::create(['name' => PermissionsEnum::restore_user->name]);
         $forceDeleteUserPermission = Permission::create(['name' => PermissionsEnum::forceDelete_user->name]);
+        $viewResourceUserPermission = Permission::create(['name' => PermissionsEnum::viewResource_user->name]);
         // Roles Model Permissions
         $viewAnyRolePermission = Permission::create(['name' => PermissionsEnum::viewAny_role->name]);
         $viewRolePermission = Permission::create(['name' => PermissionsEnum::view_role->name]);
@@ -47,6 +47,7 @@ class RolePermissionsSeeder extends Seeder
         $replicateRolePermission = Permission::create(['name' => PermissionsEnum::replicate_role->name]);
         $restoreRolePermission = Permission::create(['name' => PermissionsEnum::restore_role->name]);
         $forceDeleteRolePermission = Permission::create(['name' => PermissionsEnum::forceDelete_role->name]);
+        $viewResourceRolePermission = Permission::create(['name' => PermissionsEnum::viewResource_role->name]);
         // Permissions Model Permissions
         $viewAnyPermissionPermission = Permission::create(['name' => PermissionsEnum::viewAny_permission->name]);
         $viewPermissionPermission = Permission::create(['name' => PermissionsEnum::view_permission->name]);
@@ -56,6 +57,7 @@ class RolePermissionsSeeder extends Seeder
         $replicatePermissionPermission = Permission::create(['name' => PermissionsEnum::replicate_permission->name]);
         $restorePermissionPermission = Permission::create(['name' => PermissionsEnum::restore_permission->name]);
         $forceDeletePermissionPermission = Permission::create(['name' => PermissionsEnum::forceDelete_permission->name]);
+        $viewResourcePermissionPermission = Permission::create(['name' => PermissionsEnum::viewResource_permission->name]);
         // Attachments Model Permissions
         $viewAnyAttachmentPermission = Permission::create(['name' => PermissionsEnum::viewAny_attachment->name]);
         $viewAttachmentPermission = Permission::create(['name' => PermissionsEnum::view_attachment->name]);
@@ -65,6 +67,7 @@ class RolePermissionsSeeder extends Seeder
         $replicateAttachmentPermission = Permission::create(['name' => PermissionsEnum::replicate_attachment->name]);
         $restoreAttachmentPermission = Permission::create(['name' => PermissionsEnum::restore_attachment->name]);
         $forceDeleteAttachmentPermission = Permission::create(['name' => PermissionsEnum::forceDelete_attachment->name]);
+        $viewResourceAttachmentPermission = Permission::create(['name' => PermissionsEnum::viewResource_attachment->name]);
         // Comments Model Permissions
         $viewAnyCommentPermission = Permission::create(['name' => PermissionsEnum::viewAny_comment->name]);
         $viewCommentPermission = Permission::create(['name' => PermissionsEnum::view_comment->name]);
@@ -74,6 +77,7 @@ class RolePermissionsSeeder extends Seeder
         $replicateCommentPermission = Permission::create(['name' => PermissionsEnum::replicate_comment->name]);
         $restoreCommentPermission = Permission::create(['name' => PermissionsEnum::restore_comment->name]);
         $forceDeleteCommentPermission = Permission::create(['name' => PermissionsEnum::forceDelete_comment->name]);
+        $viewResourceCommentPermission = Permission::create(['name' => PermissionsEnum::viewResource_comment->name]);
         // Replies Model Permissions
         $viewAnyReplyPermission = Permission::create(['name' => PermissionsEnum::viewAny_reply->name]);
         $viewReplyPermission = Permission::create(['name' => PermissionsEnum::view_reply->name]);
@@ -83,6 +87,7 @@ class RolePermissionsSeeder extends Seeder
         $replicateReplyPermission = Permission::create(['name' => PermissionsEnum::replicate_reply->name]);
         $restoreReplyPermission = Permission::create(['name' => PermissionsEnum::restore_reply->name]);
         $forceDeleteReplyPermission = Permission::create(['name' => PermissionsEnum::forceDelete_reply->name]);
+        $viewResourceReplyPermission = Permission::create(['name' => PermissionsEnum::viewResource_reply->name]);
         // Impersonation Permissions
         $canImpersonatePermission = Permission::create(['name' => PermissionsEnum::can_impersonate->name]);
         $canBeImpersonatePermission = Permission::create(['name' => PermissionsEnum::canBe_impersonate->name]);
@@ -95,10 +100,27 @@ class RolePermissionsSeeder extends Seeder
         $replicateProjectPermission = Permission::create(['name' => PermissionsEnum::replicate_project->name]);
         $restoreProjectPermission = Permission::create(['name' => PermissionsEnum::restore_project->name]);
         $forceDeleteProjectPermission = Permission::create(['name' => PermissionsEnum::forceDelete_project->name]);
+        $viewResourceProjectPermission = Permission::create(['name' => PermissionsEnum::viewResource_project->name]);
+        $viewLensProjectRebateListPagePermission = Permission::create(['name' => PermissionsEnum::viewLens_projectRebateListPage->name]);
         // Profile Permissions
         $viewProfilePermission = Permission::create(['name' => PermissionsEnum::view_profile->name]);
         $updateProfilePermission = Permission::create(['name' => PermissionsEnum::update_profile->name]);
         $deleteProfilePermission = Permission::create(['name' => PermissionsEnum::delete_profile->name]);
+        // 2FA Permissions
+        $view2FAPermission = Permission::create(['name' => PermissionsEnum::view_2fa->name]);
+        $create2FAPermission = Permission::create(['name' => PermissionsEnum::create_2fa->name]);
+        $update2FAPermission = Permission::create(['name' => PermissionsEnum::update_2fa->name]);
+        $delete2FAPermission = Permission::create(['name' => PermissionsEnum::delete_2fa->name]);
+        // ProjectTransaction Model Permissions
+        $viewAnyProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::viewAny_projectTransaction->name]);
+        $viewProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::view_projectTransaction->name]);
+        $addProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::create_projectTransaction->name]);
+        $updateProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::update_projectTransaction->name]);
+        $deleteProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::delete_projectTransaction->name]);
+        $replicateProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::replicate_projectTransaction->name]);
+        $restoreProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::restore_projectTransaction->name]);
+        $forceDeleteProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::forceDelete_projectTransaction->name]);
+        $viewLensPersonalProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::viewLens_personalProjectTransactionLens->name]);
 
         $superAdminRolePermissions = [
             // Dashboard
@@ -112,6 +134,7 @@ class RolePermissionsSeeder extends Seeder
             $replicateUserPermission,
             $restoreUserPermission,
             $forceDeleteUserPermission,
+            $viewResourceUserPermission,
             // Role
             $viewAnyRolePermission,
             $viewRolePermission,
@@ -121,6 +144,7 @@ class RolePermissionsSeeder extends Seeder
             $replicateRolePermission,
             $restoreRolePermission,
             $forceDeleteRolePermission,
+            $viewResourceRolePermission,
             // Permission
             $viewAnyPermissionPermission,
             $viewPermissionPermission,
@@ -130,6 +154,7 @@ class RolePermissionsSeeder extends Seeder
             $replicatePermissionPermission,
             $restorePermissionPermission,
             $forceDeletePermissionPermission,
+            $viewResourcePermissionPermission,
             // Attachment
             $viewAnyAttachmentPermission,
             $viewAttachmentPermission,
@@ -139,6 +164,7 @@ class RolePermissionsSeeder extends Seeder
             $replicateAttachmentPermission,
             $restoreAttachmentPermission,
             $forceDeleteAttachmentPermission,
+            $viewResourceAttachmentPermission,
             // Comment
             $viewAnyCommentPermission,
             $viewCommentPermission,
@@ -148,6 +174,7 @@ class RolePermissionsSeeder extends Seeder
             $replicateCommentPermission,
             $restoreCommentPermission,
             $forceDeleteCommentPermission,
+            $viewResourceCommentPermission,
             // Reply
             $viewAnyReplyPermission,
             $viewReplyPermission,
@@ -157,6 +184,7 @@ class RolePermissionsSeeder extends Seeder
             $replicateReplyPermission,
             $restoreReplyPermission,
             $forceDeleteReplyPermission,
+            $viewResourceReplyPermission,
             // Impersonation
             $canImpersonatePermission,
             // $canBeImpersonatePermission // this is commented by ahsan, as no one in app should impersonate super admin user account
@@ -169,26 +197,57 @@ class RolePermissionsSeeder extends Seeder
             $replicateProjectPermission,
             $restoreProjectPermission,
             $forceDeleteProjectPermission,
+            $viewResourceProjectPermission,
+            $viewLensProjectRebateListPagePermission,
             // Profile
             $viewProfilePermission,
             $updateProfilePermission,
-            $deleteProfilePermission
+            $deleteProfilePermission,
+            // 2FA
+            $view2FAPermission,
+            $create2FAPermission,
+            $update2FAPermission,
+            $delete2FAPermission,
+            // ProjectTransaction
+            $viewAnyProjectTransactionPermission,
+            $viewProjectTransactionPermission,
+            $addProjectTransactionPermission,
+            $updateProjectTransactionPermission,
+            $deleteProjectTransactionPermission,
+            $replicateProjectTransactionPermission,
+            $restoreProjectTransactionPermission,
+            $forceDeleteProjectTransactionPermission,
+            $viewLensPersonalProjectTransactionPermission,
         ];
 
         $adminRolePermissions = array_filter($superAdminRolePermissions, function ($permission) {
-            return !Str::of($permission->name)->contains('restore_') && !Str::of($permission->name)->contains('forceDelete_');
+            return !Str::of($permission->name)->startsWith('restore_') &&
+                !Str::of($permission->name)->startsWith('forceDelete_') &&
+                !Str::of($permission->name)->endsWith('_role') &&
+                !Str::of($permission->name)->endsWith('_permission') &&
+                !Str::of($permission->name)->contains('2fa');
         });
 
         // add canBeImpersonatePermission Permission
         array_push($adminRolePermissions, $canBeImpersonatePermission);
 
         $brokerRolePermissions = array_filter($adminRolePermissions, function ($permission) {
-            return !Str::of($permission->name)->contains('delete_') && !Str::of($permission->name)->contains('update_') && !Str::of($permission->name)->contains('_user') && !Str::of($permission->name)->contains('_role') && !Str::of($permission->name)->contains('_permission') && !Str::of($permission->name)->contains('Impersonate_');
+            return !Str::of($permission->name)->startsWith('delete_') &&
+                !Str::of($permission->name)->startsWith('replicate_') &&
+                !Str::of($permission->name)->startsWith('update_') &&
+                !Str::of($permission->name)->endsWith('_user') &&
+                !Str::of($permission->name)->contains('impersonate') &&
+                !Str::of($permission->name)->contains('Resource');
         });
 
         $investorRolePermissions = $brokerRolePermissions;
 
-        $simpleUserRolePermissions = [$viewDashboardPermission];
+        $simpleUserRolePermissions = [
+            $viewDashboardPermission,
+            $viewProfilePermission,
+            $updateProfilePermission,
+            $deleteProfilePermission,
+        ];
         $developerRolePermissions = $simpleUserRolePermissions;
 
         // Assign permissions to roles

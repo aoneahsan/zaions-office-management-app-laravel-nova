@@ -63,6 +63,42 @@ class User extends Resource
     public static $scoutSearchResults = 1;
     public static $searchable = true;
 
+    public static function indexQuery(NovaRequest $request, $query)
+    {
+        if (ZHelpers::isNRUserSuperAdmin($request)) {
+            return $query;
+        } else {
+            return $query->whereNotIn('email', ['superadmin@zaions.com', 'ahsan@zaions.com']);
+        }
+    }
+
+    public static function scoutQuery(NovaRequest $request, $query)
+    {
+        if (ZHelpers::isNRUserSuperAdmin($request)) {
+            return $query;
+        } else {
+            return $query->whereNotIn('email', ['superadmin@zaions.com', 'ahsan@zaions.com']);
+        }
+    }
+
+    public static function detailQuery(NovaRequest $request, $query)
+    {
+        if (ZHelpers::isNRUserSuperAdmin($request)) {
+            return $query;
+        } else {
+            return $query->whereNotIn('email', ['superadmin@zaions.com', 'ahsan@zaions.com']);
+        }
+    }
+
+    public static function relatableQuery(NovaRequest $request, $query)
+    {
+        if (ZHelpers::isNRUserSuperAdmin($request)) {
+            return $query;
+        } else {
+            return $query->whereNotIn('email', ['superadmin@zaions.com', 'ahsan@zaions.com']);
+        }
+    }
+
     /**
      * Get the fields displayed by the resource.
      *

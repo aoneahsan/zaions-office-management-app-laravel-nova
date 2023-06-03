@@ -4,6 +4,7 @@ namespace App\Nova\Default;
 
 use App\Models\Default\Reply as ModelsReply;
 use App\Nova\Resource;
+use App\Nova\User;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -38,7 +39,7 @@ class Reply extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'content'
+        'content'
     ];
 
     /**

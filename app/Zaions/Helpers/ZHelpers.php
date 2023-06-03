@@ -13,7 +13,25 @@ class ZHelpers
 {
   static public function isNRUserSuperAdmin(Request $request)
   {
-    return $request->user()->hasRole(RolesEnum::superAdmin->name);
+    return ZHelpers::isSuperAdmin($request->user());
+  }
+
+  static public function isSuperAdmin(User $user): bool
+  {
+    if ($user) {
+      return $user->hasRole(RolesEnum::superAdmin->name);
+    } else {
+      return false;
+    }
+  }
+
+  static public function isAdmin(User $user): bool
+  {
+    if ($user) {
+      return $user->hasRole(RolesEnum::admin->name);
+    } else {
+      return false;
+    }
   }
 
   static public function getTimezone($request = null)

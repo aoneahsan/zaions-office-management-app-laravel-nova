@@ -2,8 +2,13 @@
 
 namespace App\Nova\Lenses\Projects;
 
+use App\Nova\Default\Attachment;
 use Laravel\Nova\Fields\ID;
+use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\LensRequest;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Lenses\Lens;
@@ -11,12 +16,19 @@ use Laravel\Nova\Nova;
 
 class ProjectRebateListPageLens extends Lens
 {
+    public function name()
+    {
+        return 'Projects Rebate Page';
+    }
+
     /**
      * The columns that should be searched.
      *
      * @var array
      */
-    public static $search = [];
+    public static $search = [
+        'title', 'location', 'type'
+    ];
 
     /**
      * Get the query builder / paginator for the lens.
@@ -42,6 +54,57 @@ class ProjectRebateListPageLens extends Lens
     {
         return [
             ID::make(Nova::__('ID'), 'id')->sortable(),
+
+            MorphMany::make('Attachments', 'attachments', Attachment::class),
+
+
+            // Normal fields
+            Text::make('Unique Id', 'uniqueId')
+                ->onlyOnDetail()
+                ->default(function () {
+                    return uniqid();
+                }),
+
+            Text::make('Title', 'title')
+                ->rules('required', 'max:255', 'string'),
+
+            // Trix::make('Description', 'description')
+            //     ->rules('required', 'string', 'max:3000'),
+
+            // Number::make('Per Square Feet Price', 'perSquareFeetPrice')
+            //     ->min(0)
+            //     ->rules('required', 'numeric'),
+
+            // Trix::make('Why Invest In This Project', 'whyInvest')
+            //     ->rules('required', 'string', 'max:3000'),
+
+            Text::make('Location', 'location')
+                ->rules('required', 'max:255'),
+
+            Text::make('Type', 'type')
+                ->rules('required', 'max:255'),
+
+            // Text::make('Coordinates', 'coordinates')
+            //     ->rules('required', 'max:255'),
+
+            // KeyValue::make('Bank Details', 'bankDetails')
+            //     ->rules('required', 'json'),
+
+            Number::make('Rebate Percentage', 'rebatePercentage')
+                ->min(0)->max(100)
+                ->rules('required', 'numeric'),
+
+            // Number::make('Total Units', 'totalUnits')
+            //     ->min(0)
+            //     ->rules('required', 'numeric'),
+
+            // Number::make('Remaining Units', 'remainingUnits')
+            //     ->exceptOnForms()
+            //     ->min(0)
+            //     ->rules('nullable', 'numeric'),
+
+            // KeyValue::make('Extra attributes', 'extraAttributes')
+            //     ->rules('nullable'),
         ];
     }
 
@@ -85,6 +148,6 @@ class ProjectRebateListPageLens extends Lens
      */
     public function uriKey()
     {
-        return 'projects-project-rebate-list-page-lens';
+        return 'rebate';
     }
 }

@@ -14,7 +14,8 @@ use Laravel\Nova\Actions\Actionable;
 
 class Project extends Model
 {
-    use HasFactory, SoftDeletes, Actionable;
+    // use HasFactory, SoftDeletes, Actionable;
+    use HasFactory, SoftDeletes;
 
     protected $guarded = [];
 
@@ -38,5 +39,10 @@ class Project extends Model
     public function projectSellRecords(): HasMany
     {
         return $this->hasMany(ProjectSellRecord::class, 'projectId', 'id');
+    }
+
+    public function projectTransactions(): HasMany
+    {
+        return $this->hasMany(ProjectTransaction::class, 'projectId', 'id');
     }
 }
