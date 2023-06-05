@@ -4,6 +4,7 @@ namespace App\Providers;
 
 use App\Nova\Dashboards\Main;
 use App\Nova\FPI\Project;
+use App\Nova\FPI\ProjectTransaction;
 use App\Nova\Lenses\Projects\ProjectRebateListPageLens;
 use App\Nova\User;
 use App\Zaions\Enums\PermissionsEnum;
@@ -111,7 +112,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                                 $currentUser = $request->user();
                                 return !$currentUser->hasPermissionTo(PermissionsEnum::viewResource_project->name) && $currentUser->hasPermissionTo(PermissionsEnum::viewLens_projectRebateListPage->name);
                             }),
-
+                        MenuItem::resource(ProjectTransaction::class)
+                            ->canSee(function (Request $request) {
+                                $currentUser = $request->user();
+                                return $currentUser->hasPermissionTo(PermissionsEnum::viewResource_projectTransaction->name);
+                            }),
                     ]),
 
                     MenuGroup::make('My Account', [
@@ -119,22 +124,25 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                             $currentUser = $request->user();
                             return $currentUser->hasPermissionTo(PermissionsEnum::update_profile->name);
                         }),
-                        MenuItem::link('2FA', '/nova-two-factor')->canSee(function (Request $request) {
-                            $currentUser = $request->user();
-                            return $currentUser->hasPermissionTo(PermissionsEnum::view_2fa->name) && $currentUser->hasPermissionTo(PermissionsEnum::create_2fa->name);
-                        }),
+                        // disabled for now
+                        // MenuItem::link('2FA', '/nova-two-factor')->canSee(function (Request $request) {
+                        // $currentUser = $request->user();
+                        // return $currentUser->hasPermissionTo(PermissionsEnum::view_2fa->name) && $currentUser->hasPermissionTo(PermissionsEnum::create_2fa->name);
+                        //     return false; // disabled for now
+                        // }),
                     ]),
 
-                    MenuGroup::make('Admin Settings', [
-                        MenuItem::resource(Role::class)->canSee(function (Request $request) {
-                            $currentUser = $request->user();
-                            return $currentUser->hasPermissionTo(PermissionsEnum::viewResource_role->name);
-                        }),
-                        MenuItem::resource(Permission::class)->canSee(function (Request $request) {
-                            $currentUser = $request->user();
-                            return $currentUser->hasPermissionTo(PermissionsEnum::viewResource_permission->name);
-                        }),
-                    ]),
+                    // disabled for now
+                    // MenuGroup::make('Admin Settings', [
+                    //     MenuItem::resource(Role::class)->canSee(function (Request $request) {
+                    //         $currentUser = $request->user();
+                    //         return $currentUser->hasPermissionTo(PermissionsEnum::viewResource_role->name);
+                    //     }),
+                    //     MenuItem::resource(Permission::class)->canSee(function (Request $request) {
+                    //         $currentUser = $request->user();
+                    //         return $currentUser->hasPermissionTo(PermissionsEnum::viewResource_permission->name);
+                    //     }),
+                    // ]),
                 ]),
             ];
         });
@@ -174,16 +182,18 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
     public function tools()
     {
         return [
-            NovaPermissionTool::make()->canSee(function (Request $request) {
-                $currentUser = $request->user();
-                return $currentUser->hasPermissionTo(PermissionsEnum::viewAny_role->name) && $currentUser->hasPermissionTo(PermissionsEnum::viewAny_permission->name);
-            }),
+            // NovaPermissionTool::make()->canSee(function (Request $request) {
+            // $currentUser = $request->user();
+            // return $currentUser->hasPermissionTo(PermissionsEnum::viewAny_role->name) && $currentUser->hasPermissionTo(PermissionsEnum::viewAny_permission->name);
+            //     return false; // disabled for now
+            // }),
 
             // https://novapackages.com/packages/Visanduma/nova-two-factor
-            \Visanduma\NovaTwoFactor\NovaTwoFactor::make()->canSee(function (Request $request) {
-                $currentUser = $request->user();
-                return $currentUser->hasPermissionTo(PermissionsEnum::view_2fa->name) && $currentUser->hasPermissionTo(PermissionsEnum::create_2fa->name);
-            }),
+            // \Visanduma\NovaTwoFactor\NovaTwoFactor::make()->canSee(function (Request $request) {
+            // $currentUser = $request->user();
+            // return $currentUser->hasPermissionTo(PermissionsEnum::view_2fa->name) && $currentUser->hasPermissionTo(PermissionsEnum::create_2fa->name);
+            //     return false; // disabled for now
+            // }),
         ];
     }
 

@@ -2,8 +2,10 @@
 
 namespace App\Policies\Default;
 
+use App\Models\Default\Comment;
 use App\Models\User;
 use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 class CommentPolicy
@@ -25,19 +27,20 @@ class CommentPolicy
         return $user->hasPermissionTo(PermissionsEnum::create_comment->name);
     }
 
-    public function update(User $user)
+    public function update(User $user, Comment $model)
     {
-        return $user->hasPermissionTo(PermissionsEnum::update_comment->name);
+        return ZHelpers::isAdminLevelUserOrOwner($user, $model->userId) && $user->hasPermissionTo(PermissionsEnum::update_comment->name);
     }
 
     public function replicate(User $user)
     {
-        return $user->hasPermissionTo(PermissionsEnum::replicate_comment->name);
+        // return $user->hasPermissionTo(PermissionsEnum::replicate_comment->name);
+        return false;
     }
 
-    public function delete(User $user)
+    public function delete(User $user, Comment $model)
     {
-        return $user->hasPermissionTo(PermissionsEnum::delete_comment->name);
+        return ZHelpers::isAdminLevelUserOrOwner($user, $model->userId) && $user->hasPermissionTo(PermissionsEnum::delete_comment->name);
     }
 
     public function restore(User $user)

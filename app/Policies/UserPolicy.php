@@ -32,7 +32,8 @@ class UserPolicy
 
     public function replicate(User $user)
     {
-        return $user->hasPermissionTo(PermissionsEnum::replicate_user->name);
+        // return $user->hasPermissionTo(PermissionsEnum::replicate_user->name);
+        return false;
     }
 
     public function delete(User $user)

@@ -28,19 +28,20 @@ class ProjectPolicy
         return $user->hasPermissionTo(PermissionsEnum::create_project->name);
     }
 
-    public function update(User $user)
+    public function update(User $user, Project $model)
     {
-        return $user->hasPermissionTo(PermissionsEnum::update_project->name);
+        return ZHelpers::isAdminLevelUserOrOwner($user, $model->userId) && $user->hasPermissionTo(PermissionsEnum::update_project->name);
     }
 
     public function replicate(User $user)
     {
-        return $user->hasPermissionTo(PermissionsEnum::replicate_project->name);
+        // return $user->hasPermissionTo(PermissionsEnum::replicate_project->name);
+        return false;
     }
 
-    public function delete(User $user)
+    public function delete(User $user, Project $model)
     {
-        return $user->hasPermissionTo(PermissionsEnum::delete_project->name);
+        return ZHelpers::isAdminLevelUserOrOwner($user, $model->userId) && $user->hasPermissionTo(PermissionsEnum::delete_project->name);
     }
 
     public function restore(User $user)
@@ -63,8 +64,8 @@ class ProjectPolicy
         return $user->hasPermissionTo(PermissionsEnum::update_project->name) && $user->hasPermissionTo(PermissionsEnum::delete_project->name);
     }
 
-    public function addAttachment(User $user, Project $project)
+    public function addAttachment(User $user, Project $model)
     {
-        return $project->userId === $user->id || ZHelpers::isSuperAdmin($user) || ZHelpers::isAdmin($user);
+        return ZHelpers::isAdminLevelUserOrOwner($user, $model->userId);
     }
 }

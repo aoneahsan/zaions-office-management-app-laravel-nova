@@ -4,12 +4,14 @@ namespace App\Models\FPI;
 
 use App\Models\Default\Attachment;
 use App\Models\User;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Nova\Actions\Actionable;
 
 class Project extends Model
@@ -36,13 +38,14 @@ class Project extends Model
         return $this->morphMany(Attachment::class, 'attachable');
     }
 
-    public function projectSellRecords(): HasMany
-    {
-        return $this->hasMany(ProjectSellRecord::class, 'projectId', 'id');
-    }
-
     public function projectTransactions(): HasMany
     {
-        return $this->hasMany(ProjectTransaction::class, 'projectId', 'id');
+        $user = Auth::user();
+        $query = $this->hasMany(ProjectTransaction::class, 'projectId', 'id');
+        if (ZHelpers::isAdminLevelUser($user)) {
+            return $query;
+        } else {
+            return $query->where('userId', $user->id);
+        }
     }
 }

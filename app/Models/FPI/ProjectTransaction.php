@@ -2,6 +2,8 @@
 
 namespace App\Models\FPI;
 
+use App\Models\User;
+use App\Zaions\Enums\FPI\Projects\ProjectTransactionStatusEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -28,5 +30,15 @@ class ProjectTransaction extends Model
     public function project(): HasOne
     {
         return $this->hasOne(Project::class, 'projectId', 'id');
+    }
+
+    public function seller(): HasOne
+    {
+        return $this->hasOne(User::class, 'sellerUserId', 'id');
+    }
+
+    public function buyer(): HasOne
+    {
+        return $this->hasOne(User::class, 'buyerUserId', 'id');
     }
 }

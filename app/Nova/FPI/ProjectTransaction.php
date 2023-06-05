@@ -2,34 +2,30 @@
 
 namespace App\Nova\FPI;
 
-use App\Models\FPI\Project as FPIProject;
-use App\Nova\Default\Attachment;
-use App\Nova\Lenses\Projects\ProjectRebateListPageLens;
-use App\Nova\User;
+use App\Models\FPI\ProjectTransaction as FPIProjectTransaction;
 use App\Nova\Resource;
-use App\Zaions\Enums\PermissionsEnum;
+use App\Nova\User;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
-use Laravel\Nova\Fields\HasMany;
+use Laravel\Nova\Fields\HasOne;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
-use Laravel\Nova\Fields\MorphMany;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Trix;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
-class Project extends Resource
+class ProjectTransaction extends Resource
 {
     /**
      * The model the resource corresponds to.
      *
-     * @var class-string<\App\Models\FPI\Project>
+     * @var class-string<\App\Models\FPI\ProjectTransaction>
      */
-    public static $model = \App\Models\FPI\Project::class;
+    public static $model = \App\Models\FPI\ProjectTransaction::class;
 
     /**
      * The single value that should be used to represent the resource when being displayed.
@@ -44,7 +40,7 @@ class Project extends Resource
      * @var array
      */
     public static $search = [
-        'title', 'location', 'type'
+        'id',
     ];
 
     /**
@@ -75,12 +71,10 @@ class Project extends Resource
                     return $request->user()->getKey();
                 }),
 
-            MorphMany::make('Attachments', 'attachments', Attachment::class),
+            HasOne::make('Project', 'project', Project::class),
+            HasOne::make('Seller', 'seller', User::class),
+            HasOne::make('Buyer', 'buyer', User::class),
 
-            HasMany::make('Project Transactions', 'projectTransactions', ProjectTransaction::class)
-                ->canSee(function (NovaRequest $request) {
-                    return ZHelpers::isAdminLevelUserOrOwner($request->user(), $this->userId);
-                }),
 
             // Normal fields
             Text::make('Unique Id', 'uniqueId')
@@ -92,70 +86,35 @@ class Project extends Resource
                     return ZHelpers::isAdminLevelUser($request->user());
                 }),
 
-            Text::make('Title', 'title')
-                ->rules('required', 'max:255', 'string'),
+            Number::make('Units Before Transaction', 'unitsBeforeTransaction')
+                ->readonly(true),
 
-            Trix::make('Description', 'description')
-                ->rules('required', 'string', 'max:3000'),
+            Number::make('Units After Transaction', 'unitsAfterTransaction')
+                ->readonly(true),
 
-            Number::make('Per Square Feet Price', 'perSquareFeetPrice')
-                ->min(0)
-                ->rules('required', 'numeric'),
+            Number::make('Units Purchased In Transaction', 'unitsBoughtInTransaction')
+                ->readonly(true),
 
-            Trix::make('Why Invest In This Project', 'whyInvest')
-                ->rules('required', 'string', 'max:3000'),
+            Text::make('Serial Number Starts From', 'unitsSerialNumberStartsFrom')
+                ->readonly(true),
 
-            Text::make('Block Initial', 'blockName')
-                ->rules('required', 'max:255', 'string')
-                ->placeholder('Add Block Name initial - e.g. "C" for "C Block".'),
+            Text::make('Serial Number Ends At', 'unitsSerialNumberEndsAt')
+                ->readonly(true),
 
-            Text::make('Location', 'location')
-                ->rules('required', 'max:255'),
+            Number::make('Per Unit Price', 'perUnitPrice')
+                ->readonly(true),
 
-            Text::make('Type', 'type')
-                ->rules('required', 'max:255'),
+            Text::make('Unit Measured In', 'unitMeasuredIn')
+                ->readonly(true),
 
-            // Text::make('Coordinates', 'coordinates')
-            //     ->rules('required', 'max:255'),
+            Text::make('Status', 'status')
+                ->readonly(true),
 
-            KeyValue::make('Bank Details', 'bankDetails')
-                ->rules('required', 'json'),
-
-            Number::make('Rebate Percentage', 'rebatePercentage')
-                ->min(0)->max(100)
-                ->rules('required', 'numeric'),
-
-            Number::make('Total Units', 'totalUnits')
-                ->min(0)
-                ->rules('required', 'numeric'),
-
-            Number::make('Remaining Units', 'remainingUnits')
-                ->exceptOnForms()
-                ->min(0)
-                ->rules('nullable', 'numeric')
-                ->canSee(function (NovaRequest $request) {
-                    return ZHelpers::isAdminLevelUser($request->user());
-                }),
-
-            Number::make('Sold Units', 'soldUnits')
-                ->exceptOnForms()
-                ->min(0)
-                ->rules('nullable', 'numeric')
-                ->canSee(function (NovaRequest $request) {
-                    return ZHelpers::isAdminLevelUser($request->user());
-                }),
-
-            Number::make('Reserved Units', 'unitsReservedByUsers')
-                ->exceptOnForms()
-                ->min(0)
-                ->rules('nullable', 'numeric')
-                ->canSee(function (NovaRequest $request) {
-                    return ZHelpers::isAdminLevelUser($request->user());
-                }),
-
+            Text::make('Transaction Type', 'transactionType')
+                ->readonly(true),
 
             Hidden::make('Sort Order No', 'sortOrderNo')->default(function () {
-                $lastItem = FPIProject::latest()->first();
+                $lastItem = FPIProjectTransaction::latest()->first();
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 
@@ -165,7 +124,10 @@ class Project extends Resource
                 }),
 
             KeyValue::make('Extra attributes', 'extraAttributes')
-                ->rules('nullable'),
+                ->rules('nullable')
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUser($request->user());
+                }),
         ];
     }
 
@@ -199,12 +161,7 @@ class Project extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [
-            ProjectRebateListPageLens::make()->canSee(function (Request $request) {
-                $currentUser = $request->user();
-                return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_projectRebateListPage->name);
-            })
-        ];
+        return [];
     }
 
     /**

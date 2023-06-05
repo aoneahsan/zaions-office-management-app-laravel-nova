@@ -4,9 +4,12 @@ namespace App\Models;
 
 use App\Models\Default\Attachment;
 use App\Models\Default\Comment;
+use App\Models\FPI\Project;
+use App\Models\FPI\ProjectTransaction;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\RolesEnum;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
+use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -87,5 +90,17 @@ class User extends Authenticatable
     public function attachments(): MorphMany
     {
         return $this->morphMany(Attachment::class, 'attachable');
+    }
+
+    // projects created by me
+    public function projects(): HasMany
+    {
+        return $this->hasMany(Project::class, 'userId', 'id');
+    }
+
+    // project transactions created by me
+    public function projectTransactions(): HasMany
+    {
+        return $this->hasMany(ProjectTransaction::class, 'userId', 'id');
     }
 }

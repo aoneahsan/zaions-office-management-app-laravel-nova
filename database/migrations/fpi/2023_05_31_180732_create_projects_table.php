@@ -25,8 +25,11 @@ return new class extends Migration
             $table->string('type')->nullable();
             $table->json('bankDetails')->nullable();
             $table->float('rebatePercentage')->nullable();
-            $table->float('totalUnits')->nullable();
-            $table->float('remainingUnits')->nullable();
+            $table->float('totalUnits')->nullable(); // total number of units added by 
+            $table->float('remainingUnits')->nullable(); // units which are available for purchase (excluding sold and reserved units)
+            $table->float('soldUnits')->nullable(); // successfully sold units
+            $table->float('unitsReservedByUsers')->nullable(); // those which users are currently trying to buy
+            $table->string('blockName')->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);

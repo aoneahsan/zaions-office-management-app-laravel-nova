@@ -116,6 +116,9 @@ class User extends Resource
                 ->onlyOnDetail()
                 ->default(function () {
                     return uniqid();
+                })
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUser($request->user());
                 }),
 
             Text::make('Role', 'assignedRoleName')

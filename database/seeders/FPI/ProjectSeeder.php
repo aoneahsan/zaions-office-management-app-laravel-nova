@@ -19,6 +19,7 @@ class ProjectSeeder extends Seeder
         if ($user) {
             Project::create([
                 'userId' => optional($user)->id,
+                'uniqueId' => uniqid(),
                 'title' => 'demo project',
                 'description' => 'demo project description',
                 'perSquareFeetPrice' => 10,

@@ -11,9 +11,19 @@ use Illuminate\Support\Str;
 
 class ZHelpers
 {
-  static public function isNRUserSuperAdmin(Request $request)
+  static public function isNRUserSuperAdmin(Request $request): bool
   {
     return ZHelpers::isSuperAdmin($request->user());
+  }
+
+  static public function isAdminLevelUserOrOwner(User $user, $modelOwnerId): bool
+  {
+    return ZHelpers::isAdminLevelUser($user) || $user->id === $modelOwnerId;
+  }
+
+  static public function isAdminLevelUser(User $user): bool
+  {
+    return ZHelpers::isSuperAdmin($user) || ZHelpers::isAdmin($user);
   }
 
   static public function isSuperAdmin(User $user): bool
@@ -34,7 +44,7 @@ class ZHelpers
     }
   }
 
-  static public function getTimezone($request = null)
+  static public function getTimezone($request = null): string
   {
     if ($request && $request->user() && $request->user()->userTimezone) {
       return $request->user()?->userTimezone;
@@ -62,7 +72,7 @@ class ZHelpers
     }
   }
 
-  static public function getActiveFileDriver()
+  static public function getActiveFileDriver(): string
   {
     return env('FILESYSTEM_DISK', 'public');
   }

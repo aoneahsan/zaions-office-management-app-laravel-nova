@@ -17,6 +17,8 @@ enum PermissionsEnum: string
   case restore_role = 'restore_role';
   case forceDelete_role = 'forceDelete_role';
   case viewResource_role = 'viewResource_role';
+  case run_roleAction = 'run_roleAction';
+  case run_roleDestructiveAction = 'run_roleDestructiveAction';
 
     // Permission
   case viewAny_permission = 'viewAny_permission';
@@ -28,6 +30,8 @@ enum PermissionsEnum: string
   case restore_permission = 'restore_permission';
   case forceDelete_permission = 'forceDelete_permission';
   case viewResource_permission = 'viewResource_permission';
+  case run_permissionAction = 'run_permissionAction';
+  case run_permissionDestructiveAction = 'run_permissionDestructiveAction';
 
     // Dashboard
   case view_dashboard = 'view_dashboard';
@@ -42,6 +46,8 @@ enum PermissionsEnum: string
   case restore_user = 'restore_user';
   case forceDelete_user = 'forceDelete_user';
   case viewResource_user = 'viewResource_user';
+  case run_userAction = 'run_userAction';
+  case run_userDestructiveAction = 'run_userDestructiveAction';
 
     // Attachment
   case viewAny_attachment = 'viewAny_attachment';
@@ -53,6 +59,8 @@ enum PermissionsEnum: string
   case restore_attachment = 'restore_attachment';
   case forceDelete_attachment = 'forceDelete_attachment';
   case viewResource_attachment = 'viewResource_attachment';
+  case run_attachmentAction = 'run_attachmentAction';
+  case run_attachmentDestructiveAction = 'run_attachmentDestructiveAction';
 
     // Comment
   case viewAny_comment = 'viewAny_comment';
@@ -64,6 +72,8 @@ enum PermissionsEnum: string
   case restore_comment = 'restore_comment';
   case forceDelete_comment = 'forceDelete_comment';
   case viewResource_comment = 'viewResource_comment';
+  case run_commentAction = 'run_commentAction';
+  case run_commentDestructiveAction = 'run_commentDestructiveAction';
 
     // Reply
   case viewAny_reply = 'viewAny_reply';
@@ -75,6 +85,8 @@ enum PermissionsEnum: string
   case restore_reply = 'restore_reply';
   case forceDelete_reply = 'forceDelete_reply';
   case viewResource_reply = 'viewResource_reply';
+  case run_replyAction = 'run_replyAction';
+  case run_replyDestructiveAction = 'run_replyDestructiveAction';
 
     // Impersonation
   case can_impersonate = 'can_impersonate';
@@ -91,6 +103,8 @@ enum PermissionsEnum: string
   case forceDelete_project = 'forceDelete_project';
   case viewResource_project = 'viewResource_project';
   case viewLens_projectRebateListPage = 'viewLens_projectRebateListPage';
+  case run_projectAction = 'run_projectAction';
+  case run_projectDestructiveAction = 'run_projectDestructiveAction';
 
     // Profile
   case view_profile = 'view_profile';
@@ -113,8 +127,10 @@ enum PermissionsEnum: string
   case replicate_projectTransaction = 'replicate_projectTransaction';
   case restore_projectTransaction = 'restore_projectTransaction';
   case forceDelete_projectTransaction = 'forceDelete_projectTransaction';
-  case viewResource_projectTransactionLens = 'viewResource_projectTransactionLens';
+  case viewResource_projectTransaction = 'viewResource_projectTransaction';
   case viewLens_personalProjectTransactionLens = 'viewLens_personalProjectTransactionLens'; // transactions this user made
+  case run_projectTransactionAction = 'run_projectTransactionAction';
+  case run_projectTransactionDestructiveAction = 'run_projectTransactionDestructiveAction';
 
   // case viewAny_ = 'viewAny_';
   // case view_ = 'view_';

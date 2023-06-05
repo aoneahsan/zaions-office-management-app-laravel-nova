@@ -3,6 +3,7 @@
 namespace App\Nova\Lenses\Projects;
 
 use App\Nova\Default\Attachment;
+use App\Zaions\Helpers\ZHelpers;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
@@ -63,6 +64,9 @@ class ProjectRebateListPageLens extends Lens
                 ->onlyOnDetail()
                 ->default(function () {
                     return uniqid();
+                })
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUser($request->user());
                 }),
 
             Text::make('Title', 'title')
