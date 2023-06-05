@@ -75,10 +75,6 @@ class ProjectRebateListPageLens extends Lens
             // Trix::make('Description', 'description')
             //     ->rules('required', 'string', 'max:3000'),
 
-            // Number::make('Per Square Feet Price', 'perSquareFeetPrice')
-            //     ->min(0)
-            //     ->rules('required', 'numeric'),
-
             // Trix::make('Why Invest In This Project', 'whyInvest')
             //     ->rules('required', 'string', 'max:3000'),
 

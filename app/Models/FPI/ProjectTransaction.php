@@ -29,16 +29,16 @@ class ProjectTransaction extends Model
 
     public function project(): HasOne
     {
-        return $this->hasOne(Project::class, 'projectId', 'id');
+        return $this->hasOne(Project::class, 'id', 'projectId');
     }
 
     public function seller(): HasOne
     {
-        return $this->hasOne(User::class, 'sellerUserId', 'id');
+        return $this->hasOne(User::class, 'id', 'sellerId');
     }
 
     public function buyer(): HasOne
     {
-        return $this->hasOne(User::class, 'buyerUserId', 'id');
+        return $this->hasOne(User::class, 'id', 'buyerId');
     }
 }

@@ -49,7 +49,7 @@ return new class extends Migration
             $table->string('Indicatorfield')->nullable();
             $table->string('Tooltipfield')->nullable();
 
-            $table->boolean('isActive')->default(true);
+            $table->boolean('isActive')->default(true)->nullable();
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();

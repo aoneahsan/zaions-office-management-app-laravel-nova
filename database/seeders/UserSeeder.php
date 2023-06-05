@@ -32,8 +32,6 @@ class UserSeeder extends Seeder
             'email' => 'ahsan@zaions.com',
             'password' => Hash::make("asd123!@#"),
             'email_verified_at' => Carbon::now(),
-            'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619706',
             'cnic' => '3520209598315',
             'referralCode' => ZHelpers::getUniqueReferralCode()
@@ -45,8 +43,6 @@ class UserSeeder extends Seeder
             'email' => 'superAdmin@zaions.com',
             'password' => Hash::make("asd123!@#"),
             'email_verified_at' => Carbon::now(),
-            'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619705',
             'cnic' => '3520209598316',
             'referralCode' => ZHelpers::getUniqueReferralCode()
@@ -60,8 +56,6 @@ class UserSeeder extends Seeder
             'email' => 'admin@zaions.com',
             'password' => Hash::make("asd123!@#"),
             'email_verified_at' => Carbon::now(),
-            'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619707',
             'cnic' => '3520209598317',
             'referralCode' => ZHelpers::getUniqueReferralCode()
@@ -75,8 +69,6 @@ class UserSeeder extends Seeder
             'email' => 'user@zaions.com',
             'password' => Hash::make("password"),
             'email_verified_at' => Carbon::now(),
-            'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619708',
             'cnic' => '3520209598318',
             'referralCode' => ZHelpers::getUniqueReferralCode()
@@ -90,8 +82,6 @@ class UserSeeder extends Seeder
             'email' => 'broker@zaions.com',
             'password' => Hash::make("password"),
             'email_verified_at' => Carbon::now(),
-            'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619709',
             'cnic' => '3520209598319',
             'referralCode' => ZHelpers::getUniqueReferralCode()
@@ -105,10 +95,8 @@ class UserSeeder extends Seeder
             'email' => 'developer@zaions.com',
             'password' => Hash::make("password"),
             'email_verified_at' => Carbon::now(),
-            'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85,
             'phoneNumber' => '03046619710',
-            'cnic' => '3520209598310',
+            'cnic' => '3520209598333',
             'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);
 
@@ -120,9 +108,7 @@ class UserSeeder extends Seeder
             'email' => 'investor@zaions.com',
             'password' => Hash::make("password"),
             'email_verified_at' => Carbon::now(),
-            'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85,
-            'phoneNumber' => '03046619710',
+            'phoneNumber' => '03046619711',
             'cnic' => '3520209598310',
             'referralCode' => ZHelpers::getUniqueReferralCode()
         ]);

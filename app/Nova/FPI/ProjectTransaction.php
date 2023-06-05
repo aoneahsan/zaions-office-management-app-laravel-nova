@@ -71,9 +71,18 @@ class ProjectTransaction extends Resource
                     return $request->user()->getKey();
                 }),
 
-            HasOne::make('Project', 'project', Project::class),
-            HasOne::make('Seller', 'seller', User::class),
-            HasOne::make('Buyer', 'buyer', User::class),
+            HasOne::make('Project', 'project', Project::class)
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUser($request->user());
+                }),
+            HasOne::make('Seller', 'seller', User::class)
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUser($request->user());
+                }),
+            HasOne::make('Buyer', 'buyer', User::class)
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUser($request->user());
+                }),
 
 
             // Normal fields
@@ -104,13 +113,16 @@ class ProjectTransaction extends Resource
             Number::make('Per Unit Price', 'perUnitPrice')
                 ->readonly(true),
 
-            Text::make('Unit Measured In', 'unitMeasuredIn')
+            Hidden::make('Unit Measured In', 'unitMeasuredIn')
                 ->readonly(true),
 
             Text::make('Status', 'status')
                 ->readonly(true),
 
-            Text::make('Transaction Type', 'transactionType')
+            Hidden::make('Transaction Type', 'transactionType')
+                ->readonly(true),
+
+            Text::make('Broker Referral Code', 'referralCode')
                 ->readonly(true),
 
             Hidden::make('Sort Order No', 'sortOrderNo')->default(function () {

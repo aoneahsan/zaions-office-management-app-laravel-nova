@@ -21,6 +21,11 @@ class ZHelpers
     return ZHelpers::isAdminLevelUser($user) || $user->id === $modelOwnerId;
   }
 
+  static public function isAdminLevelUserOrNotOwner(User $user, $modelOwnerId): bool
+  {
+    return ZHelpers::isAdminLevelUser($user) || $user->id != $modelOwnerId;
+  }
+
   static public function isAdminLevelUser(User $user): bool
   {
     return ZHelpers::isSuperAdmin($user) || ZHelpers::isAdmin($user);
@@ -44,21 +49,45 @@ class ZHelpers
     }
   }
 
-  static public function getTimezone($request = null): string
+  static public function isBroker(User $user): bool
   {
-    if ($request && $request->user() && $request->user()->userTimezone) {
-      return $request->user()?->userTimezone;
+    if ($user) {
+      return $user->hasRole(RolesEnum::broker->name);
+    } else {
+      return false;
+    }
+  }
+
+  static public function isInvestor(User $user): bool
+  {
+    if ($user) {
+      return $user->hasRole(RolesEnum::investor->name);
+    } else {
+      return false;
+    }
+  }
+
+  // return server time zone, as we will mainly use this to create carbon dates to store and process data requests, from frontend showing use "getUserTimezone".
+  static public function getTimezone(): string
+  {
+    return config('app.timezone');
+  }
+
+  static public function getUserTimezone(User $user): string
+  {
+    if ($user && $user->userTimezone) {
+      return $user->userTimezone;
     } else {
       return config('app.timezone');
     }
   }
 
-  static public function convertTo12Hour(Carbon $time, $request = null)
+  static public function convertTo12Hour(Carbon $time)
   {
     if ($time) {
 
       $timeStamp = strtotime($time);
-      date_default_timezone_set(ZHelpers::getTimezone($request));
+      date_default_timezone_set(ZHelpers::getTimezone());
       $hour = date('h', $timeStamp);
       $minute = date('i', $timeStamp);
       $isAm = date('A', $timeStamp) === 'AM';
@@ -258,5 +287,27 @@ class ZHelpers
     }
 
     return $referralCode;
+  }
+
+  static public function convertToSnakeCase(string $input)
+  {
+    preg_match_all('!([A-Z][A-Z0-9]*(?=$|[A-Z][a-z0-9])|[A-Za-z][a-z0-9]+)!', $input, $matches);
+    $ret = $matches[0];
+    foreach ($ret as &$match) {
+      $match = $match == strtoupper($match) ? strtolower($match) : lcfirst($match);
+    }
+    return implode('_', $ret);
+  }
+
+  static public function getInitials(string $input)
+  {
+    $words = explode(' ', $input);
+    $initials = '';
+
+    foreach ($words as $word) {
+      $initials .= strtolower(substr($word, 0, 1));
+    }
+
+    return $initials;
   }
 }

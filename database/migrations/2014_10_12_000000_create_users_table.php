@@ -23,14 +23,12 @@ return new class extends Migration
             $table->string('slug')->nullable();
             $table->string('profilePitcher')->nullable();
             $table->string('phoneNumber')->nullable();
-            $table->integer('dailyMinOfficeTime')->default(8)->min(3)->max(12)->nullable();
-            $table->integer('dailyMinOfficeTimeActivity')->default(85)->min(75)->max(100)->nullable();
             $table->string('timezone')->nullable();
             $table->string('address')->nullable();
             $table->string('cnic')->nullable();
             $table->string('referralCode')->nullable();
 
-            $table->boolean('isActive')->default(true);
+            $table->boolean('isActive')->default(true)->nullable();
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();

@@ -51,17 +51,14 @@ class User extends Resource
         'name', 'email', 'phoneNumber', 'cnic'
     ];
 
-    /**
-     * The number of results to display when searching for relatable resources without Scout.
-     *
-     * @var int|null
-     */
     public static $relatableSearchResults = 1;
     public static $displayInNavigation = true;
     public static $globallySearchable = false;
     public static $globalSearchResults = 1;
     public static $scoutSearchResults = 1;
     public static $searchable = true;
+    //  * Can be one of: 'detail' (default), 'edit', 'select', 'preview', or 'ignore'.
+    public static $clickAction = 'select';
 
     public static function indexQuery(NovaRequest $request, $query)
     {

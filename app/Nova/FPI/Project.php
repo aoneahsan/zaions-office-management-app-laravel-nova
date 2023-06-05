@@ -3,15 +3,18 @@
 namespace App\Nova\FPI;
 
 use App\Models\FPI\Project as FPIProject;
+use App\Nova\Actions\FPI\Projects\ProjectUnitsPurchaseAction;
 use App\Nova\Default\Attachment;
 use App\Nova\Lenses\Projects\ProjectRebateListPageLens;
 use App\Nova\User;
 use App\Nova\Resource;
+use App\Zaions\Enums\FPI\Projects\ProjectMeasuringUnitTypeEnum;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
+use Laravel\Nova\Fields\FormData;
 use Laravel\Nova\Fields\HasMany;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
@@ -98,9 +101,17 @@ class Project extends Resource
             Trix::make('Description', 'description')
                 ->rules('required', 'string', 'max:3000'),
 
-            Number::make('Per Square Feet Price', 'perSquareFeetPrice')
+            Number::make('Per Unit Price', 'perUnitPrice')
                 ->min(0)
                 ->rules('required', 'numeric'),
+
+            Hidden::make('Unit Measured In', 'unitMeasuredIn')
+                ->default(function () {
+                    return ProjectMeasuringUnitTypeEnum::squareFeet->name;
+                })
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUser($request->user());
+                }),
 
             Trix::make('Why Invest In This Project', 'whyInvest')
                 ->rules('required', 'string', 'max:3000'),
@@ -130,9 +141,8 @@ class Project extends Resource
                 ->rules('required', 'numeric'),
 
             Number::make('Remaining Units', 'remainingUnits')
-                ->exceptOnForms()
                 ->min(0)
-                ->rules('nullable', 'numeric')
+                ->readonly()
                 ->canSee(function (NovaRequest $request) {
                     return ZHelpers::isAdminLevelUser($request->user());
                 }),
@@ -215,6 +225,11 @@ class Project extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            ProjectUnitsPurchaseAction::make()
+                ->canSee(function (NovaRequest $request) {
+                    return ZHelpers::isAdminLevelUserOrNotOwner($request->user(), $this->userId);
+                }),
+        ];
     }
 }

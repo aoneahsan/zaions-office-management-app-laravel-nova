@@ -4,6 +4,7 @@ namespace App\Http\Controllers\Zaions;
 
 use App\Http\Controllers\Controller;
 use App\Models\Default\WorkSpace;
+use App\Models\User;
 use App\Zaions\Enums\RolesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Carbon\Carbon;
@@ -14,7 +15,7 @@ class TestingController extends Controller
     public function zTestingRouteRes(Request $request)
     {
         // check user Role Test
-        $this->checkUserRoleTest($request);
+        $this->testPluckFunction($request);
 
         return response()->json('working fine');
     }
@@ -59,5 +60,16 @@ class TestingController extends Controller
         $roleName = optional($role)->name;
 
         dd($user, $roles, $role, $roleName);
+    }
+
+    public function testPluckFunction(Request $request)
+    {
+        $user = User::where('id', 1)->pluck('name', 'id');
+
+        if (isset($user['name'])) {
+            dd($user, $user['name']);
+        } else {
+            dd(null);
+        }
     }
 }

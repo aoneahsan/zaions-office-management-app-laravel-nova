@@ -7,6 +7,16 @@ use Laravel\Nova\Resource as NovaResource;
 
 abstract class Resource extends NovaResource
 {
+
+    public static $relatableSearchResults = 1;
+    public static $displayInNavigation = true;
+    public static $globallySearchable = false;
+    public static $globalSearchResults = 1;
+    public static $scoutSearchResults = 1;
+    public static $searchable = true;
+    //  * Can be one of: 'detail' (default), 'edit', 'select', 'preview', or 'ignore'.
+    public static $clickAction = 'select';
+
     /**
      * Build an "index" query for the given resource.
      *
