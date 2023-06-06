@@ -3,8 +3,11 @@
 namespace App\Nova\FPI;
 
 use App\Models\FPI\ProjectTransaction as FPIProjectTransaction;
+use App\Nova\Actions\FPI\Projects\AddPaymentProffForProjectUnitsAction;
+use App\Nova\Lenses\FPI\Projects\ProjectTransactionPurchaseRequestsLens;
 use App\Nova\Resource;
 use App\Nova\User;
+use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -173,7 +176,13 @@ class ProjectTransaction extends Resource
      */
     public function lenses(NovaRequest $request)
     {
-        return [];
+        return [
+            ProjectTransactionPurchaseRequestsLens::make()
+                ->canSee(function (Request $request) {
+                    $currentUser = $request->user();
+                    return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_purchaseRequestsProjectTransactionLens->name);
+                })
+        ];
     }
 
     /**
@@ -184,6 +193,13 @@ class ProjectTransaction extends Resource
      */
     public function actions(NovaRequest $request)
     {
-        return [];
+        return [
+            AddPaymentProffForProjectUnitsAction::make()
+                ->canSee(function (Request $request) {
+                    $currentUser = $request->user();
+                    // means, only admin level, or owner, or the user who created this request can run this action (broker mainly when creates a request for investor).
+                    return ZHelpers::isAdminLevelUserOrOwner($currentUser, $this->userId) || $this->creatorId == $currentUser->id;
+                })
+        ];
     }
 }

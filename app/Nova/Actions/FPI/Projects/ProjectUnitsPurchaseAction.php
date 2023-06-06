@@ -85,16 +85,16 @@ class ProjectUnitsPurchaseAction extends Action
             if ($projectRemainingUnits >= $units) {
                 // Data for Project Transaction Table New Entry
                 $uniqueId = uniqid();
-                $userId = $currentUserId;
-                $projectId = $model->id;
-                $sellerId = $model->userId;
-                $buyerId = $buyingForYourself ? $currentUserId : $investorUserId;
+                $userId = $buyingForYourself ? $currentUserId : $investorUserId; // this should be the id of user for whom we have created this transaction (for use case where broker creates a request for investor we will create a new view where i will show data using "creatorId" equal to brokerId so he will also be able to add payment confirmation for the investor transaction requests).
                 if (!$investorUserId && !$buyingForYourself && $investorPhoneNumber && strlen($investorPhoneNumber) === 11) {
                     $investorUser = User::where('phoneNumber', $investorPhoneNumber)->first();
                     if ($investorUser && $investorUser->id) {
-                        $buyerId = $investorUser->id;
+                        $userId = $investorUser->id;
                     }
                 }
+                $projectId = $model->id;
+                $sellerId = $model->userId;
+                $creatorId = $currentUserId; // the user who is creating this request.
                 $referralCode = $fields->referralCode;
                 if (!$buyingForYourself && ZHelpers::isBroker($currentUser) && !$referralCode) {
                     $referralCode = $currentUser->referralCode;
@@ -117,7 +117,7 @@ class ProjectUnitsPurchaseAction extends Action
                     'userId' => $userId,
                     'projectId' => $projectId,
                     'sellerId' => $sellerId,
-                    'buyerId' => $buyerId,
+                    'creatorId' => $creatorId,
                     'referralCode' => $referralCode,
                     'unitsBeforeTransaction' => $unitsBeforeTransaction,
                     'unitsAfterTransaction' => $unitsAfterTransaction,

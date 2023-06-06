@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Nova\Lenses\Projects;
+namespace App\Nova\Lenses\FPI\Projects;
 
 use App\Nova\Default\Attachment;
 use App\Zaions\Helpers\ZHelpers;
@@ -98,10 +98,10 @@ class ProjectRebateListPageLens extends Lens
             //     ->min(0)
             //     ->rules('required', 'numeric'),
 
-            // Number::make('Remaining Units', 'remainingUnits')
-            //     ->exceptOnForms()
-            //     ->min(0)
-            //     ->rules('nullable', 'numeric'),
+            Number::make('Available Units', 'remainingUnits')
+                ->exceptOnForms()
+                ->min(0)
+                ->rules('nullable', 'numeric'),
 
             // KeyValue::make('Extra attributes', 'extraAttributes')
             //     ->rules('nullable'),

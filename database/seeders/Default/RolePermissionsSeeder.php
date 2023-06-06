@@ -136,6 +136,7 @@ class RolePermissionsSeeder extends Seeder
         $forceDeleteProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::forceDelete_projectTransaction->name]);
         $viewResourceProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::viewResource_projectTransaction->name]);
         $viewLensPersonalProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::viewLens_personalProjectTransactionLens->name]);
+        $viewLensPurchaseRequestsProjectTransactionPermission = Permission::create(['name' => PermissionsEnum::viewLens_purchaseRequestsProjectTransactionLens->name]);
         $runProjectTransactionActionPermission = Permission::create(['name' => PermissionsEnum::run_projectTransactionAction->name]);
         $runProjectTransactionDestructiveActionPermission = Permission::create(['name' => PermissionsEnum::run_projectTransactionDestructiveAction->name]);
 
@@ -250,14 +251,14 @@ class RolePermissionsSeeder extends Seeder
             $forceDeleteProjectTransactionPermission,
             $viewResourceProjectTransactionPermission,
             $viewLensPersonalProjectTransactionPermission,
+            $viewLensPurchaseRequestsProjectTransactionPermission,
             $runProjectTransactionActionPermission,
             $runProjectTransactionDestructiveActionPermission,
         ];
 
+        // return !Str::of($permission->name)->startsWith('restore_') && !Str::of($permission->name)->startsWith('forceDelete_') &&
         $adminRolePermissions = array_filter($superAdminRolePermissions, function ($permission) {
-            return !Str::of($permission->name)->startsWith('restore_') &&
-                !Str::of($permission->name)->startsWith('forceDelete_') &&
-                !Str::of($permission->name)->endsWith('_role') &&
+            return !Str::of($permission->name)->endsWith('_role') &&
                 !Str::of($permission->name)->endsWith('_permission') &&
                 !Str::of($permission->name)->contains('2fa');
         });
@@ -265,13 +266,11 @@ class RolePermissionsSeeder extends Seeder
         // add canBeImpersonatePermission Permission
         array_push($adminRolePermissions, $canBeImpersonatePermission);
 
+        // return !Str::of($permission->name)->startsWith('delete_') && !Str::of($permission->name)->startsWith('update_') && !Str::of($permission->name)->contains('Resource')
         $brokerRolePermissions = array_filter($adminRolePermissions, function ($permission) {
-            return !Str::of($permission->name)->startsWith('delete_') &&
-                !Str::of($permission->name)->startsWith('replicate_') &&
-                !Str::of($permission->name)->startsWith('update_') &&
+            return !Str::of($permission->name)->startsWith('replicate_') &&
                 !Str::of($permission->name)->endsWith('_user') &&
-                !Str::of($permission->name)->contains('impersonate') &&
-                !Str::of($permission->name)->contains('Resource');
+                !Str::of($permission->name)->contains('impersonate');
         });
 
         // add profile update and delete permissions (as every user should have these permissions)

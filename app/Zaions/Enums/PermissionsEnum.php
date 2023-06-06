@@ -129,8 +129,17 @@ enum PermissionsEnum: string
   case forceDelete_projectTransaction = 'forceDelete_projectTransaction';
   case viewResource_projectTransaction = 'viewResource_projectTransaction';
   case viewLens_personalProjectTransactionLens = 'viewLens_personalProjectTransactionLens'; // transactions this user made
+  case viewLens_purchaseRequestsProjectTransactionLens = 'viewLens_purchaseRequestsProjectTransactionLens'; // broker created for some investor
   case run_projectTransactionAction = 'run_projectTransactionAction';
   case run_projectTransactionDestructiveAction = 'run_projectTransactionDestructiveAction';
+
+    // Project units Purchase related actions
+  case run_unitsPurchaseAction = 'run_unitsPurchaseAction';
+  case run_purchasePaymentProofAction = 'run_purchasePaymentProofAction';
+  case run_purchaseRequestApproveAction = 'run_purchaseRequestApproveAction';
+  case run_purchaseRequestRejectDestructiveAction = 'run_purchaseRequestRejectDestructiveAction';
+  case run_purchaseRequestCancelDestructiveAction = 'run_purchaseRequestCancelDestructiveAction';
+  case run_unitsTransferAction = 'run_unitsTransferAction';
 
   // case viewAny_ = 'viewAny_';
   // case view_ = 'view_';

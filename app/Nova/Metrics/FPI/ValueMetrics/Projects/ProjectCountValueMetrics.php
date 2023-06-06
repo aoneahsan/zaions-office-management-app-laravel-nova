@@ -1,13 +1,13 @@
 <?php
 
-namespace App\Nova\Metrics\ValueMetrics;
+namespace App\Nova\Metrics\FPI\ValueMetrics\Projects;
 
-use App\Models\User;
-use App\Zaions\Enums\PermissionsEnum;
+use App\Models\FPI\Project;
 use Laravel\Nova\Http\Requests\NovaRequest;
 use Laravel\Nova\Metrics\Value;
+use Laravel\Nova\Nova;
 
-class UserCountValueMetrics extends Value
+class ProjectCountValueMetrics extends Value
 {
     /**
      * Calculate the value of the metric.
@@ -17,7 +17,7 @@ class UserCountValueMetrics extends Value
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, User::class);
+        return $this->count($request, Project::class);
     }
 
     /**
@@ -28,13 +28,13 @@ class UserCountValueMetrics extends Value
     public function ranges()
     {
         return [
-            30 => __('30 Days'),
-            60 => __('60 Days'),
-            365 => __('365 Days'),
-            'TODAY' => __('Today'),
-            'MTD' => __('Month To Date'),
-            'QTD' => __('Quarter To Date'),
-            'YTD' => __('Year To Date'),
+            30 => Nova::__('30 Days'),
+            60 => Nova::__('60 Days'),
+            365 => Nova::__('365 Days'),
+            'TODAY' => Nova::__('Today'),
+            'MTD' => Nova::__('Month To Date'),
+            'QTD' => Nova::__('Quarter To Date'),
+            'YTD' => Nova::__('Year To Date'),
         ];
     }
 

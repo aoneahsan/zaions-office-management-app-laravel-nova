@@ -5,7 +5,7 @@ namespace App\Providers;
 use App\Nova\Dashboards\Main;
 use App\Nova\FPI\Project;
 use App\Nova\FPI\ProjectTransaction;
-use App\Nova\Lenses\Projects\ProjectRebateListPageLens;
+use App\Nova\Lenses\FPI\Projects\ProjectRebateListPageLens;
 use App\Nova\User;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Helpers\ZHelpers;
@@ -112,10 +112,15 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                                 $currentUser = $request->user();
                                 return !$currentUser->hasPermissionTo(PermissionsEnum::viewResource_project->name) && $currentUser->hasPermissionTo(PermissionsEnum::viewLens_projectRebateListPage->name);
                             }),
-                        MenuItem::resource(ProjectTransaction::class)
+                        MenuItem::link('Transactions', '/resources/project-transactions')
                             ->canSee(function (Request $request) {
                                 $currentUser = $request->user();
                                 return $currentUser->hasPermissionTo(PermissionsEnum::viewResource_projectTransaction->name);
+                            }),
+                        MenuItem::link('Purchase Requests', '/resources/project-transactions')
+                            ->canSee(function (Request $request) {
+                                $currentUser = $request->user();
+                                return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_purchaseRequestsProjectTransactionLens->name);
                             }),
                     ]),
 

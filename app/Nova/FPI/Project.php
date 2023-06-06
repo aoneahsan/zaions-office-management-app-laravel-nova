@@ -5,7 +5,7 @@ namespace App\Nova\FPI;
 use App\Models\FPI\Project as FPIProject;
 use App\Nova\Actions\FPI\Projects\ProjectUnitsPurchaseAction;
 use App\Nova\Default\Attachment;
-use App\Nova\Lenses\Projects\ProjectRebateListPageLens;
+use App\Nova\Lenses\FPI\Projects\ProjectRebateListPageLens;
 use App\Nova\User;
 use App\Nova\Resource;
 use App\Zaions\Enums\FPI\Projects\ProjectMeasuringUnitTypeEnum;
@@ -210,10 +210,11 @@ class Project extends Resource
     public function lenses(NovaRequest $request)
     {
         return [
-            ProjectRebateListPageLens::make()->canSee(function (Request $request) {
-                $currentUser = $request->user();
-                return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_projectRebateListPage->name);
-            })
+            ProjectRebateListPageLens::make()
+                ->canSee(function (Request $request) {
+                    $currentUser = $request->user();
+                    return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_projectRebateListPage->name);
+                })
         ];
     }
 

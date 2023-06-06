@@ -2,8 +2,10 @@
 
 namespace App\Nova\Dashboards;
 
-use App\Nova\Metrics\ValueMetrics\Projects\ProjectCountValueMetrics;
-use App\Nova\Metrics\ValueMetrics\UserCountValueMetrics;
+use App\Nova\Metrics\FPI\TrendMetrics\Projects\ProjectCountTrendMetrics;
+use App\Nova\Metrics\FPI\TrendMetrics\UserCountTrendMetrics;
+use App\Nova\Metrics\FPI\ValueMetrics\Projects\ProjectCountValueMetrics;
+use App\Nova\Metrics\FPI\ValueMetrics\UserCountValueMetrics;
 use App\Zaions\Enums\PermissionsEnum;
 use Illuminate\Http\Request;
 use Laravel\Nova\Dashboards\Main as Dashboard;
@@ -28,10 +30,16 @@ class Main extends Dashboard
             //     'Asia/Tokyo',
             // ])->defaultTimezone('Africa/Nairobi'),
 
-            UserCountValueMetrics::make()->canSee(function (Request $request) {
+            UserCountValueMetrics::make()->width('1/2')->canSee(function (Request $request) {
                 return $request->user()->hasPermissionTo(PermissionsEnum::viewAny_user->name);
             }),
-            ProjectCountValueMetrics::make()->canSee(function (Request $request) {
+            ProjectCountValueMetrics::make()->width('1/2')->canSee(function (Request $request) {
+                return $request->user()->hasPermissionTo(PermissionsEnum::viewAny_project->name);
+            }),
+            UserCountTrendMetrics::make()->width('1/2')->canSee(function (Request $request) {
+                return $request->user()->hasPermissionTo(PermissionsEnum::viewAny_user->name);
+            }),
+            ProjectCountTrendMetrics::make()->width('1/2')->canSee(function (Request $request) {
                 return $request->user()->hasPermissionTo(PermissionsEnum::viewAny_project->name);
             }),
 

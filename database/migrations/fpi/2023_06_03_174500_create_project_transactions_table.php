@@ -17,10 +17,10 @@ return new class extends Migration
         Schema::create('project_transactions', function (Blueprint $table) {
             $table->id();
             $table->string('uniqueId')->nullable();
-            $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('userId'); // keep this to user from whom the purchase request is created for 
             $table->unsignedBigInteger('projectId');
             $table->unsignedBigInteger('sellerId'); // mainly developer Id, but any one who was owner of that project/property
-            $table->unsignedBigInteger('buyerId'); // broker/investor anyone who is buying the project/property
+            $table->unsignedBigInteger('creatorId'); // brokerId in case if broker creates this transaction request for investor
 
             $table->string('referralCode')->nullable(); // broker User Referral code, if broker creates this transaction request for investor user, when broker will create a transaction for a investor the status of the transaction will be "initiated", from there, if investor accepts it, it will go to "pendingForPayment", otherwise will be "cancelled"
             $table->float('unitsBeforeTransaction')->nullable()->default(0);
