@@ -117,11 +117,11 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
                                 $currentUser = $request->user();
                                 return $currentUser->hasPermissionTo(PermissionsEnum::viewResource_projectTransaction->name);
                             }),
-                        MenuItem::link('Purchase Requests', '/resources/project-transactions')
-                            ->canSee(function (Request $request) {
-                                $currentUser = $request->user();
-                                return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_purchaseRequestsProjectTransactionLens->name);
-                            }),
+                        // MenuItem::link('Purchase Requests', '/resources/project-transactions')
+                        //     ->canSee(function (Request $request) {
+                        //         $currentUser = $request->user();
+                        //         return $currentUser->hasPermissionTo(PermissionsEnum::viewLens_purchaseRequestsProjectTransactionLens->name);
+                        //     }),
                     ]),
 
                     MenuGroup::make('My Account', [
