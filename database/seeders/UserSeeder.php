@@ -30,7 +30,7 @@ class UserSeeder extends Seeder
             'name' => 'ahsan',
             'slug' => 'ahsan',
             'email' => 'ahsan@zaions.com',
-            'password' => Hash::make("asd123!@#"),
+            'password' => Hash::make("123789721378"), // PLEASE DO NOT SHARE THIS WITH ANYONE UNTIL I GET BACK
             'email_verified_at' => Carbon::now(),
             'phoneNumber' => '03046619706',
             'cnic' => '3520209598315',
@@ -41,7 +41,7 @@ class UserSeeder extends Seeder
             'name' => 'superAdmin',
             'slug' => 'superAdmin',
             'email' => 'superAdmin@zaions.com',
-            'password' => Hash::make("asd123!@#"),
+            'password' => Hash::make("1237897213789123989"), // PLEASE DO NOT SHARE THIS WITH ANYONE UNTIL I GET BACK
             'email_verified_at' => Carbon::now(),
             'phoneNumber' => '03046619705',
             'cnic' => '3520209598316',
