@@ -156,7 +156,8 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/workspaces/{workspaceId}/folder/{itemId}', 'show');
             Route::put('/user/workspaces/{workspaceId}/folder/{itemId}', 'update');
             Route::delete('/user/workspaces/{workspaceId}/folder/{itemId}', 'destroy');
-            Route::get('/user/workspaces/{workspaceId}/folder/{itemId}/short-links', 'getFolderShortLinks');
+            Route::get('/user/workspaces/{workspaceId}/get/shortLink/folders', 'getShortLinksFolders');
+            Route::get('/user/workspaces/{workspaceId}/get/linkInBio/folders', 'getLinkInBioFolders');
         });
 
         // ShortLink Custom domain

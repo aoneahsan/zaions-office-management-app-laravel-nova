@@ -4,6 +4,7 @@ namespace App\Models\Default;
 
 use App\Models\ZLink\Analytics\Pixel;
 use App\Models\ZLink\Analytics\UtmTag;
+use App\Models\ZLink\Common\Folder;
 use App\Models\ZLink\LinkInBios\LinkInBio;
 use App\Models\ZLink\ShortLinks\ShortLink;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -40,6 +41,11 @@ class WorkSpace extends Model
     public function linkInBio(): HasMany
     {
         return $this->hasMany(LinkInBio::class, 'workspaceId', 'id');
+    }
+
+    public function folder(): HasMany
+    {
+        return $this->hasMany(Folder::class, 'workspaceId', 'id');
     }
 
     public function pixel(): MorphToMany

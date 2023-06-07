@@ -3,6 +3,7 @@
 namespace App\Models\ZLink\Common;
 
 use App\Models\Default\User;
+use App\Models\Default\WorkSpace;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -23,5 +24,10 @@ class Folder extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
+    }
+
+    public function workspace(): BelongsTo
+    {
+        return $this->belongsTo(WorkSpace::class, 'userId', 'id');
     }
 }
