@@ -2,22 +2,13 @@
 
 use App\Http\Controllers\Zaions\Auth\AuthController;
 use App\Http\Controllers\Zaions\Common\FileUploadController;
-use App\Http\Controllers\Zaions\StaticPageController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkSpaceController;
 use App\Http\Controllers\Zaions\Workspace\WorkspaceMemberController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkspaceModalConnectionsController;
-use App\Http\Controllers\Zaions\ZLink\Analytics\PixelController;
-use App\Http\Controllers\Zaions\ZLink\Analytics\UtmTagController;
 use App\Http\Controllers\Zaions\ZLink\Common\ApiKeyController;
 use App\Http\Controllers\Zaions\ZLink\Common\FolderController;
-use App\Http\Controllers\Zaions\ZLink\LinkInBios\LibBlockController;
-use App\Http\Controllers\Zaions\ZLink\LinkInBios\LibPredefinedDataController;
-use App\Http\Controllers\Zaions\ZLink\LinkInBios\LinkInBioController;
-use App\Http\Controllers\Zaions\ZLink\ShortLinks\ShortLinkController;
-use App\Http\Controllers\Zaions\ZLink\ShortLinks\CustomDomainController;
-use App\Http\Controllers\Zaions\ZLink\ShortLinks\EmbededWidgetController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 
