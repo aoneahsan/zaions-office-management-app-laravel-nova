@@ -298,40 +298,6 @@ class FolderController extends Controller
         }
     }
 
-    public function getLinkInBioFolders(Request $request, $workspaceId)
-    {
-        $currentUser = $request->user();
-
-        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
-
-        // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
-
-        if (!$workspace) {
-            return ZHelpers::sendBackInvalidParamsResponse([
-                "item" => ['No workspace found!']
-            ]);
-        }
-        try {
-
-            $itemsCount = Folder::where('userId', $currentUser->id)->where('workspaceId', $workspaceId)->where('folderForModel', FolderModalsEnum::linkInBio->name)->count();
-
-            $items = Folder::where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->where('folderForModel', FolderModalsEnum::linkInBio->name)->get();
-
-            return response()->json([
-                'success' => true,
-                'errors' => [],
-                'message' => 'Request Completed Successfully!',
-                'data' => [
-                    'items' => FolderResource::collection($items),
-                    'itemsCount' => $itemsCount
-                ],
-                'status' => 200
-            ]);
-        } catch (\Throwable $th) {
-            return ZHelpers::sendBackServerErrorResponse($th);
-        }
-    }
 
     public function updateSortOrderNo(Request $request, $workspaceId)
     {
