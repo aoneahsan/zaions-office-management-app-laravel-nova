@@ -5,11 +5,13 @@ namespace App\Http\Controllers\Zaions\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\User\UserDataResource;
 use App\Models\Default\User;
+use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
 use Laravel\Fortify\Http\Requests\LoginRequest;
 use Laravel\Fortify\Rules\Password;
+use Laravel\Socialite\Facades\Socialite;
 
 class AuthController extends Controller
 {
@@ -123,5 +125,34 @@ class AuthController extends Controller
     public function verifyAuthState(Request $request)
     {
         return response()->json(['data' => true]);
+    }
+
+
+    public function googleRedirect()
+    {
+        try {
+            //code...
+            return Socialite::driver('google')->redirect();
+        } catch (\Throwable $th) {
+            //throw $th;
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
+    }
+
+    public function googleCallback()
+    {
+        try {
+            //code...
+            $user = Socialite::driver('google')->user();
+
+            if ($user) {
+                return ZHelpers::sendBackRequestCompletedResponse([
+                    'user' => $user
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
     }
 }

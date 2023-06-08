@@ -47,6 +47,8 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
     Route::controller(AuthController::class)->group(function () {
         Route::post('/login', 'login');
         Route::post('/register', 'register');
+        Route::post('/auth/google/redirect', 'googleRedirect');
+        Route::post('/auth/google/callback', 'googleCallback');
     });
 
     // API - Authenticated Routes
