@@ -2,11 +2,7 @@
 
 namespace App\Models\Default;
 
-use App\Models\ZLink\Analytics\Pixel;
-use App\Models\ZLink\Analytics\UtmTag;
 use App\Models\ZLink\Common\Folder;
-use App\Models\ZLink\LinkInBios\LinkInBio;
-use App\Models\ZLink\ShortLinks\ShortLink;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -33,30 +29,11 @@ class WorkSpace extends Model
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function shortLinks(): HasMany
-    {
-        return $this->hasMany(ShortLink::class, 'workspaceId', 'id');
-    }
-
-    public function linkInBio(): HasMany
-    {
-        return $this->hasMany(LinkInBio::class, 'workspaceId', 'id');
-    }
-
     public function folder(): HasMany
     {
         return $this->hasMany(Folder::class, 'workspaceId', 'id');
     }
 
-    public function pixel(): MorphToMany
-    {
-        return $this->morphedByMany(Pixel::class, 'modal', 'workspace_modal_connections');
-    }
-
-    public function UTMTag(): MorphToMany
-    {
-        return $this->morphedByMany(UtmTag::class, 'modal', 'workspace_modal_connections');
-    }
 
     // Workspace can belong to many member added by the workspace owner.
     public function members(): BelongsToMany

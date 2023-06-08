@@ -111,33 +111,6 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/workspace/{workspaceId}/user-collaborated-role', 'collaboratedWorkspaceRole');
         });
 
-        // ShortLink
-        Route::controller(ShortLinkController::class)->group(function () {
-            Route::get('/user/workspaces/{workspaceId}/short-links', 'index');
-            Route::post('/user/workspaces/{workspaceId}/short-links', 'store');
-            Route::get('/user/workspaces/{workspaceId}/short-links/{itemId}', 'show');
-            Route::put('/user/workspaces/{workspaceId}/short-links/{itemId}', 'update');
-            Route::delete('/user/workspaces/{workspaceId}/short-links/{itemId}', 'destroy');
-        });
-
-        // Pixel
-        Route::controller(PixelController::class)->group(function () {
-            Route::get('/user/pixel', 'index');
-            Route::post('/user/pixel', 'store');
-            Route::get('/user/pixel/{itemId}', 'show');
-            Route::put('/user/pixel/{itemId}', 'update');
-            Route::delete('/user/pixel/{itemId}', 'destroy');
-        });
-
-
-        // UTM Tags
-        Route::controller(UtmTagController::class)->group(function () {
-            Route::get('/user/utm-tag', 'index');
-            Route::post('/user/utm-tag', 'store');
-            Route::get('/user/utm-tag/{itemId}', 'show');
-            Route::put('/user/utm-tag/{itemId}', 'update');
-            Route::delete('/user/utm-tag/{itemId}', 'destroy');
-        });
 
         // API key
         Route::controller(ApiKeyController::class)->group(function () {
@@ -158,51 +131,6 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::delete('/user/workspaces/{workspaceId}/folder/{itemId}', 'destroy');
             Route::get('/user/workspaces/{workspaceId}/get/shortLink/folders', 'getShortLinksFolders');
             Route::get('/user/workspaces/{workspaceId}/get/linkInBio/folders', 'getLinkInBioFolders');
-        });
-
-        // ShortLink Custom domain
-        Route::controller(CustomDomainController::class)->group(function () {
-            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain', 'index');
-            Route::post('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain', 'store');
-            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain/{itemId}', 'show');
-            Route::put('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain/{itemId}', 'update');
-            Route::delete('/user/ws/{workspaceId}/sl/{shortLinkId}/custom-domain/{itemId}', 'destroy');
-        });
-
-        // ShortLink Embeded widget
-        Route::controller(EmbededWidgetController::class)->group(function () {
-            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget', 'index');
-            Route::post('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget', 'store');
-            Route::get('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget/{itemId}', 'show');
-            Route::put('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget/{itemId}', 'update');
-            Route::delete('/user/ws/{workspaceId}/sl/{shortLinkId}/embeded-widget/{itemId}', 'destroy');
-        });
-
-        // LinkInBio
-        Route::controller(LinkInBioController::class)->group(function () {
-            Route::get('/user/workspaces/{workspaceId}/link-in-bio', 'index');
-            Route::post('/user/workspaces/{workspaceId}/link-in-bio', 'store');
-            Route::get('/user/workspaces/{workspaceId}/link-in-bio/{itemId}', 'show');
-            Route::put('/user/workspaces/{workspaceId}/link-in-bio/{itemId}', 'update');
-            Route::delete('/user/workspaces/{workspaceId}/link-in-bio/{itemId}', 'destroy');
-        });
-
-        // LinkInBio block
-        Route::controller(LibBlockController::class)->group(function () {
-            Route::get('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-block', 'index');
-            Route::post('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-block', 'store');
-            Route::get('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-block/{itemId}', 'show');
-            Route::put('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-block/{itemId}', 'update');
-            Route::delete('/user/ws/{workspaceId}/lib/{linkInBioId}/lib-block/{itemId}', 'destroy');
-        });
-
-        // LinkInBio pre defined data
-        Route::controller(LibPredefinedDataController::class)->group(function () {
-            Route::get('/user/lib-pre-dd/{pddType}', 'index');
-            Route::post('/user/lib-pdd/{pddType}', 'store');
-            Route::get('/user/lib-pdd/{pddType}/{itemId}', 'show');
-            Route::put('/user/lib-pdd/{pddType}/{itemId}', 'update');
-            Route::delete('/user/lib-pdd/{pddType}/{itemId}', 'destroy');
         });
     });
 });
