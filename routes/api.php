@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Zaions\Auth\AuthController;
 use App\Http\Controllers\Zaions\Common\FileUploadController;
+use App\Http\Controllers\Zaions\Project\ProjectController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkSpaceController;
@@ -81,6 +82,15 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/workspaces/{itemId}', 'show');
             Route::put('/user/workspaces/{itemId}', 'update');
             Route::delete('/user/workspaces/{itemId}', 'destroy');
+        });
+
+        // Project
+        Route::controller(ProjectController::class)->group(function () {
+            Route::get('/user/project', 'index');
+            Route::post('/user/project', 'store');
+            Route::get('/user/project/{itemId}', 'show');
+            Route::put('/user/project/{itemId}', 'update');
+            Route::delete('/user/project/{itemId}', 'destroy');
         });
 
         // Attach modal (pixel, UTM tag etc.) to workspace.

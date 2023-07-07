@@ -79,6 +79,11 @@ class User extends Authenticatable
         return $this->hasMany(workSpace::class, 'userId', 'id');
     }
 
+    public function Project(): HasMany
+    {
+        return $this->hasMany(Project::class, 'userId', 'id');
+    }
+
     // User can belong to many workspace as member (added by other user)
     public function asMember(): BelongsToMany
     {

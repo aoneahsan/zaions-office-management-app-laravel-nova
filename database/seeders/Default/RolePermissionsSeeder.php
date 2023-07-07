@@ -114,6 +114,17 @@ class RolePermissionsSeeder extends Seeder
         $replicateWorkspacePermission = Permission::create(['name' => PermissionsEnum::replicate_workspace->name]);
         $restoreWorkspacePermission = Permission::create(['name' => PermissionsEnum::restore_workspace->name]);
         $forceDeleteWorkspacePermission = Permission::create(['name' => PermissionsEnum::forceDelete_workspace->name]);
+
+        // Projects Model Permissions
+        $viewAnyProjectsPermission = Permission::create(['name' => PermissionsEnum::viewAny_projects->name]);
+        $viewProjectsPermission = Permission::create(['name' => PermissionsEnum::view_projects->name]);
+        $addProjectsPermission = Permission::create(['name' => PermissionsEnum::create_projects->name]);
+        $updateProjectsPermission = Permission::create(['name' => PermissionsEnum::update_projects->name]);
+        $deleteProjectsPermission = Permission::create(['name' => PermissionsEnum::delete_projects->name]);
+        $replicateProjectsPermission = Permission::create(['name' => PermissionsEnum::replicate_projects->name]);
+        $restoreProjectsPermission = Permission::create(['name' => PermissionsEnum::restore_projects->name]);
+        $forceDeleteProjectsPermission = Permission::create(['name' => PermissionsEnum::forceDelete_projects->name]);
+
         // Pixel Model Permissions
         $viewAnyPixelPermission = Permission::create(['name' => PermissionsEnum::viewAny_pixel->name]);
         $viewPixelPermission = Permission::create(['name' => PermissionsEnum::view_pixel->name]);
@@ -306,6 +317,15 @@ class RolePermissionsSeeder extends Seeder
             $replicateWorkspacePermission,
             $restoreWorkspacePermission,
             $forceDeleteWorkspacePermission,
+            // Projects
+            $viewAnyProjectsPermission,
+            $viewProjectsPermission,
+            $addProjectsPermission,
+            $updateProjectsPermission,
+            $deleteProjectsPermission,
+            $replicateProjectsPermission,
+            $restoreProjectsPermission,
+            $forceDeleteProjectsPermission,
             // Pixel
             $viewAnyPixelPermission,
             $viewPixelPermission,
