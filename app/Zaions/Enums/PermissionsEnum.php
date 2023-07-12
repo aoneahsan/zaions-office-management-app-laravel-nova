@@ -127,6 +127,26 @@ enum PermissionsEnum: string
   case restore_projects = 'restore_projects';
   case forceDelete_projects = 'forceDelete_projects';
 
+    // Boards
+  case viewAny_board = 'viewAny_board';
+  case view_board = 'view_board';
+  case create_board = 'create_board';
+  case update_board = 'update_board';
+  case delete_board = 'delete_board';
+  case replicate_board = 'replicate_board';
+  case restore_board = 'restore_board';
+  case forceDelete_board = 'forceDelete_board';
+
+    // Boards
+  case viewAny_boardIdeas = 'viewAny_boardIdeas';
+  case view_boardIdeas = 'view_boardIdeas';
+  case create_boardIdeas = 'create_boardIdeas';
+  case update_boardIdeas = 'update_boardIdeas';
+  case delete_boardIdeas = 'delete_boardIdeas';
+  case replicate_boardIdeas = 'replicate_boardIdeas';
+  case restore_boardIdeas = 'restore_boardIdeas';
+  case forceDelete_boardIdeas = 'forceDelete_boardIdeas';
+
     // Pixel
   case viewAny_pixel = 'viewAny_pixel';
   case view_pixel = 'view_pixel';

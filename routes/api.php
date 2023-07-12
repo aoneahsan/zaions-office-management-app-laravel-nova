@@ -2,6 +2,8 @@
 
 use App\Http\Controllers\Zaions\Auth\AuthController;
 use App\Http\Controllers\Zaions\Common\FileUploadController;
+use App\Http\Controllers\Zaions\Project\BoardController;
+use App\Http\Controllers\Zaions\Project\BoardIdeasController;
 use App\Http\Controllers\Zaions\Project\ProjectController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
@@ -91,6 +93,24 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/project/{itemId}', 'show');
             Route::put('/user/project/{itemId}', 'update');
             Route::delete('/user/project/{itemId}', 'destroy');
+        });
+
+        // Board
+        Route::controller(BoardController::class)->group(function () {
+            Route::get('/user/project/{projectId}/board', 'index');
+            Route::post('/user/project/{projectId}/board', 'store');
+            Route::get('/user/project/{projectId}/board/{itemId}', 'show');
+            Route::put('/user/project/{projectId}/board/{itemId}', 'update');
+            Route::delete('/user/project/{projectId}/board/{itemId}', 'destroy');
+        });
+
+        // Board Ideas
+        Route::controller(BoardIdeasController::class)->group(function () {
+            Route::get('/user/board/{boardId}/boardIdeas', 'index');
+            Route::post('/user/board/{boardId}/boardIdeas', 'store');
+            Route::get('/user/board/{boardId}/boardIdeas/{itemId}', 'show');
+            Route::put('/user/board/{boardId}/boardIdeas/{itemId}', 'update');
+            Route::delete('/user/board/{boardId}/boardIdeas/{itemId}', 'destroy');
         });
 
         // Attach modal (pixel, UTM tag etc.) to workspace.

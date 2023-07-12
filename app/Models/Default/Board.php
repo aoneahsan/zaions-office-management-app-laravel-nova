@@ -4,12 +4,12 @@ namespace App\Models\Default;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Nova\Actions\Actionable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Nova\Actions\Actionable;
 
-class Project extends Model
+class Board extends Model
 {
     use HasFactory, SoftDeletes, Actionable;
 
@@ -25,8 +25,13 @@ class Project extends Model
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function boards(): HasMany
+    public function project(): BelongsTo
     {
-        return $this->hasMany(Board::class);
+        return $this->belongsTo(Project::class, 'projectId', 'id');
+    }
+
+    public function boardIdeas(): HasMany
+    {
+        return $this->hasMany(BoardIdeas::class);
     }
 }

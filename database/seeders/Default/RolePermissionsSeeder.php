@@ -125,6 +125,26 @@ class RolePermissionsSeeder extends Seeder
         $restoreProjectsPermission = Permission::create(['name' => PermissionsEnum::restore_projects->name]);
         $forceDeleteProjectsPermission = Permission::create(['name' => PermissionsEnum::forceDelete_projects->name]);
 
+        // Board Model Permissions
+        $viewAnyBoardPermission = Permission::create(['name' => PermissionsEnum::viewAny_board->name]);
+        $viewBoardPermission = Permission::create(['name' => PermissionsEnum::view_board->name]);
+        $addBoardPermission = Permission::create(['name' => PermissionsEnum::create_board->name]);
+        $updateBoardPermission = Permission::create(['name' => PermissionsEnum::update_board->name]);
+        $deleteBoardPermission = Permission::create(['name' => PermissionsEnum::delete_board->name]);
+        $replicateBoardPermission = Permission::create(['name' => PermissionsEnum::replicate_board->name]);
+        $restoreBoardPermission = Permission::create(['name' => PermissionsEnum::restore_board->name]);
+        $forceDeleteBoardPermission = Permission::create(['name' => PermissionsEnum::forceDelete_board->name]);
+
+        // Board Ideas Model Permissions
+        $viewAnyBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::viewAny_boardIdeas->name]);
+        $viewBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::view_boardIdeas->name]);
+        $addBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::create_boardIdeas->name]);
+        $updateBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::update_boardIdeas->name]);
+        $deleteBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::delete_boardIdeas->name]);
+        $replicateBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::replicate_boardIdeas->name]);
+        $restoreBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::restore_boardIdeas->name]);
+        $forceDeleteBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::forceDelete_boardIdeas->name]);
+
         // Pixel Model Permissions
         $viewAnyPixelPermission = Permission::create(['name' => PermissionsEnum::viewAny_pixel->name]);
         $viewPixelPermission = Permission::create(['name' => PermissionsEnum::view_pixel->name]);
@@ -326,6 +346,24 @@ class RolePermissionsSeeder extends Seeder
             $replicateProjectsPermission,
             $restoreProjectsPermission,
             $forceDeleteProjectsPermission,
+            // Board
+            $viewAnyBoardPermission,
+            $viewBoardPermission,
+            $addBoardPermission,
+            $updateBoardPermission,
+            $deleteBoardPermission,
+            $replicateBoardPermission,
+            $restoreBoardPermission,
+            $forceDeleteBoardPermission,
+            //  Board Ideas
+            $viewAnyBoardIdeasPermission,
+            $viewBoardIdeasPermission,
+            $addBoardIdeasPermission,
+            $updateBoardIdeasPermission,
+            $deleteBoardIdeasPermission,
+            $replicateBoardIdeasPermission,
+            $restoreBoardIdeasPermission,
+            $forceDeleteBoardIdeasPermission,
             // Pixel
             $viewAnyPixelPermission,
             $viewPixelPermission,

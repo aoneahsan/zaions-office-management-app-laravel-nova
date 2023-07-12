@@ -75,26 +75,6 @@ class Project extends Resource
 
             Image::make('Image', 'image')
                 ->rules('nullable', 'image', 'size:3000'),
-
-            Text::make('featureRequests')
-                ->sortable()
-                ->rules('required', 'max:255')
-                ->showWhenPeeking(),
-
-            Text::make('completedRecently')
-                ->sortable()
-                ->rules('nullable', 'max:255')
-                ->showWhenPeeking(),
-
-            Text::make('inProgress')
-                ->sortable()
-                ->rules('nullable', 'max:255')
-                ->showWhenPeeking(),
-
-            Text::make('plannedNext')
-                ->sortable()
-                ->rules('nullable', 'max:255')
-                ->showWhenPeeking(),
         ];
     }
 

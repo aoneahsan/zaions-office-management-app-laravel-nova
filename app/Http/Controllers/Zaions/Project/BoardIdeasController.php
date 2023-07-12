@@ -3,38 +3,40 @@
 namespace App\Http\Controllers\Zaions\Project;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Zaions\Project\ProjectResource;
-use App\Models\Default\Project;
+use App\Http\Resources\Zaions\Project\BoardIdeasResource;
+use App\Models\Default\Board;
+use App\Models\Default\BoardIdeas;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\ResponseCodesEnum;
 use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
-class ProjectController extends Controller
+class BoardIdeasController extends Controller
 {
     /**
      * Display a listing of the resource.
      *
      * @return \Illuminate\Http\Response
      */
-    public function index(Request $request)
+    public function index(Request $request, $boardId)
     {
         $currentUser = $request->user();
+        $currentBoard = Board::where('uniqueId', $boardId)->first();
 
-        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_projects->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         try {
-            $itemsCount = Project::where('userId', $currentUser->id)->count();
-            $items = Project::where('userId', $currentUser->id)->get();
+            $itemsCount = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $boardId)->count();
+            $items = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->get();
 
             return response()->json([
                 'success' => true,
                 'errors' => [],
                 'message' => 'Request Completed Successfully!',
                 'data' => [
-                    'items' => ProjectResource::collection($items),
+                    'items' => BoardIdeasResource::collection($items),
                     'itemsCount' => $itemsCount
                 ],
                 'status' => 200
@@ -50,16 +52,18 @@ class ProjectController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(Request $request, $boardId)
     {
         $currentUser = $request->user();
+        $currentBoard = Board::where('uniqueId', $boardId)->first();
 
-        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_projects->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         $request->validate([
-            'projectName' => 'required|string',
-            'subDomain' => 'required|string',
-            'image' => 'nullable|string',
+            'title' => 'required|string',
+            'description' => 'nullable|string',
+            'status' => 'nullable|string',
+            'internalNotes' => 'nullable|string',
 
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
@@ -68,13 +72,16 @@ class ProjectController extends Controller
 
 
         try {
-            $result = Project::create([
+            $result = BoardIdeas::create([
                 'uniqueId' => uniqid(),
 
                 'userId' => $currentUser->id,
-                'projectName' => $request->has('projectName') ? $request->projectName : null,
-                'subDomain' => $request->has('subDomain') ? $request->subDomain : null,
-                'image' => $request->has('image') ? $request->image : null,
+                'boardId' => $currentBoard->id,
+
+                'title' => $request->has('title') ? $request->title : null,
+                'description' => $request->has('description') ? $request->description : null,
+                'status' => $request->has('status') ? $request->status : null,
+                'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : null,
 
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
                 'isActive' => $request->has('isActive') ? $request->isActive : null,
@@ -83,7 +90,7 @@ class ProjectController extends Controller
 
             if ($result) {
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new ProjectResource($result)
+                    'item' => new BoardIdeasResource($result)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([]);
@@ -93,24 +100,27 @@ class ProjectController extends Controller
         }
     }
 
+
     /**
      * Display the specified resource.
      *
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function show(Request $request, $itemId)
+    public function show(Request $request, $boardId, $itemId)
     {
         $currentUser = $request->user();
 
-        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_projects->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        $currentBoard = Board::where('uniqueId', $boardId)->first();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         try {
-            $item = Project::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
+            $item = BoardIdeas::where('uniqueId', $itemId)->where('boardId', $currentBoard->id)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new ProjectResource($item)
+                    'item' => new BoardIdeasResource($item)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -129,31 +139,33 @@ class ProjectController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $itemId)
+    public function update(Request $request, $boardId, $itemId)
     {
         try {
             $currentUser = $request->user();
+            $currentBoard = Board::where('uniqueId', $boardId)->first();
 
-            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_projects->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
             $request->validate([
-                'projectName' => 'required|string',
-                'subDomain' => 'required|string',
-                'featureRequests' => 'nullable|string',
-                'image' => 'nullable|string',
+                'title' => 'required|string',
+                'description' => 'nullable|string',
+                'status' => 'nullable|string',
+                'internalNotes' => 'nullable|string',
 
                 'sortOrderNo' => 'nullable|integer',
                 'isActive' => 'nullable|boolean',
                 'extraAttributes' => 'nullable|json',
             ]);
 
-            $item = Project::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
+            $item = BoardIdeas::where('uniqueId', $itemId)->where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->first();
 
             if ($item) {
                 $item->update([
-                    'projectName' => $request->has('projectName') ? $request->projectName : $item->projectName,
-                    'subDomain' => $request->has('subDomain') ? $request->subDomain : $item->subDomain,
-                    'image' => $request->has('image') ? $request->image : $item->image,
+                    'title' => $request->has('title') ? $request->title : $item->title,
+                    'description' => $request->has('description') ? $request->description : $item->description,
+                    'status' => $request->has('status') ? $request->status : $item->status,
+                    'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : $item->internalNotes,
 
 
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->isActive,
@@ -161,10 +173,10 @@ class ProjectController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : $request->extraAttributes,
                 ]);
 
-                $item = Project::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
+                $item = BoardIdeas::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
                 return ZHelpers::sendBackRequestCompletedResponse([
-                    'item' => new ProjectResource($item)
+                    'item' => new BoardIdeasResource($item)
                 ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
@@ -182,15 +194,16 @@ class ProjectController extends Controller
      * @param  int  $itemId
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request, $itemId)
+    public function destroy(Request $request, $boardId, $itemId)
     {
         $currentUser = $request->user();
+        $currentBoard = Board::where('uniqueId', $boardId)->first();
 
-        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_projects->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
 
         try {
-            $item = Project::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
+            $item = BoardIdeas::where('uniqueId', $itemId)->where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->first();
 
             if ($item) {
                 $item->forceDelete();

@@ -5,7 +5,7 @@ namespace App\Http\Resources\Zaions\Project;
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
 
-class ProjectResource extends JsonResource
+class BoardIdeasResource extends JsonResource
 {
     /**
      * Transform the resource into an array.
@@ -16,10 +16,10 @@ class ProjectResource extends JsonResource
     {
         return [
             'id' => $this->uniqueId,
-
-            'projectName' => $this->projectName,
-            'subDomain' => $this->subDomain,
-            'image' => $this->image,
+            'title' => $this->title,
+            'description' => $this->description,
+            'status' => $this->status,
+            'internalNotes' => $this->internalNotes,
 
             'sortOrderNo' => $this->sortOrderNo,
             'isActive' => $this->isActive,

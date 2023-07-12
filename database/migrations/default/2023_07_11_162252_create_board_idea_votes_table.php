@@ -11,24 +11,20 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('projects', function (Blueprint $table) {
-            $table->id();
+        Schema::create('board_idea_votes', function (Blueprint $table) {
+            // $table->id();
+            $table->primary(['userId', 'boardId']);
+
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
-
-            $table->string('projectName')->nullable();
-            $table->string('subDomain')->nullable();
-            $table->string('image')->nullable();
-            // $table->string('featureRequests')->nullable();
-            // $table->string('completedRecently')->nullable();
-            // $table->string('inProgress')->nullable();
-            // $table->string('plannedNext')->nullable();
+            $table->unsignedBigInteger('boardIdeaId');
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true)->nullable();
             $table->json('extraAttributes')->nullable();
 
             $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('boardIdeaId')->references('id')->on('board_ideas');
 
             $table->softDeletes();
             $table->timestamps();
@@ -40,6 +36,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('projects');
+        Schema::dropIfExists('board_idea_votes');
     }
 };
