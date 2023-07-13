@@ -17,6 +17,13 @@ class BoardResource extends JsonResource
         return [
             'id' => $this->uniqueId,
             'title' => $this->title,
+            'slug' => $this->slug,
+            'pageHeading' => $this->pageHeading,
+            'pageDescription' => $this->pageDescription,
+            'formCustomization' => $this->formCustomization,
+            'defaultStatus' => $this->defaultStatus,
+            'votingSetting' => $this->votingSetting,
+
 
             'sortOrderNo' => $this->sortOrderNo,
             'isActive' => $this->isActive,

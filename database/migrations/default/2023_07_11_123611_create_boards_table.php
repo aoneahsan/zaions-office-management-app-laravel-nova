@@ -18,6 +18,12 @@ return new class extends Migration
             $table->unsignedBigInteger('projectId');
 
             $table->string('title')->nullable();
+            $table->string('slug')->nullable();
+            $table->string('pageHeading')->nullable();
+            $table->string('pageDescription')->nullable();
+            $table->json('formCustomization')->nullable();
+            $table->json('defaultStatus')->nullable();
+            $table->json('votingSetting')->nullable();
 
 
             $table->integer('sortOrderNo')->default(0)->nullable();

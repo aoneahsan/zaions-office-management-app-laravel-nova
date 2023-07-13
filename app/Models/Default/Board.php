@@ -17,6 +17,9 @@ class Board extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'formCustomization' => 'array',
+        'defaultStatus' => 'array',
+        'votingSetting' => 'array',
     ];
 
     // Relationship methods

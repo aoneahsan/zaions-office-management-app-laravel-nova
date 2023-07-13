@@ -13,7 +13,7 @@ return new class extends Migration
     {
         Schema::create('board_idea_votes', function (Blueprint $table) {
             // $table->id();
-            $table->primary(['userId', 'boardId']);
+            $table->primary(['userId', 'boardIdeaId']);
 
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');

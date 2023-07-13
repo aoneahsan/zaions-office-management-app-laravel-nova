@@ -106,7 +106,7 @@ class ProjectController extends Controller
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_projects->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         try {
-            $item = Project::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
+            $item = Project::where('uniqueId', $itemId)->where('userId', $currentUser->id)->with('boards')->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([

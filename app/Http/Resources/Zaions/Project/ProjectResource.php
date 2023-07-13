@@ -20,6 +20,8 @@ class ProjectResource extends JsonResource
             'projectName' => $this->projectName,
             'subDomain' => $this->subDomain,
             'image' => $this->image,
+            'firstBoardId' => $this->boards[0]->uniqueId,
+
 
             'sortOrderNo' => $this->sortOrderNo,
             'isActive' => $this->isActive,

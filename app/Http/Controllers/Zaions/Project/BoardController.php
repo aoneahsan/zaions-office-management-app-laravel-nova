@@ -61,6 +61,12 @@ class BoardController extends Controller
 
         $request->validate([
             'title' => 'required|string',
+            'slug' => 'required|string',
+            'pageHeading' => 'nullable|string',
+            'pageDescription' => 'nullable|string',
+            'formCustomization' => 'nullable|json',
+            'defaultStatus' => 'nullable|json',
+            'votingSetting' => 'nullable|json',
 
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
@@ -75,6 +81,13 @@ class BoardController extends Controller
                 'userId' => $currentUser->id,
                 'projectId' => $currentProject->id,
                 'title' => $request->has('title') ? $request->title : null,
+                'slug' => $request->has('slug') ? $request->slug : null,
+                'pageHeading' => $request->has('pageHeading') ? $request->pageHeading : null,
+                'pageDescription' => $request->has('pageDescription') ? $request->pageDescription : null,
+
+                'formCustomization' => $request->has('formCustomization') ? (is_string($request->formCustomization) ? json_decode($request->formCustomization) : $request->formCustomization) : null,
+                'defaultStatus' => $request->has('defaultStatus') ? (is_string($request->defaultStatus) ? json_decode($request->defaultStatus) : $request->defaultStatus) : null,
+                'votingSetting' => $request->has('votingSetting') ? (is_string($request->votingSetting) ? json_decode($request->votingSetting) : $request->votingSetting) : null,
 
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
                 'isActive' => $request->has('isActive') ? $request->isActive : null,
@@ -141,6 +154,12 @@ class BoardController extends Controller
 
             $request->validate([
                 'title' => 'required|string',
+                'slug' => 'required|string',
+                'pageHeading' => 'nullable|string',
+                'pageDescription' => 'nullable|string',
+                'formCustomization' => 'nullable|json',
+                'defaultStatus' => 'nullable|json',
+                'votingSetting' => 'nullable|json',
 
                 'sortOrderNo' => 'nullable|integer',
                 'isActive' => 'nullable|boolean',
@@ -152,6 +171,13 @@ class BoardController extends Controller
             if ($item) {
                 $item->update([
                     'title' => $request->has('title') ? $request->title : $item->title,
+                    'slug' => $request->has('slug') ? $request->slug : $item->slug,
+                    'pageHeading' => $request->has('pageHeading') ? $request->pageHeading : $item->pageHeading,
+                    'pageDescription' => $request->has('pageDescription') ? $request->pageDescription : $item->pageDescription,
+
+                    'formCustomization' => $request->has('formCustomization') ? (is_string($request->formCustomization) ? json_decode($request->formCustomization) : $request->formCustomization) : $request->formCustomization,
+                    'defaultStatus' => $request->has('defaultStatus') ? (is_string($request->defaultStatus) ? json_decode($request->defaultStatus) : $request->defaultStatus) : $request->defaultStatus,
+                    'votingSetting' => $request->has('votingSetting') ? (is_string($request->votingSetting) ? json_decode($request->votingSetting) : $request->votingSetting) : $request->votingSetting,
 
 
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->isActive,
