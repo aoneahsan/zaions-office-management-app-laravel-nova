@@ -219,7 +219,9 @@ class BoardController extends Controller
 
             if ($item) {
                 $item->forceDelete();
-                return ZHelpers::sendBackRequestCompletedResponse([]);
+                return ZHelpers::sendBackRequestCompletedResponse([
+                    'item' => ['success' => true]
+                ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
                     'item' => ['Not found!']
