@@ -61,9 +61,10 @@ class BoardIdeasController extends Controller
 
         $request->validate([
             'title' => 'required|string',
-            'description' => 'nullable|string',
+            'description' => 'required|string',
             'status' => 'nullable|string',
             'internalNotes' => 'nullable|string',
+            'image' => 'nullable|string',
 
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
@@ -82,6 +83,7 @@ class BoardIdeasController extends Controller
                 'description' => $request->has('description') ? $request->description : null,
                 'status' => $request->has('status') ? $request->status : null,
                 'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : null,
+                'image' => $request->has('image') ? $request->image : null,
 
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
                 'isActive' => $request->has('isActive') ? $request->isActive : null,
@@ -149,9 +151,10 @@ class BoardIdeasController extends Controller
 
             $request->validate([
                 'title' => 'required|string',
-                'description' => 'nullable|string',
+                'description' => 'required|string',
                 'status' => 'nullable|string',
                 'internalNotes' => 'nullable|string',
+                'image' => 'nullable|string',
 
                 'sortOrderNo' => 'nullable|integer',
                 'isActive' => 'nullable|boolean',
@@ -166,7 +169,7 @@ class BoardIdeasController extends Controller
                     'description' => $request->has('description') ? $request->description : $item->description,
                     'status' => $request->has('status') ? $request->status : $item->status,
                     'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : $item->internalNotes,
-
+                    'image' => $request->has('image') ? $request->image : $item->image,
 
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->isActive,
                     'isActive' => $request->has('isActive') ? $request->isActive : $item->isActive,

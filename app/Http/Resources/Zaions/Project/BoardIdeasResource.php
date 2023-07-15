@@ -20,6 +20,7 @@ class BoardIdeasResource extends JsonResource
             'description' => $this->description,
             'status' => $this->status,
             'internalNotes' => $this->internalNotes,
+            'image' => $this->image,
 
             'sortOrderNo' => $this->sortOrderNo,
             'isActive' => $this->isActive,
