@@ -64,7 +64,8 @@ class BoardIdeasController extends Controller
             'description' => 'required|string',
             'status' => 'nullable|string',
             'internalNotes' => 'nullable|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|json',
+            'tags' => 'nullable|json',
 
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
@@ -83,7 +84,10 @@ class BoardIdeasController extends Controller
                 'description' => $request->has('description') ? $request->description : null,
                 'status' => $request->has('status') ? $request->status : null,
                 'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : null,
-                'image' => $request->has('image') ? $request->image : null,
+                'image' => $request->has('image') ? (is_string($request->image) ? json_decode(
+                    $request->image
+                ) : $request->image) : null,
+                'tags' => $request->has('tags') ? (is_string($request->tags) ? json_decode($request->tags) : $request->tags) : null,
 
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
                 'isActive' => $request->has('isActive') ? $request->isActive : null,
@@ -154,7 +158,8 @@ class BoardIdeasController extends Controller
                 'description' => 'required|string',
                 'status' => 'nullable|string',
                 'internalNotes' => 'nullable|string',
-                'image' => 'nullable|string',
+                'tags' => 'nullable|json',
+                'image' => 'nullable|json',
 
                 'sortOrderNo' => 'nullable|integer',
                 'isActive' => 'nullable|boolean',
@@ -169,7 +174,8 @@ class BoardIdeasController extends Controller
                     'description' => $request->has('description') ? $request->description : $item->description,
                     'status' => $request->has('status') ? $request->status : $item->status,
                     'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : $item->internalNotes,
-                    'image' => $request->has('image') ? $request->image : $item->image,
+                    'image' => $request->has('image') ? (is_string($request->image) ? json_decode($request->image) : $request->image) : $request->image,
+                    'tags' => $request->has('tags') ? (is_string($request->tags) ? json_decode($request->tags) : $request->tags) : $request->tags,
 
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->isActive,
                     'isActive' => $request->has('isActive') ? $request->isActive : $item->isActive,
@@ -210,10 +216,12 @@ class BoardIdeasController extends Controller
 
             if ($item) {
                 $item->forceDelete();
-                return ZHelpers::sendBackRequestCompletedResponse([]);
+                return ZHelpers::sendBackRequestCompletedResponse([
+                    'item' => ['success' => true]
+                ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
-                    'item' => ['Not found!']
+                    'item' => ['success' => true, 'message' => 'Not found!']
                 ]);
             }
         } catch (\Throwable $th) {

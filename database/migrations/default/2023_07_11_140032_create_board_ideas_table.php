@@ -20,8 +20,9 @@ return new class extends Migration
             $table->string('title')->nullable();
             $table->string('description')->nullable();
             $table->string('status')->nullable();
+            $table->json('tags')->nullable();
             $table->string('internalNotes')->nullable();
-            $table->string('image')->nullable();
+            $table->json('image')->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true)->nullable();

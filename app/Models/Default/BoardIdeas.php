@@ -17,6 +17,8 @@ class BoardIdeas extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'image' => 'array',
+        'tags' => 'array'
     ];
 
     // Relationship methods
