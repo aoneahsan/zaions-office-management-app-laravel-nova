@@ -20,6 +20,8 @@ class ProjectResource extends JsonResource
             'projectName' => $this->projectName,
             'subDomain' => $this->subDomain,
             'image' => $this->image,
+            'squaredIcon' => $this->squaredIcon,
+            'accentColor' => $this->accentColor,
             'firstBoardId' => $this->boards->isNotEmpty() ? $this->boards->first()->uniqueId : null,
 
 

@@ -31,7 +31,7 @@ return new class extends Migration
             $table->json('extraAttributes')->nullable();
 
             $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('projectId')->references('id')->on('projects');
+            $table->foreign('projectId')->references('id')->on('projects')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();

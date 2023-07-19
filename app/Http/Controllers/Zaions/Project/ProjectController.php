@@ -59,7 +59,9 @@ class ProjectController extends Controller
         $request->validate([
             'projectName' => 'required|string',
             'subDomain' => 'required|string',
-            'image' => 'nullable|string',
+            'image' => 'nullable|json',
+            'squaredIcon' => 'nullable|json',
+            'accentColor' => 'nullable|string',
 
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
@@ -74,7 +76,9 @@ class ProjectController extends Controller
                 'userId' => $currentUser->id,
                 'projectName' => $request->has('projectName') ? $request->projectName : null,
                 'subDomain' => $request->has('subDomain') ? $request->subDomain : null,
-                'image' => $request->has('image') ? $request->image : null,
+                'image' => $request->has('image') ? (is_string($request->image) ? json_decode($request->image) : $request->image) : null,
+                'squaredIcon' => $request->has('squaredIcon') ? (is_string($request->squaredIcon) ? json_decode($request->squaredIcon) : $request->squaredIcon) : null,
+                'accentColor' => $request->has('accentColor') ? $request->accentColor : null,
 
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
                 'isActive' => $request->has('isActive') ? $request->isActive : null,
@@ -140,7 +144,9 @@ class ProjectController extends Controller
                 'projectName' => 'required|string',
                 'subDomain' => 'required|string',
                 'featureRequests' => 'nullable|string',
-                'image' => 'nullable|string',
+                'image' => 'nullable|json',
+                'squaredIcon' => 'nullable|json',
+                'accentColor' => 'nullable|string',
 
                 'sortOrderNo' => 'nullable|integer',
                 'isActive' => 'nullable|boolean',
@@ -153,7 +159,9 @@ class ProjectController extends Controller
                 $item->update([
                     'projectName' => $request->has('projectName') ? $request->projectName : $item->projectName,
                     'subDomain' => $request->has('subDomain') ? $request->subDomain : $item->subDomain,
-                    'image' => $request->has('image') ? $request->image : $item->image,
+                    'image' => $request->has('image') ? (is_string($request->image) ? json_decode($request->image) : $request->image) : $request->image,
+                    'squaredIcon' => $request->has('squaredIcon') ? (is_string($request->squaredIcon) ? json_decode($request->squaredIcon) : $request->squaredIcon) : $request->squaredIcon,
+                    'accentColor' => $request->has('accentColor') ? $request->accentColor : $item->accentColor,
 
 
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->isActive,

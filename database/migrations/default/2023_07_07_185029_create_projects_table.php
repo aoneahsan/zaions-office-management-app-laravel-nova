@@ -18,7 +18,9 @@ return new class extends Migration
 
             $table->string('projectName')->nullable();
             $table->string('subDomain')->nullable();
-            $table->string('image')->nullable();
+            $table->string('accentColor')->nullable();
+            $table->json('image')->nullable();
+            $table->json('squaredIcon')->nullable();
             // $table->string('featureRequests')->nullable();
             // $table->string('completedRecently')->nullable();
             // $table->string('inProgress')->nullable();
@@ -28,7 +30,7 @@ return new class extends Migration
             $table->boolean('isActive')->default(true)->nullable();
             $table->json('extraAttributes')->nullable();
 
-            $table->foreign('userId')->references('id')->on('users');
+            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();

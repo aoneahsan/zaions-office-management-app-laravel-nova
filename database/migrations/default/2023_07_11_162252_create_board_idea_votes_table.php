@@ -23,8 +23,8 @@ return new class extends Migration
             $table->boolean('isActive')->default(true)->nullable();
             $table->json('extraAttributes')->nullable();
 
-            $table->foreign('userId')->references('id')->on('users');
-            $table->foreign('boardIdeaId')->references('id')->on('board_ideas');
+            $table->foreign('userId')->references('id')->on('users')->onDelete('cascade');
+            $table->foreign('boardIdeaId')->references('id')->on('board_ideas')->onDelete('cascade');
 
             $table->softDeletes();
             $table->timestamps();

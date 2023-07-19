@@ -17,6 +17,8 @@ class Project extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'image' => 'array',
+        'squaredIcon' => 'array',
     ];
 
     // Relationship methods
