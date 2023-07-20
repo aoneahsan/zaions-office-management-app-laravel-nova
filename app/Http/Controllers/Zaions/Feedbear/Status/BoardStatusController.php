@@ -62,7 +62,7 @@ class BoardStatusController extends Controller
 
         $request->validate([
             'title' => 'required|string',
-            'description' => 'required|string',
+            'description' => 'nullable|string',
             'color' => 'nullable|string',
             // 'isDefault' => 'nullable|boolean',
             // 'isEditable' => 'nullable|boolean',
@@ -151,7 +151,7 @@ class BoardStatusController extends Controller
 
             $request->validate([
                 'title' => 'required|string',
-                'description' => 'required|string',
+                'description' => 'nullable|string',
                 'color' => 'nullable|string',
                 // 'isDefault' => 'nullable|boolean',
                 // 'isEditable' => 'nullable|boolean',

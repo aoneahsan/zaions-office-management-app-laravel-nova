@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\Project\BoardIdeasResource;
 use App\Models\Default\Board;
 use App\Models\Default\BoardIdeas;
+use App\Models\Feedbear\status\BoardStatus;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\ResponseCodesEnum;
 use App\Zaions\Enums\ResponseMessagesEnum;
@@ -59,6 +60,16 @@ class BoardIdeasController extends Controller
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
+        $status = null;
+
+        // userGeneratedStatusId = true/false
+        if ($request->has('statusId') && $request->statusId !== null) {
+            $currentStatus = BoardStatus::where('uniqueId', $request->statusId)->first();
+
+            $status = $currentStatus->id;
+        }
+
+
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
@@ -79,6 +90,7 @@ class BoardIdeasController extends Controller
 
                 'userId' => $currentUser->id,
                 'boardId' => $currentBoard->id,
+                'statusId' => $status,
 
                 'title' => $request->has('title') ? $request->title : null,
                 'description' => $request->has('description') ? $request->description : null,

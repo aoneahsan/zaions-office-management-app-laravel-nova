@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Zaions\Auth;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\User\UserDataResource;
 use App\Models\Default\User;
+use App\Models\Feedbear\status\BoardStatus;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -18,7 +19,7 @@ class AuthController extends Controller
         $request->validate([
             'username' => [
                 'required', 'string', 'max:255',
-                Rule::unique(User::class),
+                Rule::unique(User::class)
             ],
             'email' => [
                 'required',
