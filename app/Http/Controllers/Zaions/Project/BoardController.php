@@ -5,13 +5,16 @@ namespace App\Http\Controllers\Zaions\Project;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\Project\BoardResource;
 use App\Models\Default\Board;
-use App\Models\Default\Project;
+use App\Models\Feedbear\Project\Project;
+use App\Models\Feedbear\status\BoardStatus;
+use App\Zaions\Enums\BoardStatusEnum;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\ResponseCodesEnum;
 use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
+use Illuminate\Support\Str;
 
 class BoardController extends Controller
 {
@@ -95,6 +98,10 @@ class BoardController extends Controller
             ]);
 
             if ($result) {
+                Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_boardStatus->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+                $this->defaultStatuses($currentUser->id, $result->id);
+
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new BoardResource($result)
                 ]);
@@ -228,6 +235,102 @@ class BoardController extends Controller
                 ]);
             }
         } catch (\Throwable $th) {
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
+    }
+
+    public function defaultStatuses($userId, $itemId)
+    {
+        try {
+            $boardStatuses = [
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'Done',
+                    'color' => '#0b8200',
+                    'isDefault' => false,
+                    'isEditable' => true,
+                    'isDeletable' => false,
+                ],
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'Planned',
+                    'color' => '#5a73c1',
+                    'isDefault' => false,
+                    'isEditable' => true,
+                    'isDeletable' => true,
+                ],
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'In progress',
+                    'color' => '#05867b',
+                    'isDefault' => false,
+                    'isEditable' => true,
+                    'isDeletable' => true,
+                ],
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'Not now',
+                    'color' => '#828282',
+                    'isDefault' => false,
+                    'isEditable' => true,
+                    'isDeletable' => true,
+                ],
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'Need your opinion',
+                    'color' => '#8B46FF',
+                    'isDefault' => false,
+                    'isEditable' => true,
+                    'isDeletable' => true,
+                ],
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'Not set',
+                    'color' => '#828282',
+                    'isDefault' => true,
+                    'isEditable' => true,
+                    'isDeletable' => true,
+                ],
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'All',
+                    'color' => '#828282',
+                    'isDefault' => true,
+                    'isEditable' => true,
+                    'isDeletable' => true,
+                ],
+                [
+                    'uniqueId' => uniqid(),
+                    'userId' => $userId,
+                    'boardId' => $itemId,
+                    'title' => 'Not Done',
+                    'color' => '#828282',
+                    'isDefault' => true,
+                    'isEditable' => true,
+                    'isDeletable' => true,
+                ],
+            ];
+
+            // BoardStatus::insert($boardStatuses);
+            foreach ($boardStatuses as $boardStatus) {
+                BoardStatus::create($boardStatus);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
             return ZHelpers::sendBackServerErrorResponse($th);
         }
     }

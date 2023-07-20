@@ -1,13 +1,13 @@
 <?php
 
-namespace Database\Factories\Default;
+namespace Database\Factories\Feedbear;
 
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Feedbear\Project\Project>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Feedbear\status\BoardStatus>
  */
-class ProjectFactory extends Factory
+class BoardStatusFactory extends Factory
 {
     /**
      * Define the model's default state.

@@ -1,10 +1,14 @@
 <?php
 
 use App\Http\Controllers\Zaions\TestingController;
+use App\Zaions\Enums\BoardStatusEnum;
 use App\Zaions\Enums\RolesEnum;
 use Illuminate\Support\Facades\Redirect;
 use Illuminate\Support\Facades\Route;
 use Spatie\Permission\Models\Role;
+use Illuminate\Support\Str;
+
+use function Spatie\SslCertificate\length;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,17 +29,16 @@ Route::get('/', function () {
 Route::get('/z-testing', function () {
 
 
-    $wsRoles = [
-        RolesEnum::ws_administrator->name => RolesEnum::ws_administrator->name,
-        RolesEnum::ws_contributor->name => RolesEnum::ws_contributor->name,
-        RolesEnum::ws_approver->name => RolesEnum::ws_approver->name,
-        RolesEnum::ws_guest->name => RolesEnum::ws_guest->name
-    ];
+    $reflectionClass = new \ReflectionClass(BoardStatusEnum::class);
+    $statuses = [];
 
-    $roles = Role::whereIn('name', $wsRoles)->pluck('name', 'id');
+    foreach ($reflectionClass->getConstants() as $constantValue) {
+        $statuses[] =  Str::ucfirst(Str::replace('_', ' ', $constantValue->value));
+    }
 
 
-    dd($roles);
+
+    dd($statuses);
 });
 
 Route::redirect('/', config('nova.path'));

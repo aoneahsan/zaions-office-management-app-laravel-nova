@@ -145,69 +145,16 @@ class RolePermissionsSeeder extends Seeder
         $restoreBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::restore_boardIdeas->name]);
         $forceDeleteBoardIdeasPermission = Permission::create(['name' => PermissionsEnum::forceDelete_boardIdeas->name]);
 
-        // Pixel Model Permissions
-        $viewAnyPixelPermission = Permission::create(['name' => PermissionsEnum::viewAny_pixel->name]);
-        $viewPixelPermission = Permission::create(['name' => PermissionsEnum::view_pixel->name]);
-        $addPixelPermission = Permission::create(['name' => PermissionsEnum::create_pixel->name]);
-        $updatePixelPermission = Permission::create(['name' => PermissionsEnum::update_pixel->name]);
-        $deletePixelPermission = Permission::create(['name' => PermissionsEnum::delete_pixel->name]);
-        $replicatePixelPermission = Permission::create(['name' => PermissionsEnum::replicate_pixel->name]);
-        $restorePixelPermission = Permission::create(['name' => PermissionsEnum::restore_pixel->name]);
-        $forceDeletePixelPermission = Permission::create(['name' => PermissionsEnum::forceDelete_pixel->name]);
-        // Utm tag Model Permissions
-        $viewAnyUtmTagPermission = Permission::create(['name' => PermissionsEnum::viewAny_utmTag->name]);
-        $viewUtmTagPermission = Permission::create(['name' => PermissionsEnum::view_utmTag->name]);
-        $addUtmTagPermission = Permission::create(['name' => PermissionsEnum::create_utmTag->name]);
-        $updateUtmTagPermission = Permission::create(['name' => PermissionsEnum::update_utmTag->name]);
-        $deleteUtmTagPermission = Permission::create(['name' => PermissionsEnum::delete_utmTag->name]);
-        $replicateUtmTagPermission = Permission::create(['name' => PermissionsEnum::replicate_utmTag->name]);
-        $restoreUtmTagPermission = Permission::create(['name' => PermissionsEnum::restore_utmTag->name]);
-        $forceDeleteUtmTagPermission = Permission::create(['name' => PermissionsEnum::forceDelete_utmTag->name]);
-        // Short link Model Permissions
-        $viewAnyShortLinkPermission = Permission::create(['name' => PermissionsEnum::viewAny_shortLink->name]);
-        $viewShortLinkPermission = Permission::create(['name' => PermissionsEnum::view_shortLink->name]);
-        $addShortLinkPermission = Permission::create(['name' => PermissionsEnum::create_shortLink->name]);
-        $updateShortLinkPermission = Permission::create(['name' => PermissionsEnum::update_shortLink->name]);
-        $deleteShortLinkPermission = Permission::create(['name' => PermissionsEnum::delete_shortLink->name]);
-        $replicateShortLinkPermission = Permission::create(['name' => PermissionsEnum::replicate_shortLink->name]);
-        $restoreShortLinkPermission = Permission::create(['name' => PermissionsEnum::restore_shortLink->name]);
-        $forceDeleteShortLinkPermission = Permission::create(['name' => PermissionsEnum::forceDelete_shortLink->name]);
-        // Link-in-bio Model Permissions
-        $viewAnyLinkInBioPermission = Permission::create(['name' => PermissionsEnum::viewAny_linkInBio->name]);
-        $viewLinkInBioPermission = Permission::create(['name' => PermissionsEnum::view_linkInBio->name]);
-        $addLinkInBioPermission = Permission::create(['name' => PermissionsEnum::create_linkInBio->name]);
-        $updateLinkInBioPermission = Permission::create(['name' => PermissionsEnum::update_linkInBio->name]);
-        $deleteLinkInBioPermission = Permission::create(['name' => PermissionsEnum::delete_linkInBio->name]);
-        $replicateLinkInBioPermission = Permission::create(['name' => PermissionsEnum::replicate_linkInBio->name]);
-        $restoreLinkInBioPermission = Permission::create(['name' => PermissionsEnum::restore_linkInBio->name]);
-        $forceDeleteLinkInBioPermission = Permission::create(['name' => PermissionsEnum::forceDelete_linkInBio->name]);
-        // Link-in-bio block Model Permissions
-        $viewAnyLibBlockPermission = Permission::create(['name' => PermissionsEnum::viewAny_libBlock->name]);
-        $viewLibBlockPermission = Permission::create(['name' => PermissionsEnum::view_libBlock->name]);
-        $addLibBlockPermission = Permission::create(['name' => PermissionsEnum::create_libBlock->name]);
-        $updateLibBlockPermission = Permission::create(['name' => PermissionsEnum::update_libBlock->name]);
-        $deleteLibBlockPermission = Permission::create(['name' => PermissionsEnum::delete_libBlock->name]);
-        $replicateLibBlockPermission = Permission::create(['name' => PermissionsEnum::replicate_libBlock->name]);
-        $restoreLibBlockPermission = Permission::create(['name' => PermissionsEnum::restore_libBlock->name]);
-        $forceDeleteLibBlockPermission = Permission::create(['name' => PermissionsEnum::forceDelete_libBlock->name]);
-        // Link-in-bio per defined data Model Permissions
-        $viewAnyLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::viewAny_libPerDefinedData->name]);
-        $viewLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::view_libPerDefinedData->name]);
-        $addLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::create_libPerDefinedData->name]);
-        $updateLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::update_libPerDefinedData->name]);
-        $deleteLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::delete_libPerDefinedData->name]);
-        $replicateLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::replicate_libPerDefinedData->name]);
-        $restoreLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::restore_libPerDefinedData->name]);
-        $forceDeleteLibPerDefinedDataPermission = Permission::create(['name' => PermissionsEnum::forceDelete_libPerDefinedData->name]);
-        // custom domain Model Permissions
-        $viewAnyCustomDomainPermission = Permission::create(['name' => PermissionsEnum::viewAny_customDomain->name]);
-        $viewCustomDomainPermission = Permission::create(['name' => PermissionsEnum::view_customDomain->name]);
-        $addCustomDomainPermission = Permission::create(['name' => PermissionsEnum::create_customDomain->name]);
-        $updateCustomDomainPermission = Permission::create(['name' => PermissionsEnum::update_customDomain->name]);
-        $deleteCustomDomainPermission = Permission::create(['name' => PermissionsEnum::delete_customDomain->name]);
-        $replicateCustomDomainPermission = Permission::create(['name' => PermissionsEnum::replicate_customDomain->name]);
-        $restoreCustomDomainPermission = Permission::create(['name' => PermissionsEnum::restore_customDomain->name]);
-        $forceDeleteCustomDomainPermission = Permission::create(['name' => PermissionsEnum::forceDelete_customDomain->name]);
+        // Board Ideas Model Permissions
+        $viewAnyBoardStatusPermission = Permission::create(['name' => PermissionsEnum::viewAny_boardStatus->name]);
+        $viewBoardStatusPermission = Permission::create(['name' => PermissionsEnum::view_boardStatus->name]);
+        $addBoardStatusPermission = Permission::create(['name' => PermissionsEnum::create_boardStatus->name]);
+        $updateBoardStatusPermission = Permission::create(['name' => PermissionsEnum::update_boardStatus->name]);
+        $deleteBoardStatusPermission = Permission::create(['name' => PermissionsEnum::delete_boardStatus->name]);
+        $replicateBoardStatusPermission = Permission::create(['name' => PermissionsEnum::replicate_boardStatus->name]);
+        $restoreBoardStatusPermission = Permission::create(['name' => PermissionsEnum::restore_boardStatus->name]);
+        $forceDeleteBoardStatusPermission = Permission::create(['name' => PermissionsEnum::forceDelete_boardStatus->name]);
+
         // Api key Model Permissions
         $viewAnyApiKeyPermission = Permission::create(['name' => PermissionsEnum::viewAny_apiKey->name]);
         $viewApiKeyPermission = Permission::create(['name' => PermissionsEnum::view_apiKey->name]);
@@ -364,69 +311,15 @@ class RolePermissionsSeeder extends Seeder
             $replicateBoardIdeasPermission,
             $restoreBoardIdeasPermission,
             $forceDeleteBoardIdeasPermission,
-            // Pixel
-            $viewAnyPixelPermission,
-            $viewPixelPermission,
-            $addPixelPermission,
-            $updatePixelPermission,
-            $deletePixelPermission,
-            $replicatePixelPermission,
-            $restorePixelPermission,
-            $forceDeletePixelPermission,
-            // UTM Tag
-            $viewAnyUtmTagPermission,
-            $viewUtmTagPermission,
-            $addUtmTagPermission,
-            $updateUtmTagPermission,
-            $deleteUtmTagPermission,
-            $replicateUtmTagPermission,
-            $restoreUtmTagPermission,
-            $forceDeleteUtmTagPermission,
-            // Short link
-            $viewAnyShortLinkPermission,
-            $viewShortLinkPermission,
-            $addShortLinkPermission,
-            $updateShortLinkPermission,
-            $deleteShortLinkPermission,
-            $replicateShortLinkPermission,
-            $restoreShortLinkPermission,
-            $forceDeleteShortLinkPermission,
-            // Link-in-bio
-            $viewAnyLinkInBioPermission,
-            $viewLinkInBioPermission,
-            $addLinkInBioPermission,
-            $updateLinkInBioPermission,
-            $deleteLinkInBioPermission,
-            $replicateLinkInBioPermission,
-            $restoreLinkInBioPermission,
-            $forceDeleteLinkInBioPermission,
-            // lib Block
-            $viewAnyLibBlockPermission,
-            $viewLibBlockPermission,
-            $addLibBlockPermission,
-            $updateLibBlockPermission,
-            $deleteLibBlockPermission,
-            $replicateLibBlockPermission,
-            $restoreLibBlockPermission,
-            $forceDeleteLibBlockPermission,
-            // lib pre defined data
-            $viewAnyLibPerDefinedDataPermission,
-            $viewLibPerDefinedDataPermission,
-            $addLibPerDefinedDataPermission,
-            $updateLibPerDefinedDataPermission,
-            $deleteLibPerDefinedDataPermission,
-            $replicateLibPerDefinedDataPermission,
-            $restoreLibPerDefinedDataPermission,
-            $forceDeleteLibPerDefinedDataPermission,
-            // Custom domain
-            $viewAnyCustomDomainPermission,
-            $viewCustomDomainPermission,
-            $addCustomDomainPermission,
-            $updateCustomDomainPermission,
-            $deleteCustomDomainPermission,
-            $replicateCustomDomainPermission,
-            $restoreCustomDomainPermission,
-            $forceDeleteCustomDomainPermission,
+            // Board Status
+            $viewAnyBoardStatusPermission,
+            $viewBoardStatusPermission,
+            $addBoardStatusPermission,
+            $updateBoardStatusPermission,
+            $deleteBoardStatusPermission,
+            $replicateBoardStatusPermission,
+            $restoreBoardStatusPermission,
+            $forceDeleteBoardStatusPermission,
             // Api key
             $viewAnyApiKeyPermission,
             $viewApiKeyPermission,

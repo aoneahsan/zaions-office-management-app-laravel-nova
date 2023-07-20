@@ -11,21 +11,19 @@ return new class extends Migration
      */
     public function up(): void
     {
-        Schema::create('board_ideas', function (Blueprint $table) {
+        Schema::create('board_statuses', function (Blueprint $table) {
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('boardId');
-            $table->unsignedBigInteger('statusId')->nullable();
 
             $table->string('title')->nullable();
-            $table->text('description')->nullable();
-            $table->string('status')->nullable();
-            $table->json('tags')->nullable();
-            $table->text('internalNotes')->nullable();
-            $table->json('image')->nullable();
+            $table->string('description')->nullable();
+            $table->string('color')->nullable();
+            $table->boolean('isDefault')->nullable();
+            $table->boolean('isEditable')->nullable();
+            $table->boolean('isDeletable')->nullable();
 
-            $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true)->nullable();
             $table->json('extraAttributes')->nullable();
 
@@ -42,6 +40,6 @@ return new class extends Migration
      */
     public function down(): void
     {
-        Schema::dropIfExists('board_ideas');
+        Schema::dropIfExists('board_statuses');
     }
 };

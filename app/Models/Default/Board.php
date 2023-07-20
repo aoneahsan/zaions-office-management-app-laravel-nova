@@ -2,6 +2,7 @@
 
 namespace App\Models\Default;
 
+use App\Models\Feedbear\status\BoardStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
@@ -36,5 +37,10 @@ class Board extends Model
     public function boardIdeas(): HasMany
     {
         return $this->hasMany(BoardIdeas::class);
+    }
+
+    public function boardStatus(): HasMany
+    {
+        return $this->hasMany(BoardStatus::class);
     }
 }

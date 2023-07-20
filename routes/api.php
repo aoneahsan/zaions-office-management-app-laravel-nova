@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Zaions\Auth\AuthController;
 use App\Http\Controllers\Zaions\Common\FileUploadController;
+use App\Http\Controllers\Zaions\Feedbear\Status\BoardStatusController;
 use App\Http\Controllers\Zaions\Project\BoardController;
 use App\Http\Controllers\Zaions\Project\BoardIdeasController;
 use App\Http\Controllers\Zaions\Project\ProjectController;
@@ -111,6 +112,15 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/board/{boardId}/boardIdeas/{itemId}', 'show');
             Route::put('/user/board/{boardId}/boardIdeas/{itemId}', 'update');
             Route::delete('/user/board/{boardId}/boardIdeas/{itemId}', 'destroy');
+        });
+
+        // Board Status
+        Route::controller(BoardStatusController::class)->group(function () {
+            Route::get('/user/board/{boardId}/boardStatus', 'index');
+            Route::post('/user/board/{boardId}/boardStatus', 'store');
+            Route::get('/user/board/{boardId}/boardStatus/{itemId}', 'show');
+            Route::put('/user/board/{boardId}/boardStatus/{itemId}', 'update');
+            Route::delete('/user/board/{boardId}/boardStatus/{itemId}', 'destroy');
         });
 
         // Attach modal (pixel, UTM tag etc.) to workspace.

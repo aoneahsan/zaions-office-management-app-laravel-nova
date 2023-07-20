@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Zaions\Project;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\Project\ProjectResource;
-use App\Models\Default\Project;
+use App\Models\Feedbear\Project\Project;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\ResponseCodesEnum;
 use App\Zaions\Enums\ResponseMessagesEnum;

@@ -154,10 +154,10 @@ class BoardIdeasController extends Controller
             Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
             $request->validate([
-                'title' => 'required|string',
-                'description' => 'required|string',
+                'title' => 'required|string|max:200',
+                'description' => 'required|string|max:1500',
                 'status' => 'nullable|string',
-                'internalNotes' => 'nullable|string',
+                'internalNotes' => 'nullable|string|max:1500',
                 'tags' => 'nullable|json',
                 'image' => 'nullable|json',
 

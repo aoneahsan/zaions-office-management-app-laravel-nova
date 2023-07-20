@@ -137,7 +137,7 @@ enum PermissionsEnum: string
   case restore_board = 'restore_board';
   case forceDelete_board = 'forceDelete_board';
 
-    // Boards
+    // BoardIdeas
   case viewAny_boardIdeas = 'viewAny_boardIdeas';
   case view_boardIdeas = 'view_boardIdeas';
   case create_boardIdeas = 'create_boardIdeas';
@@ -147,75 +147,15 @@ enum PermissionsEnum: string
   case restore_boardIdeas = 'restore_boardIdeas';
   case forceDelete_boardIdeas = 'forceDelete_boardIdeas';
 
-    // Pixel
-  case viewAny_pixel = 'viewAny_pixel';
-  case view_pixel = 'view_pixel';
-  case create_pixel = 'create_pixel';
-  case update_pixel = 'update_pixel';
-  case delete_pixel = 'delete_pixel';
-  case replicate_pixel = 'replicate_pixel';
-  case restore_pixel = 'restore_pixel';
-  case forceDelete_pixel = 'forceDelete_pixel';
-
-    // Utm Tag
-  case viewAny_utmTag = 'viewAny_utmTag';
-  case view_utmTag = 'view_utmTag';
-  case create_utmTag = 'create_utmTag';
-  case update_utmTag = 'update_utmTag';
-  case delete_utmTag = 'delete_utmTag';
-  case replicate_utmTag = 'replicate_utmTag';
-  case restore_utmTag = 'restore_utmTag';
-  case forceDelete_utmTag = 'forceDelete_utmTag';
-
-    // short link
-  case viewAny_shortLink = 'viewAny_shortLink';
-  case view_shortLink = 'view_shortLink';
-  case create_shortLink = 'create_shortLink';
-  case update_shortLink = 'update_shortLink';
-  case delete_shortLink = 'delete_shortLink';
-  case replicate_shortLink = 'replicate_shortLink';
-  case restore_shortLink = 'restore_shortLink';
-  case forceDelete_shortLink = 'forceDelete_shortLink';
-
-    // link in bio
-  case viewAny_linkInBio = 'viewAny_linkInBio';
-  case view_linkInBio = 'view_linkInBio';
-  case create_linkInBio = 'create_linkInBio';
-  case update_linkInBio = 'update_linkInBio';
-  case delete_linkInBio = 'delete_linkInBio';
-  case replicate_linkInBio = 'replicate_linkInBio';
-  case restore_linkInBio = 'restore_linkInBio';
-  case forceDelete_linkInBio = 'forceDelete_linkInBio';
-
-    // lib Block
-  case viewAny_libBlock = 'viewAny_libBlock';
-  case view_libBlock = 'view_libBlock';
-  case create_libBlock = 'create_libBlock';
-  case update_libBlock = 'update_libBlock';
-  case delete_libBlock = 'delete_libBlock';
-  case replicate_libBlock = 'replicate_libBlock';
-  case restore_libBlock = 'restore_libBlock';
-  case forceDelete_libBlock = 'forceDelete_libBlock';
-
-    // lib pre defined data
-  case viewAny_libPerDefinedData = 'viewAny_libPerDefinedData';
-  case view_libPerDefinedData = 'view_libPerDefinedData';
-  case create_libPerDefinedData = 'create_libPerDefinedData';
-  case update_libPerDefinedData = 'update_libPerDefinedData';
-  case delete_libPerDefinedData = 'delete_libPerDefinedData';
-  case replicate_libPerDefinedData = 'replicate_libPerDefinedData';
-  case restore_libPerDefinedData = 'restore_libPerDefinedData';
-  case forceDelete_libPerDefinedData = 'forceDelete_libPerDefinedData';
-
-    // custom domain
-  case viewAny_customDomain = 'viewAny_customDomain';
-  case view_customDomain = 'view_customDomain';
-  case create_customDomain = 'create_customDomain';
-  case update_customDomain = 'update_customDomain';
-  case delete_customDomain = 'delete_customDomain';
-  case replicate_customDomain = 'replicate_customDomain';
-  case restore_customDomain = 'restore_customDomain';
-  case forceDelete_customDomain = 'forceDelete_customDomain';
+    // BoardStatus
+  case viewAny_boardStatus = 'viewAny_boardStatus';
+  case view_boardStatus = 'view_boardStatus';
+  case create_boardStatus = 'create_boardStatus';
+  case update_boardStatus = 'update_boardStatus';
+  case delete_boardStatus = 'delete_boardStatus';
+  case replicate_boardStatus = 'replicate_boardStatus';
+  case restore_boardStatus = 'restore_boardStatus';
+  case forceDelete_boardStatus = 'forceDelete_boardStatus';
 
     // api key
   case viewAny_apiKey = 'viewAny_apiKey';
