@@ -1,0 +1,4 @@
+- in each controller, first check if user have permission to perform the action/task of this controller function.
+- if this controller function accepts "$request" data, then validate the request data first, then validate if user can perform the controller function action.
+- each time you try and find some "Model" item, before accessing any of it's property, make sure to check if the item was found, and if the function execution can not continue without that item, then send back 404 error, otherwise if it can continue without that item then continue.
+- in all controller funtions add a "try - catch" block at main level, add more sub level "try-catch" if needed.

@@ -5,7 +5,7 @@ namespace Database\Factories\Default;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Default\BoardIdeaVotes>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Feedbear\Board\BoardIdeaVotes>
  */
 class BoardIdeaVotesFactory extends Factory
 {

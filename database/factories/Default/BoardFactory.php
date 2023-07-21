@@ -5,7 +5,7 @@ namespace Database\Factories\Default;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
 /**
- * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Default\Board>
+ * @extends \Illuminate\Database\Eloquent\Factories\Factory<\App\Models\Feedbear\Board\Board>
  */
 class BoardFactory extends Factory
 {

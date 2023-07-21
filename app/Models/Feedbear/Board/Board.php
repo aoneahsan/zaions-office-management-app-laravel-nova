@@ -1,12 +1,16 @@
 <?php
 
-namespace App\Models\Default;
+namespace App\Models\Feedbear\Board;
 
+use App\Models\Feedbear\Board\BoardIdeas;
+use App\Models\Default\Feedbear\Project\Project;
+use App\Models\Default\User;
 use App\Models\Feedbear\status\BoardStatus;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
 

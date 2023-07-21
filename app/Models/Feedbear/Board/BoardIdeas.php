@@ -1,15 +1,16 @@
 <?php
 
-namespace App\Models\Default;
+namespace App\Models\Feedbear\Board;
 
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
-use Illuminate\Database\Eloquent\SoftDeletes;
-use Laravel\Nova\Actions\Actionable;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\SoftDeletes;
+use Laravel\Nova\Actions\Actionable;
 
-class Project extends Model
+class BoardIdeas extends Model
 {
     use HasFactory, SoftDeletes, Actionable;
 
@@ -18,7 +19,7 @@ class Project extends Model
     protected $casts = [
         'extraAttributes' => 'array',
         'image' => 'array',
-        'squaredIcon' => 'array',
+        'tags' => 'array'
     ];
 
     // Relationship methods
@@ -27,8 +28,13 @@ class Project extends Model
         return $this->belongsTo(User::class, 'userId', 'id');
     }
 
-    public function boards(): HasMany
+    public function board(): BelongsTo
     {
-        return $this->hasMany(Board::class, 'projectId');
+        return $this->belongsTo(Board::class, 'boardId', 'id');
+    }
+
+    public function votes(): HasMany
+    {
+        return $this->hasMany(BoardIdeaVotes::class, 'boardIdeaId', 'id');
     }
 }

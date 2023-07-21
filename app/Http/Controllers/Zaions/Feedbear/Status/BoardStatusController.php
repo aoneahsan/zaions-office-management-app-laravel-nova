@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Zaions\Feedbear\Status;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\Feedbear\Status\BoardStatusResource;
-use App\Models\Default\Board;
+use App\Models\Feedbear\Board\Board;
 use App\Models\Feedbear\status\BoardStatus;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\ResponseCodesEnum;

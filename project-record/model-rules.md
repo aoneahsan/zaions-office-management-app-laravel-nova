@@ -1,4 +1,10 @@
-- model name should not be plural
+- model name should not be plural.
   - mean "ApiKeys" is wrong
   - it should be "ApiKey"
   - ask if needed
+- in each model, if you add any relation of any type, make sure to properly add it's columns names in the relation function.
+  - e.g:
+    - instead of writing
+      - return $this->belongsTo(Board::class);
+    - write
+      - return $this->belongsTo(Board::class, 'boardId', 'id');

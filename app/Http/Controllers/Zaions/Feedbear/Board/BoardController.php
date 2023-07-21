@@ -1,10 +1,10 @@
 <?php
 
-namespace App\Http\Controllers\Zaions\Project;
+namespace App\Http\Controllers\Zaions\Feedbear\Board;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Zaions\Project\BoardResource;
-use App\Models\Default\Board;
+use App\Http\Resources\Zaions\Feedbear\Board\BoardResource;
+use App\Models\Feedbear\Board\Board;
 use App\Models\Feedbear\Project\Project;
 use App\Models\Feedbear\status\BoardStatus;
 use App\Zaions\Enums\BoardStatusEnum;
@@ -243,16 +243,16 @@ class BoardController extends Controller
     {
         try {
             $boardStatuses = [
-                [
-                    'uniqueId' => uniqid(),
-                    'userId' => $userId,
-                    'boardId' => $itemId,
-                    'title' => 'Done',
-                    'color' => '#0b8200',
-                    'isDefault' => false,
-                    'isEditable' => true,
-                    'isDeletable' => false,
-                ],
+                // [
+                //     'uniqueId' => uniqid(),
+                //     'userId' => $userId,
+                //     'boardId' => $itemId,
+                //     'title' => 'Done',
+                //     'color' => '#0b8200',
+                //     'isDefault' => false,
+                //     'isEditable' => true,
+                //     'isDeletable' => false,
+                // ],
                 [
                     'uniqueId' => uniqid(),
                     'userId' => $userId,

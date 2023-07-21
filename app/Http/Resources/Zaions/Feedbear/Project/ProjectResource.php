@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Zaions\Project;
+namespace App\Http\Resources\Zaions\Feedbear\Project;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;

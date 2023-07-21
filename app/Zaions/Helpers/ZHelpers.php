@@ -242,6 +242,18 @@ class ZHelpers
       'message' => 'Error Occurred, try again later.'
     ], 500);
   }
+  public static function sendBackNotFoundResponse()
+  {
+    return response()->json([
+      'errors' => [
+        'item' => ['Item not found']
+      ],
+      'data' => [],
+      'success' => false,
+      'status' => 404,
+      'message' => 'Item not found, please try again.'
+    ], 404);
+  }
 
   // check if file exists
   public static function checkIfFileExists($filePath)

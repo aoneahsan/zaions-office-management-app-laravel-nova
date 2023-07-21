@@ -25,6 +25,7 @@ return new class extends Migration
             $table->json('tags')->nullable();
             $table->text('internalNotes')->nullable();
             $table->json('image')->nullable();
+            $table->boolean('isCompleted')->default(false)->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true)->nullable();

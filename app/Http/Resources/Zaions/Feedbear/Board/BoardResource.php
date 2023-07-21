@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Zaions\Project;
+namespace App\Http\Resources\Zaions\Feedbear\Board;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -23,7 +23,6 @@ class BoardResource extends JsonResource
             'formCustomization' => $this->formCustomization,
             'defaultStatus' => $this->defaultStatus,
             'votingSetting' => $this->votingSetting,
-
 
             'sortOrderNo' => $this->sortOrderNo,
             'isActive' => $this->isActive,

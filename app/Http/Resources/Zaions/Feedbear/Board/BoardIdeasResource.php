@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Resources\Zaions\Project;
+namespace App\Http\Resources\Zaions\Feedbear\Board;
 
 use Illuminate\Http\Request;
 use Illuminate\Http\Resources\Json\JsonResource;
@@ -22,12 +22,14 @@ class BoardIdeasResource extends JsonResource
             'internalNotes' => $this->internalNotes,
             'image' => $this->image,
             'tags' => $this->tags,
+            'isCompleted' => $this->isCompleted,
 
             'sortOrderNo' => $this->sortOrderNo,
             'isActive' => $this->isActive,
             'extraAttributes' => $this->extraAttributes,
             'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'updatedAt' => $this->updated_at,
+            'votesCount' => $this->votes_count
         ];
     }
 }

@@ -2,7 +2,7 @@
 
 namespace App\Models\Feedbear\status;
 
-use App\Models\Default\Board;
+use App\Models\Feedbear\Board\Board;
 use App\Models\Default\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;

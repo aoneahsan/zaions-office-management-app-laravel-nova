@@ -1,11 +1,12 @@
 <?php
 
-namespace App\Http\Controllers\Zaions\Project;
+namespace App\Http\Controllers\Zaions\Feedbear\Board;
 
 use App\Http\Controllers\Controller;
-use App\Http\Resources\Zaions\Project\BoardIdeasResource;
-use App\Models\Default\Board;
-use App\Models\Default\BoardIdeas;
+use App\Http\Resources\Zaions\Feedbear\Board\BoardIdeasResource;
+use App\Models\Feedbear\Board\Board;
+use App\Models\Feedbear\Board\BoardIdeas;
+use App\Models\Feedbear\Board\BoardIdeaVotes;
 use App\Models\Feedbear\status\BoardStatus;
 use App\Zaions\Enums\PermissionsEnum;
 use App\Zaions\Enums\ResponseCodesEnum;
@@ -24,26 +25,35 @@ class BoardIdeasController extends Controller
     public function index(Request $request, $boardId)
     {
         $currentUser = $request->user();
-        $currentBoard = Board::where('uniqueId', $boardId)->first();
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
-        try {
-            $itemsCount = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $boardId)->count();
-            $items = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->get();
+        $currentBoard = Board::where('uniqueId', $boardId)->first();
 
-            return response()->json([
-                'success' => true,
-                'errors' => [],
-                'message' => 'Request Completed Successfully!',
-                'data' => [
-                    'items' => BoardIdeasResource::collection($items),
-                    'itemsCount' => $itemsCount
-                ],
-                'status' => 200
-            ]);
-        } catch (\Throwable $th) {
-            return ZHelpers::sendBackServerErrorResponse($th);
+        if (!$currentBoard) {
+            return ZHelpers::sendBackNotFoundResponse();
+        } else {
+            try {
+                $itemsCount = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $boardId)->count();
+                $items = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->withCount('votes')->get();
+                // $idea = BoardIdeas::where('uniqueId', '64baa8af5f69e')->first();
+                // $votes = BoardIdeaVotes::where('boardIdeaId', $idea->id)->count();
+
+                return response()->json([
+                    'success' => true,
+                    'errors' => [],
+                    'message' => 'Request Completed Successfully!',
+                    'data' => [
+                        'items' => BoardIdeasResource::collection($items),
+                        'itemsCount' => $itemsCount,
+                        // 'votes' => $votes,
+                        // '$idea' => $idea
+                    ],
+                    'status' => 200
+                ]);
+            } catch (\Throwable $th) {
+                return ZHelpers::sendBackServerErrorResponse($th);
+            }
         }
     }
 
@@ -80,6 +90,7 @@ class BoardIdeasController extends Controller
 
             'sortOrderNo' => 'nullable|integer',
             'isActive' => 'nullable|boolean',
+            'isCompleted' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
 
@@ -102,6 +113,7 @@ class BoardIdeasController extends Controller
                 'tags' => $request->has('tags') ? (is_string($request->tags) ? json_decode($request->tags) : $request->tags) : null,
 
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
+                'isCompleted' =>  $request->has('isCompleted') ? $request->isCompleted : false,
                 'isActive' => $request->has('isActive') ? $request->isActive : null,
                 'extraAttributes' => $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : null,
             ]);
@@ -182,6 +194,7 @@ class BoardIdeasController extends Controller
                 'internalNotes' => 'nullable|string|max:1500',
                 'tags' => 'nullable|json',
                 'image' => 'nullable|json',
+                'isCompleted' => 'nullable|boolean',
 
                 'sortOrderNo' => 'nullable|integer',
                 'isActive' => 'nullable|boolean',
@@ -199,6 +212,7 @@ class BoardIdeasController extends Controller
                     'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : $item->internalNotes,
                     'image' => $request->has('image') ? (is_string($request->image) ? json_decode($request->image) : $request->image) : $request->image,
                     'tags' => $request->has('tags') ? (is_string($request->tags) ? json_decode($request->tags) : $request->tags) : $request->tags,
+                    'isCompleted' => $request->has('isCompleted') ? $request->isCompleted : $item->isCompleted,
 
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->isActive,
                     'isActive' => $request->has('isActive') ? $request->isActive : $item->isActive,

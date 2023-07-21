@@ -3,9 +3,10 @@
 use App\Http\Controllers\Zaions\Auth\AuthController;
 use App\Http\Controllers\Zaions\Common\FileUploadController;
 use App\Http\Controllers\Zaions\Feedbear\Status\BoardStatusController;
-use App\Http\Controllers\Zaions\Project\BoardController;
-use App\Http\Controllers\Zaions\Project\BoardIdeasController;
-use App\Http\Controllers\Zaions\Project\ProjectController;
+use App\Http\Controllers\Zaions\Feedbear\Board\BoardController;
+use App\Http\Controllers\Zaions\Feedbear\Board\BoardIdeasController;
+use App\Http\Controllers\Zaions\Feedbear\Board\BoardIdeaVotesController;
+use App\Http\Controllers\Zaions\Feedbear\Project\ProjectController;
 use App\Http\Controllers\Zaions\Testing\TestController;
 use App\Http\Controllers\Zaions\User\UserController;
 use App\Http\Controllers\Zaions\WorkSpace\WorkSpaceController;
@@ -121,6 +122,11 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/board/{boardId}/boardStatus/{itemId}', 'show');
             Route::put('/user/board/{boardId}/boardStatus/{itemId}', 'update');
             Route::delete('/user/board/{boardId}/boardStatus/{itemId}', 'destroy');
+        });
+
+        // Board Status
+        Route::controller(BoardIdeaVotesController::class)->group(function () {
+            Route::post('/user/p/{projectId}/b/{boardId}/bi/{boardIdeaId}/vote', 'index');
         });
 
         // Attach modal (pixel, UTM tag etc.) to workspace.
