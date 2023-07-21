@@ -60,20 +60,20 @@ class BoardIdeasController extends Controller
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
-        $status = null;
+        $statusId = null;
 
         // userGeneratedStatusId = true/false
-        if ($request->has('statusId') && $request->statusId !== null) {
-            $currentStatus = BoardStatus::where('uniqueId', $request->statusId)->first();
+        if ($request->has('statusUniqueId') && $request->statusUniqueId !== null) {
+            $currentStatus = BoardStatus::where('uniqueId', $request->statusUniqueId)->first();
 
-            $status = $currentStatus->id;
+            $statusId = $currentStatus->uniqueId;
         }
 
 
         $request->validate([
             'title' => 'required|string',
             'description' => 'required|string',
-            'status' => 'nullable|string',
+            'statusUniqueId' => 'nullable|string',
             'internalNotes' => 'nullable|string',
             'image' => 'nullable|json',
             'tags' => 'nullable|json',
@@ -90,11 +90,11 @@ class BoardIdeasController extends Controller
 
                 'userId' => $currentUser->id,
                 'boardId' => $currentBoard->id,
-                'statusId' => $status,
+                'statusUniqueId' => $statusId,
 
                 'title' => $request->has('title') ? $request->title : null,
                 'description' => $request->has('description') ? $request->description : null,
-                'status' => $request->has('status') ? $request->status : null,
+                // 'status' => $request->has('status') ? $request->status : null,
                 'internalNotes' => $request->has('internalNotes') ? $request->internalNotes : null,
                 'image' => $request->has('image') ? (is_string($request->image) ? json_decode(
                     $request->image
@@ -164,6 +164,16 @@ class BoardIdeasController extends Controller
             $currentBoard = Board::where('uniqueId', $boardId)->first();
 
             Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+            // userGeneratedStatusId = true/false
+            $statusId = null;
+
+            // userGeneratedStatusId = true/false
+            if ($request->has('statusUniqueId') && $request->statusUniqueId !== null) {
+                $currentStatus = BoardStatus::where('uniqueId', $request->statusUniqueId)->first();
+
+                $statusId = $currentStatus->uniqueId;
+            }
+
 
             $request->validate([
                 'title' => 'required|string|max:200',
@@ -182,6 +192,7 @@ class BoardIdeasController extends Controller
 
             if ($item) {
                 $item->update([
+                    'statusUniqueId' => $statusId,
                     'title' => $request->has('title') ? $request->title : $item->title,
                     'description' => $request->has('description') ? $request->description : $item->description,
                     'status' => $request->has('status') ? $request->status : $item->status,

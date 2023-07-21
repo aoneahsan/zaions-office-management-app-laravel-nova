@@ -16,7 +16,8 @@ return new class extends Migration
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
             $table->unsignedBigInteger('boardId');
-            $table->unsignedBigInteger('statusId')->nullable();
+
+            $table->string('statusUniqueId')->nullable();
 
             $table->string('title')->nullable();
             $table->text('description')->nullable();

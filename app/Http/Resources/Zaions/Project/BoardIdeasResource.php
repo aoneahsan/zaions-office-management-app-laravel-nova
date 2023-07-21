@@ -18,7 +18,7 @@ class BoardIdeasResource extends JsonResource
             'id' => $this->uniqueId,
             'title' => $this->title,
             'description' => $this->description,
-            'status' => $this->status,
+            'statusUniqueId' => $this->statusUniqueId,
             'internalNotes' => $this->internalNotes,
             'image' => $this->image,
             'tags' => $this->tags,
