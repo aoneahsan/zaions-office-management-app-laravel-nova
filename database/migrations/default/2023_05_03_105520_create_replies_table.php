@@ -21,8 +21,11 @@ return new class extends Migration
 
 
             $table->integer('sortOrderNo')->default(0)->nullable();
-            $table->boolean('isActive')->default(true);
+            $table->boolean('isActive')->default(true)->nullable();
             $table->json('extraAttributes')->nullable();
+
+            $table->foreign('commentId')->references('id')->on('comments')->onDelete('cascade');
+
             $table->softDeletes();
             $table->timestamps();
         });

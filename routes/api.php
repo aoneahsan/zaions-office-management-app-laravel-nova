@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\Zaions\Auth\AuthController;
 use App\Http\Controllers\Zaions\Common\FileUploadController;
+use App\Http\Controllers\Zaions\Common\ReplyController;
 use App\Http\Controllers\Zaions\Feedbear\Status\BoardStatusController;
 use App\Http\Controllers\Zaions\Feedbear\Board\BoardController;
 use App\Http\Controllers\Zaions\Feedbear\Board\BoardIdeasController;
@@ -88,6 +89,14 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::delete('/user/workspaces/{itemId}', 'destroy');
         });
 
+        Route::controller(ReplyController::class)->group(function () {
+            Route::get('/user/comment/{commentId}/replies', 'index');
+            Route::post('/user/comment/{commentId}/replies', 'store');
+            Route::get('/user/comment/{commentId}/replies/{replyId}', 'show');
+            Route::put('/user/comment/{commentId}/replies/{replyId}', 'update');
+            Route::delete('/user/comment/{commentId}/replies/{replyId}', 'destroy');
+        });
+
         // Project
         Route::controller(ProjectController::class)->group(function () {
             Route::get('/user/project', 'index');
@@ -113,6 +122,11 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/board/{boardId}/boardIdeas/{itemId}', 'show');
             Route::put('/user/board/{boardId}/boardIdeas/{itemId}', 'update');
             Route::delete('/user/board/{boardId}/boardIdeas/{itemId}', 'destroy');
+
+            // Comments
+            Route::get('/user/board/{boardId}/boardIdeas/{itemId}/comments', 'viewComments');
+            Route::post('/user/board/{boardId}/boardIdeas/{itemId}/comments', 'storeComment');
+            Route::delete('/user/board/{boardId}/boardIdeas/{itemId}/comments/{commentId}', 'destroyComment');
         });
 
         // Board Status

@@ -20,7 +20,7 @@ return new class extends Migration
             $table->text('content')->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
-            $table->boolean('isActive')->default(true);
+            $table->boolean('isActive')->default(true)->nullable();
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();
             $table->timestamps();

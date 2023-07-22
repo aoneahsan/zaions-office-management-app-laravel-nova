@@ -46,7 +46,7 @@ class BoardIdeaVotesController extends Controller
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => [
                         'success' => true,
-                        'voteUsAdded' => false, // means the vote is remove from idea. used to change color in frontend etc.
+                        'voteWasAdded' => false, // means the vote is remove from idea. used to change color in frontend etc.
                         'totalVotes' => $totalVotes
                     ]
                 ]);
@@ -64,7 +64,7 @@ class BoardIdeaVotesController extends Controller
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => [
                         'success' => true,
-                        'voteUsAdded' => true, // means the vote is added for idea. used to change color in frontend etc.
+                        'voteWasAdded' => true, // means the vote is added for idea. used to change color in frontend etc.
                         'totalVotes' => $totalVotes
                     ]
                 ]);

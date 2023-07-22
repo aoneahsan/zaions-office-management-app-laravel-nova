@@ -2,11 +2,13 @@
 
 namespace App\Models\Feedbear\Board;
 
+use App\Models\Default\Comment;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasOne;
+use Illuminate\Database\Eloquent\Relations\MorphMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Laravel\Nova\Actions\Actionable;
 
@@ -36,5 +38,10 @@ class BoardIdeas extends Model
     public function votes(): HasMany
     {
         return $this->hasMany(BoardIdeaVotes::class, 'boardIdeaId', 'id');
+    }
+
+    public function comments(): MorphMany
+    {
+        return $this->morphMany(Comment::class, 'commentable');
     }
 }
