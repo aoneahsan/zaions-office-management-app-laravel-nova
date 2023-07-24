@@ -36,7 +36,7 @@ class BoardIdeasController extends Controller
         } else {
             try {
                 $itemsCount = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->count();
-                $items = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->withCount('votes')->get();
+                $items = BoardIdeas::where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->withCount('votes')->withCount('comments')->with('comments')->with('user')->get();
                 // $idea = BoardIdeas::where('uniqueId', '64baa8af5f69e')->first();
                 // $votes = BoardIdeaVotes::where('boardIdeaId', $idea->id)->count();
 
@@ -147,7 +147,7 @@ class BoardIdeasController extends Controller
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_boardIdeas->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
         try {
-            $item = BoardIdeas::where('uniqueId', $itemId)->where('boardId', $currentBoard->id)->where('userId', $currentUser->id)->first();
+            $item = BoardIdeas::where('uniqueId', $itemId)->where('boardId', $currentBoard->id)->where('userId', $currentUser->id)->withCount('votes')->withCount('comments')->with('user')->with('comments')->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -220,7 +220,7 @@ class BoardIdeasController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : $request->extraAttributes,
                 ]);
 
-                $item = BoardIdeas::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
+                $item = BoardIdeas::where('uniqueId', $itemId)->where('userId', $currentUser->id)->withCount('votes')->withCount('comments')->with('user')->first();
 
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new BoardIdeasResource($item)
@@ -367,6 +367,74 @@ class BoardIdeasController extends Controller
                         ]);
                     } else {
                         return ZHelpers::sendBackRequestFailedResponse([]);
+                    }
+                } else {
+                    return ZHelpers::sendBackRequestFailedResponse([
+                        'item' => ['success' => true, 'message' => 'Idea Not found!']
+                    ]);
+                }
+            } else {
+                return ZHelpers::sendBackRequestFailedResponse([
+                    'item' => ['success' => true, 'message' => 'Board Not found!']
+                ]);
+            }
+        } catch (\Throwable $th) {
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
+    }
+
+    /**
+     * Store a newly created resource comment in storage.
+     *
+     * @param  \Illuminate\Http\Request  $request
+     * @return \Illuminate\Http\Response
+     */
+    public function updateComment(Request $request, $boardId, $itemId, $commentId)
+    {
+        try {
+            $currentUser = $request->user();
+
+            Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_comment->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+            $currentBoard = Board::where('userId', $currentUser->id)->where('uniqueId', $boardId)->first();
+
+            if ($currentBoard) {
+                $currentBoardIdea = BoardIdeas::where('uniqueId', $itemId)->where('userId', $currentUser->id)->where('boardId', $currentBoard->id)->first();
+
+
+                if ($currentBoardIdea) {
+                    $commentable_type = 'App\\Models\\Feedbear\\Board\\BoardIdeas';
+
+                    $currentComment = Comment::where('uniqueId', $commentId)->where('userId', $currentUser->id)->where('commentable_type', $commentable_type)->where('commentable_id', $currentBoardIdea->id)->first();
+
+                    if ($currentComment) {
+                        $request->validate([
+                            'content' => 'required|string',
+
+                            'sortOrderNo' => 'nullable|integer',
+                            'isActive' => 'nullable|boolean',
+                            'extraAttributes' => 'nullable|json',
+                        ]);
+
+                        $currentComment->update([
+                            'content' => $request->has('content') ? $request->content : $currentComment->content,
+
+                            'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $currentComment->sortOrderNo,
+                            'isActive' => $request->has('isActive') ? $request->isActive : $currentComment->isActive,
+                            'extraAttributes' => $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : $currentComment->extraAttributes,
+                        ]);
+
+                        $updatedCurrentComment = Comment::where('uniqueId', $commentId)->where('userId', $currentUser->id)->where('commentable_type', $commentable_type)->where('commentable_id', $currentBoardIdea->id)->with('replies')->first();
+
+                        if ($updatedCurrentComment) {
+                            return ZHelpers::sendBackRequestCompletedResponse([
+                                'item' => new CommentResource($updatedCurrentComment)
+                            ]);
+                        } else {
+                            return ZHelpers::sendBackRequestFailedResponse([]);
+                        }
+                    } else {
+                        return ZHelpers::sendBackRequestFailedResponse(['success' => true, 'message' => 'Comment Not found!']);
                     }
                 } else {
                     return ZHelpers::sendBackRequestFailedResponse([

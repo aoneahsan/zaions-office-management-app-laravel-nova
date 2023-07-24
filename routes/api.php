@@ -127,6 +127,7 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
             Route::get('/user/board/{boardId}/boardIdeas/{itemId}/comments', 'viewComments');
             Route::post('/user/board/{boardId}/boardIdeas/{itemId}/comments', 'storeComment');
             Route::delete('/user/board/{boardId}/boardIdeas/{itemId}/comments/{commentId}', 'destroyComment');
+            Route::put('/user/board/{boardId}/boardIdeas/{itemId}/comments/{commentId}', 'updateComment');
         });
 
         // Board Status

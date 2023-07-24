@@ -3,6 +3,7 @@
 namespace App\Models\Feedbear\Board;
 
 use App\Models\Default\Comment;
+use App\Models\Default\User;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
