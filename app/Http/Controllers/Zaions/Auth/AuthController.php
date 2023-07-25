@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\User\UserDataResource;
 use App\Models\Default\User;
 use App\Zaions\Helpers\ZHelpers;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Validation\Rule;
@@ -124,6 +125,15 @@ class AuthController extends Controller
 
     public function verifyAuthState(Request $request)
     {
+        return response()->json(['data' => true]);
+    }
+
+    public function updateUserIsActiveStatus(Request $request)
+    {
+        $currentUser = $request->user();
+        $currentUser->lastSeen = Carbon::now()->addMinutes(3);
+        // lastSeenAt (when), lastLogin (), isOnline = true, false     (3,4)
+        $currentUser->save();
         return response()->json(['data' => true]);
     }
 

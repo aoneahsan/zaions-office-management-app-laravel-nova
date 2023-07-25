@@ -20,12 +20,19 @@ class WorkSpaceResource extends JsonResource
             'workspaceName' => $this->title,
             'workspaceTimezone' => $this->timezone,
             'workspaceData' => $this->workspaceData,
+            'workspaceImage' => $this->workspaceImage,
+            'user' => $this->user ? [
+                'id' => $this->user->uniqueId,
+                'username' => $this->user->name,
+                'email' => $this->user->email,
+                'profilePitcher' => $this->user->profilePitcher,
+            ] : null,
 
             'sortOrderNo' => $this->sortOrderNo,
             'isActive' => $this->isActive,
             'extraAttributes' => $this->extraAttributes,
-            'createdAt' => $this->created_at,
-            'updatedAt' => $this->updated_at
+            'createdAt' => $this->created_at->diffForHumans(),
+            'updatedAt' => $this->updated_at->diffForHumans(),
         ];
     }
 }

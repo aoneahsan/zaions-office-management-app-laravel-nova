@@ -27,7 +27,7 @@ class WorkSpaceController extends Controller
 
         try {
             $itemsCount = WorkSpace::where('userId', $currentUser->id)->count();
-            $items = WorkSpace::where('userId', $currentUser->id)->get();
+            $items = WorkSpace::where('userId', $currentUser->id)->with('user')->get();
 
             return response()->json([
                 'success' => true,
@@ -53,8 +53,9 @@ class WorkSpaceController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'title' => 'required|string',
-            'timezone' => 'required|string',
+            'title' => 'required|string|max:200',
+            'timezone' => 'required|string|max:200',
+            'workspaceImage' => 'nullable|string',
             'workspaceData' => 'nullable|json',
 
             'sortOrderNo' => 'nullable|integer',
@@ -66,8 +67,6 @@ class WorkSpaceController extends Controller
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
-        $workspaceData = $request->has('workspaceData') ? (is_string($request->workspaceData) ? json_decode($request->workspaceData) : $request->workspaceData) : null;
-        $extraAttributes = $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : null;
         try {
             $result = WorkSpace::create([
                 'uniqueId' => uniqid(),
@@ -75,11 +74,12 @@ class WorkSpaceController extends Controller
                 'userId' => $currentUser->id,
                 'title' => $request->has('title') ? $request->title : null,
                 'timezone' => $request->has('timezone') ? $request->timezone : null,
-                'workspaceData' => $workspaceData,
+                'workspaceImage' => $request->has('workspaceImage') ? $request->workspaceImage : null,
+                'workspaceData' => $request->has('workspaceData') ? (is_string($request->workspaceData) ? json_decode($request->workspaceData) : $request->workspaceData) : null,
 
                 'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : null,
-                'isActive' => $request->has('isActive') ? $request->isActive : null,
-                'extraAttributes' => $extraAttributes,
+                'isActive' => $request->has('isActive') ? $request->isActive : true,
+                'extraAttributes' => $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : null,
             ]);
 
             if ($result) {
@@ -134,8 +134,9 @@ class WorkSpaceController extends Controller
     public function update(Request $request, $itemId)
     {
         $request->validate([
-            'title' => 'required|string',
-            'timezone' => 'required|string',
+            'title' => 'required|string|max:200',
+            'timezone' => 'required|string|max:200',
+            'workspaceImage' => 'nullable|string',
             'workspaceData' => 'nullable|json',
 
             'sortOrderNo' => 'nullable|integer',
@@ -147,9 +148,6 @@ class WorkSpaceController extends Controller
 
         Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_workspace->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
-
-        $workspaceData = $request->has('workspaceData') ? (is_string($request->workspaceData) ? json_decode($request->workspaceData) : $request->workspaceData) : $request->workspaceData;
-        $extraAttributes = $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : $request->extraAttributes;
         try {
             $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
@@ -157,12 +155,13 @@ class WorkSpaceController extends Controller
                 $item->update([
                     'title' => $request->has('title') ? $request->title : $item->workspaceName,
                     'timezone' => $request->has('timezone') ? $request->timezone : $item->timezone,
-                    'workspaceData' => $workspaceData,
+                    'workspaceImage' => $request->has('workspaceImage') ? $request->workspaceImage : $item->workspaceImage,
+                    'workspaceData' => $request->has('workspaceData') ? (is_string($request->workspaceData) ? json_decode($request->workspaceData) : $request->workspaceData) : $request->workspaceData,
 
 
                     'sortOrderNo' => $request->has('sortOrderNo') ? $request->sortOrderNo : $item->isActive,
                     'isActive' => $request->has('isActive') ? $request->isActive : $item->isActive,
-                    'extraAttributes' => $extraAttributes,
+                    'extraAttributes' => $request->has('extraAttributes') ? (is_string($request->extraAttributes) ? json_decode($request->extraAttributes) : $request->extraAttributes) : $request->extraAttributes,
                 ]);
 
                 $item = WorkSpace::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
@@ -197,10 +196,12 @@ class WorkSpaceController extends Controller
 
             if ($item) {
                 $item->forceDelete();
-                return ZHelpers::sendBackRequestCompletedResponse([]);
+                return ZHelpers::sendBackRequestCompletedResponse([
+                    'item' => ['success' => true]
+                ]);
             } else {
                 return ZHelpers::sendBackRequestFailedResponse([
-                    'item' => ['Not found!']
+                    'item' => ['workspace not found!']
                 ]);
             }
         } catch (\Throwable $th) {

@@ -30,11 +30,12 @@ class UserDataResource extends JsonResource
             'country' => $this->country,
             'address' => $this->address,
             'city' => $this->city,
-            'profileimage' => $this->profileimage,
+            'profilePitcher' => $this->profilePitcher,
             'avatar' => $this->avatar,
             'createdAt' => $this->created_at,
             'updatedAt' => $this->updated_at,
-            'email_verified_at' => $this->email_verified_at
+            'email_verified_at' => $this->email_verified_at,
+            'lastSeen' => $this->lastSeen
         ];
     }
 }

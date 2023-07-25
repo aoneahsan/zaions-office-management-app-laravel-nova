@@ -58,6 +58,7 @@ Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function (
         // Auth Routes
         Route::controller(AuthController::class)->group(function () {
             Route::post('/verify-authentication-status', 'verifyAuthState');
+            Route::post('/update-active-status', 'updateUserIsActiveStatus');
             Route::post('/logout', 'logout');
         });
 
