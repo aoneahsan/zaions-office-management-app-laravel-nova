@@ -24,7 +24,7 @@ Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
 });
 
 
-Route::middleware(['api'])->name('zaions.')->prefix('zaions/v1')->group(function () {
+Route::middleware(['api'])->name('zlink.')->prefix('zlink/v1')->group(function () {
     // Test Routes
     Route::controller(TestController::class)->group(function () {
         Route::get('/notify-user', 'notifyUser');
