@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Zaions;
 
 use App\Http\Controllers\Controller;
+use App\Models\Default\WorkSpace;
 use App\Zaions\Enums\RolesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Carbon\Carbon;
@@ -33,6 +34,12 @@ class TestingController extends Controller
 
         // dd($dateInfo, $request->user()?->userTimezone);
 
+        // $workspace = WorkSpace::with('pixel')->where('userId', 1)->where(
+        //     'uniqueId',
+        //     '64737b6d45f34'
+        // )->first();
+
+        // dd($workspace, $workspace->pixel);
 
         return response()->json('working fine');
     }

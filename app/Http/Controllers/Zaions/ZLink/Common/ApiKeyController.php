@@ -5,8 +5,12 @@ namespace App\Http\Controllers\Zaions\ZLink\Common;
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\Common\ApiKeyResource;
 use App\Models\ZLink\Common\ApiKey;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class ApiKeyController extends Controller
 {
@@ -17,10 +21,13 @@ class ApiKeyController extends Controller
      */
     public function index(Request $request, $workspaceId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_apiKey->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $itemsCount = ApiKey::where('userId', $userId)->count();
-            $items = ApiKey::where('userId', $userId)->get();
+            $itemsCount = ApiKey::where('userId', $currentUser->id)->count();
+            $items = ApiKey::where('userId', $currentUser->id)->get();
 
             return response()->json([
                 'success' => true,
@@ -54,11 +61,14 @@ class ApiKeyController extends Controller
             'isActive' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_apiKey->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
             $result = ApiKey::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
                 'title' => $request->has('title') ? $request->title : null,
                 'clientId' => $request->has('clientId') ? $request->clientId : null,
                 'clientSecret' => $request->has('clientSecret') ? $request->clientSecret : null,
@@ -90,9 +100,12 @@ class ApiKeyController extends Controller
      */
     public function show(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_apiKey->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -128,9 +141,12 @@ class ApiKeyController extends Controller
             'extraAttributes' => 'nullable|json',
         ]);
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_apiKey->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -145,7 +161,7 @@ class ApiKeyController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $request->extraAttributes,
                 ]);
 
-                $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = ApiKey::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new ApiKeyResource($item)
                 ]);
@@ -167,9 +183,12 @@ class ApiKeyController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_apiKey->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         try {
-            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = ApiKey::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();

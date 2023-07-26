@@ -16,12 +16,13 @@ return new class extends Migration
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
 
-            $table->json('workspaceData')->nullable();
             $table->string('title')->nullable();
             $table->string('timezone')->nullable();
+            $table->string('workspaceImage')->nullable();
+            $table->json('workspaceData')->nullable();
 
             $table->integer('sortOrderNo')->default(0)->nullable();
-            $table->boolean('isActive')->default(true);
+            $table->boolean('isActive')->default(true)->nullable();
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();
             $table->timestamps();

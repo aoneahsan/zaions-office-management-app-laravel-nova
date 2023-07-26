@@ -18,6 +18,7 @@ class UserController extends Controller
             'items' => $items,
         ]);
     }
+
     public function index(Request $request)
     {
         try {
@@ -215,6 +216,37 @@ class UserController extends Controller
                 }
             }
         } catch (\Throwable $th) {
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
+    }
+
+    public function getUserPermissions(Request $request)
+    {
+        try {
+            $user = $request->user();
+
+            $result = $user->roles()->first();
+
+            if ($result) {
+                return ZHelpers::sendBackRequestCompletedResponse([
+                    'item' => [
+                        'isSuccess' => true,
+                        'result' => [
+                            'role' => $result->name,
+                            'permissions' =>  $result->permissions()->pluck('name')
+                        ],
+                    ]
+                ]);
+            } else {
+                return ZHelpers::sendBackRequestFailedResponse([
+                    'item' => [
+                        'isSuccess' => false,
+                        'result' => $result
+                    ]
+                ]);
+            }
+        } catch (\Throwable $th) {
+            //throw $th;
             return ZHelpers::sendBackServerErrorResponse($th);
         }
     }

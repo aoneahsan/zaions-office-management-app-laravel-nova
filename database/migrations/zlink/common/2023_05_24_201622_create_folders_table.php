@@ -15,6 +15,7 @@ return new class extends Migration
             $table->id();
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('workspaceId');
 
             $table->string('title')->nullable();
             $table->string('icon')->nullable();

@@ -4,9 +4,15 @@ namespace App\Http\Controllers\Zaions\ZLink\Common;
 
 use App\Http\Controllers\Controller;
 use App\Http\Resources\Zaions\ZLink\Common\FolderResource;
+use App\Models\Default\WorkSpace;
 use App\Models\ZLink\Common\Folder;
+use App\Zaions\Enums\FolderModalsEnum;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Hash;
 
 class FolderController extends Controller
@@ -18,10 +24,22 @@ class FolderController extends Controller
      */
     public function index(Request $request, $workspaceId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+
         try {
-            $itemsCount = Folder::where('userId', $userId)->count();
-            $items = Folder::where('userId', $userId)->orderBy('sortOrderNo', 'asc')->get();
+            $itemsCount = Folder::where('userId', $currentUser->id)->count();
+            $items = Folder::where('userId', $currentUser->id)->orderBy('sortOrderNo', 'asc')->get();
 
             return response()->json([
                 'success' => true,
@@ -59,11 +77,24 @@ class FolderController extends Controller
             'isActive' => 'nullable|boolean',
             'extraAttributes' => 'nullable|json',
         ]);
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+
         try {
             $result = Folder::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
+                'workspaceId' => $workspace->id,
                 'title' => $request->has('title') ? $request->title : null,
                 'icon' => $request->has('icon') ? $request->icon : null,
                 'isStared' => $request->has('isStared') ? $request->isStared : false,
@@ -73,7 +104,7 @@ class FolderController extends Controller
                 'isPasswordProtected' => $request->has('isPasswordProtected') ? $request->isPasswordProtected : false,
                 'password' => $request->has('password') ? Hash::make($request->password) : null,
                 'isDefault' => $request->has('isDefault') ? $request->isDefault : null,
-                'isActive' => $request->has('isActive') ? $request->isActive : null,
+                'isActive' => $request->has('isActive') ? $request->isActive : true,
                 'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : null,
             ]);
 
@@ -97,9 +128,21 @@ class FolderController extends Controller
      */
     public function show(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+
         try {
-            $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -138,9 +181,21 @@ class FolderController extends Controller
             'extraAttributes' => 'nullable|json',
         ]);
 
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+
         try {
-            $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->update([
@@ -157,7 +212,7 @@ class FolderController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $item->extraAttributes,
                 ]);
 
-                $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new FolderResource($item)
                 ]);
@@ -179,9 +234,21 @@ class FolderController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+
         try {
-            $item = Folder::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = Folder::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();
@@ -196,31 +263,91 @@ class FolderController extends Controller
         }
     }
 
-    // public function getFolderShortLinks(Request $request, $workspaceId, $itemId)
-    // {
-    //     $userId = $request->user()->id;
-    //     try {
+    public function getShortLinksFolders(Request $request, $workspaceId)
+    {
+        $currentUser = $request->user();
 
-    //         $itemsCount = ShortLink::where('userId', $userId)->where('folderId', $itemId)->count();
-    //         $items = ShortLink::where('userId', $userId)->where('folderId', $itemId)->get();
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
 
-    //         return response()->json([
-    //             'success' => true,
-    //             'errors' => [],
-    //             'message' => 'Request Completed Successfully!',
-    //             'data' => [
-    //                 'items' => ShortLinkResource::collection($items),
-    //                 'itemsCount' => $itemsCount
-    //             ],
-    //             'status' => 200
-    //         ]);
-    //     } catch (\Throwable $th) {
-    //         return ZHelpers::sendBackServerErrorResponse($th);
-    //     }
-    // }
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+        try {
+
+            $itemsCount = Folder::where('userId', $currentUser->id)->where('workspaceId', $workspaceId)->where('folderForModel', FolderModalsEnum::shortlink->name)->count();
+
+            $items = Folder::where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->where('folderForModel', FolderModalsEnum::shortlink->name)->get();
+
+            return response()->json([
+                'success' => true,
+                'errors' => [],
+                'message' => 'Request Completed Successfully!',
+                'data' => [
+                    'items' => FolderResource::collection($items),
+                    'itemsCount' => $itemsCount
+                ],
+                'status' => 200
+            ]);
+        } catch (\Throwable $th) {
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
+    }
+
+    public function getLinkInBioFolders(Request $request, $workspaceId)
+    {
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+        try {
+
+            $itemsCount = Folder::where('userId', $currentUser->id)->where('workspaceId', $workspaceId)->where('folderForModel', FolderModalsEnum::linkInBio->name)->count();
+
+            $items = Folder::where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->where('folderForModel', FolderModalsEnum::linkInBio->name)->get();
+
+            return response()->json([
+                'success' => true,
+                'errors' => [],
+                'message' => 'Request Completed Successfully!',
+                'data' => [
+                    'items' => FolderResource::collection($items),
+                    'itemsCount' => $itemsCount
+                ],
+                'status' => 200
+            ]);
+        } catch (\Throwable $th) {
+            return ZHelpers::sendBackServerErrorResponse($th);
+        }
+    }
 
     public function updateSortOrderNo(Request $request, $workspaceId)
     {
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_folder->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+        // getting workspace
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
+
+        if (!$workspace) {
+            return ZHelpers::sendBackInvalidParamsResponse([
+                "item" => ['No workspace found!']
+            ]);
+        }
+
         $request->validate([
             'folders' => 'required' // array of all folders ids ()  {id: string}[]
         ]);

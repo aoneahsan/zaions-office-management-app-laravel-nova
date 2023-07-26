@@ -2,16 +2,18 @@
 
 namespace App\Nova\ZLink\Analytics;
 
+use App\Nova\Default\WorkSpace;
 use App\Nova\Resource;
 use App\Zaions\Helpers\ZHelpers;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\Gravatar;
 use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
+use Laravel\Nova\Fields\MorphToMany;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Http\Requests\NovaRequest;
+
 
 class UtmTag extends Resource
 {
@@ -100,6 +102,16 @@ class UtmTag extends Resource
 
             KeyValue::make('Extra attributes', 'extraAttributes')
                 ->rules('nullable'),
+
+            MorphToMany::make('Workspace', 'workspaces', WorkSpace::class)->fields(function ($request, $relatedModel) {
+
+                return [
+                    Hidden::make('userId', 'userId')
+                        ->default(function (NovaRequest $request) {
+                            return $request->user()->getKey();
+                        }),
+                ];
+            }),
         ];
     }
 

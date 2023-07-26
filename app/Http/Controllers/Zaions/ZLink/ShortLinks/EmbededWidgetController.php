@@ -7,8 +7,12 @@ use App\Http\Resources\Zaions\ZLink\ShortLinks\EmbededWidgetResource;
 use App\Models\Default\WorkSpace;
 use App\Models\ZLink\ShortLinks\EmbededWidget;
 use App\Models\ZLink\ShortLinks\ShortLink;
+use App\Zaions\Enums\PermissionsEnum;
+use App\Zaions\Enums\ResponseCodesEnum;
+use App\Zaions\Enums\ResponseMessagesEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Gate;
 
 class EmbededWidgetController extends Controller
 {
@@ -19,12 +23,15 @@ class EmbededWidgetController extends Controller
      */
     public function index(Request $request, $workspaceId, $shortLinkId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::viewAny_embededWidget->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -33,8 +40,8 @@ class EmbededWidgetController extends Controller
         }
 
         try {
-            $itemsCount = EmbededWidget::where('userId', $userId)->count();
-            $items = EmbededWidget::where('userId', $userId)->get();
+            $itemsCount = EmbededWidget::where('userId', $currentUser->id)->count();
+            $items = EmbededWidget::where('userId', $currentUser->id)->get();
 
             return response()->json([
                 'success' => true,
@@ -59,12 +66,15 @@ class EmbededWidgetController extends Controller
      */
     public function store(Request $request, $workspaceId, $shortLinkId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::create_embededWidget->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -88,11 +98,10 @@ class EmbededWidgetController extends Controller
             'sortOrderNo' => 'nullable|integer',
             'extraAttributes' => 'nullable|json'
         ]);
-        $userId = $request->user()->id;
         try {
             $result = EmbededWidget::create([
                 'uniqueId' => uniqid(),
-                'userId' => $userId,
+                'userId' => $currentUser->id,
                 'shortLinkId' => $ShortLink->id,
                 'name' => $request->has('name') ? $request->name : null,
                 'canCodeJs' => $request->has('canCodeJs') ? $request->canCodeJs : false,
@@ -130,12 +139,16 @@ class EmbededWidgetController extends Controller
      */
     public function show(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::view_embededWidget->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -144,7 +157,7 @@ class EmbededWidgetController extends Controller
         }
 
         try {
-            $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 return ZHelpers::sendBackRequestCompletedResponse([
@@ -169,12 +182,16 @@ class EmbededWidgetController extends Controller
      */
     public function update(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::update_embededWidget->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -199,9 +216,8 @@ class EmbededWidgetController extends Controller
             'extraAttributes' => 'nullable|json'
         ]);
 
-        $userId = $request->user()->id;
         try {
-            $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $userId)->where('shortLinkId', $ShortLink->id)->first();
+            $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $currentUser->id)->where('shortLinkId', $ShortLink->id)->first();
 
             if ($item) {
                 $item->update([
@@ -221,7 +237,7 @@ class EmbededWidgetController extends Controller
                     'extraAttributes' => $request->has('extraAttributes') ? $request->extraAttributes : $request->extraAttributes,
                 ]);
 
-                $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $userId)->first();
+                $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
                 return ZHelpers::sendBackRequestCompletedResponse([
                     'item' => new EmbededWidgetResource($item)
                 ]);
@@ -243,12 +259,16 @@ class EmbededWidgetController extends Controller
      */
     public function destroy(Request $request, $workspaceId, $shortLinkId, $itemId)
     {
-        $userId = $request->user()->id;
+        $currentUser = $request->user();
+
+        Gate::allowIf($currentUser->hasPermissionTo(PermissionsEnum::delete_embededWidget->name), ResponseMessagesEnum::Unauthorized->name, ResponseCodesEnum::Unauthorized->name);
+
+
         // getting workspace
-        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $userId)->first();
+        $workspace = WorkSpace::where('uniqueId', $workspaceId)->where('userId', $currentUser->id)->first();
 
         // getting Short-link in workspace
-        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $userId)->where('workspaceId', $workspace->id)->first();
+        $ShortLink = ShortLink::where('uniqueId', $shortLinkId)->where('userId', $currentUser->id)->where('workspaceId', $workspace->id)->first();
 
         if (!$ShortLink) {
             return ZHelpers::sendBackInvalidParamsResponse([
@@ -257,7 +277,7 @@ class EmbededWidgetController extends Controller
         }
 
         try {
-            $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $userId)->first();
+            $item = EmbededWidget::where('uniqueId', $itemId)->where('userId', $currentUser->id)->first();
 
             if ($item) {
                 $item->forceDelete();
