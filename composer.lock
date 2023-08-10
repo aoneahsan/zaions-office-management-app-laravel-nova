@@ -6568,16 +6568,16 @@
         },
         {
             "name": "spatie/ssl-certificate",
-            "version": "2.4.1",
+            "version": "2.5.0",
             "source": {
                 "type": "git",
                 "url": "https://github.com/spatie/ssl-certificate.git",
-                "reference": "3e8d2ed32c19c94d23bc80993db5b1f706fca3fd"
+                "reference": "4583930a1bf3d411b561bb3c7dbd2c6b4fa5350c"
             },
             "dist": {
                 "type": "zip",
-                "url": "https://api.github.com/repos/spatie/ssl-certificate/zipball/3e8d2ed32c19c94d23bc80993db5b1f706fca3fd",
-                "reference": "3e8d2ed32c19c94d23bc80993db5b1f706fca3fd",
+                "url": "https://api.github.com/repos/spatie/ssl-certificate/zipball/4583930a1bf3d411b561bb3c7dbd2c6b4fa5350c",
+                "reference": "4583930a1bf3d411b561bb3c7dbd2c6b4fa5350c",
                 "shasum": ""
             },
             "require": {
@@ -6620,7 +6620,7 @@
                 "ssl-certificate"
             ],
             "support": {
-                "source": "https://github.com/spatie/ssl-certificate/tree/2.4.1"
+                "source": "https://github.com/spatie/ssl-certificate/tree/2.5.0"
             },
             "funding": [
                 {
@@ -6632,7 +6632,7 @@
                     "type": "other"
                 }
             ],
-            "time": "2023-08-07T12:07:29+00:00"
+            "time": "2023-08-10T07:49:12+00:00"
         },
         {
             "name": "stepanenko3/laravel-helpers",
