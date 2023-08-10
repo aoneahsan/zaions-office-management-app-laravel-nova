@@ -3,8 +3,8 @@
 namespace App\Nova;
 
 use App\Models\Comment as ModelsComment;
+use App\Models\User as ModelsUser;
 use App\Zaions\Helpers\ZHelpers;
-use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
 use Laravel\Nova\Fields\HasMany;
@@ -12,6 +12,8 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
@@ -30,7 +32,10 @@ class Comment extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->id . ': ' . ($this->content ? (strlen($this->content) > 30 ? substr($this->content,0, 30) . '...' : $this->content) : '');
+    }
 
     /**
      * The columns that should be searched.
@@ -75,11 +80,23 @@ class Comment extends Resource
                     return $request->user()->getKey();
                 }),
 
-            Text::make('Comment Text', 'content')
-                ->rules('nullable', 'string')
-                ->showOnIndex(true)
+            MultiSelect::make('Send Notification To', 'sendNotificationToTheseUsers')
+                ->options(function () {
+                    return ModelsUser::where('isActive', true)->pluck('name', 'id');
+                }),
+
+            MorphTo::make('commentable')->types([
+                \App\Nova\User::class,
+                \App\Nova\Task::class,
+                \App\Nova\History::class,
+                \App\Nova\Attachment::class
+            ]),
+
+            Textarea::make('Comment Text', 'content')
+                ->rules('required', 'string')
                 ->maxlength(1500)
-                ->enforceMaxlength(),
+                ->enforceMaxlength()
+                ->alwaysShow(),
 
             HasMany::make('Replies', 'replies', Reply::class),
 

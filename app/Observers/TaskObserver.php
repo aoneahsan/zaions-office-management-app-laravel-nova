@@ -3,21 +3,55 @@
 namespace App\Observers;
 
 use App\Models\Task;
+use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Laravel\Nova\Notifications\NovaNotification;
+use Laravel\Nova\URL;
 
 class TaskObserver
 {
-    public function creating(Request $request)
-    {
-        dd($request);
-        var_dump($request);
-    }
-    /**
-     * Handle the Task "created" event.
-     */
+
+    public $afterCommit = true;
+
+    // /**
+    //  * Handle the Task "created" event.
+    //  */
     public function created(Task $task): void
     {
-        //
+        $taskId = $task->id;
+        $currentUser = Auth::user();
+        if ($currentUser->id != $task->assignedTo) {
+            $assignedTo = $task->assignedTo;
+            $assignedUser = User::where('id', $assignedTo)->first();
+            if ($assignedUser) {
+                $assignedUser->notify(
+                    NovaNotification::make()
+                        ->message('New Task assigned, please have a look')
+                        ->action('Go to Task', URL::make('/resources/tasks/' . $taskId))
+                        ->icon('eye')
+                        ->type('success')
+                );
+            }
+        }
+
+        // Now send notification to all users in mentioned array
+        $taskId = $task->id;
+        $mentionUsersIds = $task->sendNotificationToTheseUsers;
+        if (count($mentionUsersIds) > 0) {
+            $mentionUsers = User::whereIn('id', $mentionUsersIds)->get();
+            if (count($mentionUsers) > 0) {
+                Notification::send(
+                    $mentionUsers,
+                    NovaNotification::make()
+                        ->message('Task Updated, please check the task details and add your remarks accordingly.')
+                        ->action('Go to Task', URL::remote('/zaions/resources/tasks/' . $taskId))
+                        ->icon('eye')
+                        ->type('success')
+                );
+            }
+        }
     }
 
     /**
@@ -25,37 +59,38 @@ class TaskObserver
      */
     public function updated(Task $task): void
     {
-        //
-    }
 
-    public function deleting(Request $request)
-    {
-        dd($request);
-        var_dump($request);
-    }
+        $taskId = $task->id;
+        $currentUser = Auth::user();
+        if ($currentUser->id !== $task->assignedTo) {
+            $assignedTo = $task->assignedTo;
+            $assignedUser = User::where('id', $assignedTo)->first();
+            if ($assignedUser) {
+                $assignedUser->notify(
+                    NovaNotification::make()
+                        ->message('New Task assigned, please have a look')
+                        ->action('Go to Task', URL::make('/resources/tasks/' . $taskId))
+                        ->icon('eye')
+                        ->type('warning')
+                );
+            }
+        }
 
-    /**
-     * Handle the Task "deleted" event.
-     */
-    public function deleted(Task $task): void
-    {
-        dd($task);
-        var_dump($task);
-    }
-
-    /**
-     * Handle the Task "restored" event.
-     */
-    public function restored(Task $task): void
-    {
-        //
-    }
-
-    /**
-     * Handle the Task "force deleted" event.
-     */
-    public function forceDeleted(Task $task): void
-    {
-        //
+        // Now send notification to all users in mentioned array
+        $taskId = $task->id;
+        $mentionUsersIds = $task->sendNotificationToTheseUsers;
+        if (count($mentionUsersIds) > 0) {
+            $mentionUsers = User::whereIn('id', $mentionUsersIds)->get();
+            if (count($mentionUsers) > 0) {
+                Notification::send(
+                    $mentionUsers,
+                    NovaNotification::make()
+                        ->message('Task Updated, please check the task details and add your remarks accordingly.')
+                        ->action('Go to Task', URL::remote('/zaions/resources/tasks/' . $taskId))
+                        ->icon('eye')
+                        ->type('warning')
+                );
+            }
+        }
     }
 }

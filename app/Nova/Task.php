@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Task as ModelsTask;
+use App\Models\User as ModelsUser;
 use App\Nova\Actions\TaskActions\ApproveTaskAction;
 use App\Nova\Actions\TaskActions\ReviewTaskAction;
 use App\Nova\Filters\TaskFilters\TaskStatusFilter;
@@ -19,6 +20,7 @@ use App\Zaions\Enums\VerificationStatusEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Enum;
 use Laravel\Nova\Fields\BelongsTo;
 use Laravel\Nova\Fields\Boolean;
@@ -31,6 +33,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
@@ -52,7 +55,21 @@ class Task extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->id . ': ' . $this->title;
+    }
+
+    /**
+     * Get the search result subtitle for the resource.
+     *
+     * @return string|null
+     */
+    public function subtitle()
+    {
+        $assignedUser = $this->assignedUser;
+        return 'Assigned To: ' . $assignedUser->name . '(' . $assignedUser->email . ')';
+    }
 
     /**
      * The columns that should be searched.
@@ -60,7 +77,7 @@ class Task extends Resource
      * @var array
      */
     public static $search = [
-        'id', 'type'
+        'id', 'title', 'status', 'type'
     ];
 
     /**
@@ -93,6 +110,7 @@ class Task extends Resource
                 ->showOnDetail(function (NovaRequest $request) {
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
+
             HasOne::make('Approver User', 'approver', User::class)
                 ->hideFromIndex()
                 ->showOnCreating(false)
@@ -100,6 +118,7 @@ class Task extends Resource
                 ->showOnDetail(function (NovaRequest $request) {
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),
+
             BelongsTo::make('Created By', 'user', User::class)
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
@@ -111,11 +130,22 @@ class Task extends Resource
                 ->hideWhenCreating()
                 ->hideWhenUpdating(),
 
+            HasOne::make('Assigned To', 'assignedUser', User::class)
+                ->default(function (NovaRequest $request) {
+                    return $request->user()->getKey();
+                })
+                ->showOnCreating(false)
+                ->showOnUpdating(false)
+                ->showOnDetail(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+
             // Hidden Fields
             Hidden::make('userId', 'userId')
                 ->default(function (NovaRequest $request) {
                     return $request->user()->getKey();
                 }),
+
             Hidden::make('namazOfferedAt', 'namazOfferedAt')
                 ->rules('nullable')
                 ->dependsOn('type', function (Hidden $thisField, NovaRequest $request, FormData $formData) {
@@ -135,24 +165,58 @@ class Task extends Resource
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 
+            MultiSelect::make('Send Notification To', 'sendNotificationToTheseUsers')
+                ->options(function () {
+                    return ModelsUser::where('isActive', true)->pluck('name', 'id');
+                }),
+
+            Text::make('Title', 'title')
+                ->maxlength(250)
+                ->rules('required', 'max:250'),
+
+            Textarea::make('Task Info', 'detail')
+                ->rules('nullable', 'string')
+                ->maxlength(1000)
+                ->enforceMaxlength()
+                ->hideFromIndex()
+                ->alwaysShow(),
+
             // Normal Form Fields
+            Select::make('Assign To', 'assignedTo')
+                ->searchable()
+                ->rules('required')
+                ->options(function () {
+                    return ModelsUser::where('isActive', true)->pluck('name', 'id');
+                })
+                ->displayUsingLabels(),
+
             Select::make('Type')
                 ->searchable()
                 ->rules('required', 'string', new Enum(TaskTypeEnum::class))
                 ->options(function () {
-                    return [
+                    $currentUser = Auth::user();
+                    $improvementProgramTasks = [
                         TaskTypeEnum::namaz->name => ['label' => 'Namaz', 'group' => 'Improvement'],
                         TaskTypeEnum::exercise->name => ['label' => 'Exercise', 'group' => 'Improvement'],
-                        TaskTypeEnum::quran->name => ['label' => 'Quran', 'group' => 'Improvement'],
+                        TaskTypeEnum::quran->name => ['label' => 'Quran', 'group' => 'Improvement']
+                    ];
+
+                    $generalTasks = [
                         TaskTypeEnum::dailyOfficeTime->name => ['label' => 'Daily Office Time', 'group' => 'Office'],
                         TaskTypeEnum::course->name => ['label' => 'Course', 'group' => 'Office'],
                         TaskTypeEnum::officeWorkTask->name => ['label' => 'Office Work Task', 'group' => 'Office'],
                         TaskTypeEnum::other->name => ['label' => 'Other', 'group' => 'Office'],
                     ];
+
+                    if ($currentUser->isImprovementContractMember) {
+                        return array_merge($generalTasks, $improvementProgramTasks);
+                    }
+
+                    return $generalTasks;
                 })
                 ->displayUsingLabels(),
 
-            Select::make('Task Status', 'taskStatus')
+            Select::make('Task Status', 'status')
                 ->default(TaskStatusEnum::todo->name)
                 ->rules('required', new Enum(TaskStatusEnum::class))
                 ->options([
@@ -194,52 +258,6 @@ class Task extends Resource
                             ->show()
                             ->rules('required', 'string', new Enum(NamazEnum::class))
                             ->options(function () use ($request) {
-                                // $currentDateTime = Carbon::now(ZHelpers::getTimezone($request));
-                                // $currentTimeArr = ZHelpers::convertTo12Hour($currentDateTime);
-                                // $currentHour = $currentTimeArr['hour'];
-                                // $currentMinutes = $currentTimeArr['minute'];
-                                // $currentTimeIsAM = $currentTimeArr['isAm'];
-                                // $isFriday = $currentDateTime->dayName === 'Friday';
-                                // $namazTimes = ZHelpers::getNamazTimes();
-                                // $fajarNamazTime = $namazTimes[NamazEnum::fajar->name];
-                                // $zoharNamazTime = $namazTimes[NamazEnum::zohar->name];
-                                // $asarNamazTime = $namazTimes[NamazEnum::asar->name];
-                                // $magribNamazTime = $namazTimes[NamazEnum::magrib->name];
-                                // $ishaNamazTime = $namazTimes[NamazEnum::isha->name];
-                                // $jumaNamazTime = $namazTimes[NamazEnum::juma->name];
-
-                                // $fajarTimeIsAvailable = true;
-                                // if ($currentTimeIsAM && $currentHour >= $fajarNamazTime['min']['h'] && $currentHour <= $fajarNamazTime['max']['h'] && (($currentHour === $fajarNamazTime['min']['h'] && $currentMinutes >= $fajarNamazTime['min']['m']) || ($currentHour === $fajarNamazTime['max']['h'] && $currentMinutes <= $fajarNamazTime['max']['m']))) {
-                                //     $fajarTimeIsAvailable = true;
-                                // }
-
-                                // $zoharTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $zoharNamazTime['min']['h'] && $currentHour <= $zoharNamazTime['max']['h'] && (($currentHour === $zoharNamazTime['min']['h'] && $currentMinutes >= $zoharNamazTime['min']['m']) || ($currentHour === $zoharNamazTime['max']['h'] && $currentMinutes <= $zoharNamazTime['max']['m']))) {
-                                //     $zoharTimeIsAvailable = true;
-                                // }
-
-                                // $asarTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $asarNamazTime['min']['h'] && $currentHour <= $asarNamazTime['max']['h'] && (($currentHour === $asarNamazTime['min']['h'] && $currentMinutes >= $asarNamazTime['min']['m']) || ($currentHour === $asarNamazTime['max']['h'] && $currentMinutes <= $asarNamazTime['max']['m']))) {
-                                //     $asarTimeIsAvailable = true;
-                                // }
-
-                                // $magribTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $magribNamazTime['min']['h'] && $currentHour <= $magribNamazTime['max']['h'] && (($currentHour === $magribNamazTime['min']['h'] && $currentMinutes >= $magribNamazTime['min']['m']) || ($currentHour === $magribNamazTime['max']['h'] && $currentMinutes <= $magribNamazTime['max']['m']))) {
-                                //     $magribTimeIsAvailable = true;
-                                // }
-
-                                // $ishaTimeIsAvailable = false;
-                                // if (!$currentTimeIsAM && $currentHour >= $ishaNamazTime['min']['h'] && $currentHour <= $ishaNamazTime['max']['h'] && (($currentHour === $ishaNamazTime['min']['h'] && $currentMinutes >= $ishaNamazTime['min']['m']) || ($currentHour === $ishaNamazTime['max']['h'] && $currentMinutes <= $ishaNamazTime['max']['m']))) {
-                                //     $ishaTimeIsAvailable = true;
-                                // }
-
-                                // $jumaTimeIsAvailable = false;
-                                // if ($isFriday && !$currentTimeIsAM && $currentHour >= $jumaNamazTime['min']['h'] && $currentHour <= $jumaNamazTime['max']['h'] && (($currentHour === $jumaNamazTime['min']['h'] && $currentMinutes >= $jumaNamazTime['min']['m']) || ($currentHour === $jumaNamazTime['max']['h'] && $currentMinutes <= $jumaNamazTime['max']['m']))) {
-                                //     $jumaTimeIsAvailable = true;
-                                // }
-
-                                // $fieldOptions = []; // the above logic did not work :( 
-                                // so commented it for now
                                 $fieldOptions = [
                                     NamazEnum::fajar->name => NamazEnum::fajar->name,
                                     NamazEnum::zohar->name => NamazEnum::zohar->name,
@@ -248,25 +266,6 @@ class Task extends Resource
                                     NamazEnum::isha->name => NamazEnum::isha->name,
                                     NamazEnum::juma->name => NamazEnum::juma->name
                                 ];
-
-                                // if ($fajarTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::fajar->name] = NamazEnum::fajar->name;
-                                // }
-                                // if ($zoharTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::zohar->name] = NamazEnum::zohar->name;
-                                // }
-                                // if ($asarTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::asar->name] = NamazEnum::asar->name;
-                                // }
-                                // if ($magribTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::magrib->name] = NamazEnum::magrib->name;
-                                // }
-                                // if ($ishaTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::isha->name] = NamazEnum::isha->name;
-                                // }
-                                // if ($jumaTimeIsAvailable) {
-                                //     $fieldOptions[NamazEnum::juma->name] = NamazEnum::juma->name;
-                                // }
 
                                 return $fieldOptions;
                             });
@@ -475,32 +474,18 @@ class Task extends Resource
                     }
                 }),
 
-            Textarea::make('Task Info', 'officeWorkTaskInfo')
-                ->rules('nullable', 'string')
-                ->maxlength(500)
-                ->enforceMaxlength()
-                ->hideFromIndex()
-                ->alwaysShow(),
-
-            URL::make('Office Work Task Trello Ticket Link', 'officeWorkTaskTrelloTicketLink')
-                ->hide()
-                ->rules('nullable')
+            URL::make('Trello Ticket Link', 'trelloTicketLink')
+                ->rules('nullable', 'url')
                 ->showOnDetail(function () {
                     return $this->type === TaskTypeEnum::officeWorkTask->name;
-                })
-                ->dependsOn('type', function (URL $field, NovaRequest $request, FormData $formData) {
-                    if ($formData->type === TaskTypeEnum::officeWorkTask->name) {
-                        $field->show()
-                            ->rules('required', 'url');
-                    }
                 }),
 
             Image::make('Attachment', 'screenShot')
-                ->rules('nullable', 'image', 'size:3000')
+                ->rules('nullable', 'image')
                 ->disk(ZHelpers::getActiveFileDriver())
                 ->dependsOn('type', function (Image $field, NovaRequest $request, FormData $formData) {
                     if ($formData->type === TaskTypeEnum::dailyOfficeTime->name) {
-                        $field->rules('required')
+                        $field->creationRules('required', 'image')->updateRules('nullable', 'image')
                             ->help('Attach the screen shot of traqq page showing current date recorded time and activity properly.');
                     }
                 })
@@ -522,6 +507,7 @@ class Task extends Resource
                 }),
 
         ];
+        // return [];
     }
 
     /**

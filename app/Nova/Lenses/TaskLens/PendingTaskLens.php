@@ -35,7 +35,7 @@ class PendingTaskLens extends Lens
     public static function query(LensRequest $request, $query)
     {
         return $request->withOrdering($request->withFilters(
-            $query->whereNotIn('taskStatus', [TaskStatusEnum::done->name, TaskStatusEnum::closed])->where('verificationStatus', VerificationStatusEnum::pending->name)
+            $query->whereNotIn('status', [TaskStatusEnum::done->name, TaskStatusEnum::closed])->where('verificationStatus', VerificationStatusEnum::pending->name)
         ));
     }
 
@@ -51,7 +51,7 @@ class PendingTaskLens extends Lens
             ID::make(__('ID'), 'id')->sortable(),
             Select::make('Type')->displayUsingLabels(),
 
-            Select::make('Task Status', 'taskStatus')->displayUsingLabels(),
+            Select::make('Task Status', 'status')->displayUsingLabels(),
 
             Select::make('Verification Status', 'verificationStatus')->displayUsingLabels(),
 

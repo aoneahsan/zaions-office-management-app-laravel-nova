@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Reply as ModelsReply;
+use App\Models\User as ModelsUser;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -12,6 +13,7 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
@@ -29,7 +31,10 @@ class Reply extends Resource
      *
      * @var string
      */
-    public static $title = 'id';
+    public function title()
+    {
+        return $this->id . ': ' . ($this->content ? (strlen($this->content) > 30 ? substr($this->content, 0, 30) . '...' : $this->content) : '');
+    }
 
     /**
      * The columns that should be searched.
@@ -66,9 +71,7 @@ class Reply extends Resource
                 ->hideFromIndex()
                 ->showOnDetail(function (NovaRequest $request) {
                     return ZHelpers::isNRUserSuperAdmin($request);
-                })
-                ->hideWhenCreating()
-                ->hideWhenUpdating(),
+                }),
 
 
             Hidden::make('userId', 'userId')
@@ -76,8 +79,13 @@ class Reply extends Resource
                     return $request->user()->getKey();
                 }),
 
+            MultiSelect::make('Send Notification To', 'sendNotificationToTheseUsers')
+                ->options(function () {
+                    return ModelsUser::where('isActive', true)->pluck('name', 'id');
+                }),
+
             Textarea::make('Reply Text', 'content')
-                ->rules('nullable', 'string')
+                ->rules('required', 'string')
                 ->maxlength(1500)
                 ->enforceMaxlength()
                 ->alwaysShow(),

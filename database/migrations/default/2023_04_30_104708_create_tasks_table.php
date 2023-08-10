@@ -17,6 +17,9 @@ return new class extends Migration
 
             $table->string('uniqueId')->nullable();
             $table->unsignedBigInteger('userId');
+            $table->unsignedBigInteger('assignedTo');
+            $table->string('title')->nullable();
+            $table->text('detail')->default(0)->nullable();
             $table->string('type');
             $table->string('namazOffered')->nullable();
             $table->string('namazOfferedAt')->nullable();  // this will be automatic when user enters this data
@@ -35,10 +38,11 @@ return new class extends Migration
             $table->integer('timeSpendWhileReadingQuranInMinutes')->default(0)->nullable();
             $table->integer('workTimeRecordedOnTraqq')->default(0)->nullable();
             $table->integer('traqqActivityForRecordedTime')->default(0)->nullable();
-            $table->string('officeWorkTaskInfo')->default(0)->nullable();
-            $table->string('officeWorkTaskTrelloTicketLink')->default(0)->nullable();
-            $table->string('taskStatus')->default(TaskStatusEnum::todo->name)->nullable();
+            $table->string('trelloTicketLink')->default(0)->nullable();
+            $table->string('status')->default(TaskStatusEnum::todo->name)->nullable();
             $table->string('verificationStatus')->default(TaskStatusEnum::todo->name)->nullable();
+            $table->json('sendNotificationToTheseUsers')->nullable(); // a multi select to send notification to users
+            
 
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);

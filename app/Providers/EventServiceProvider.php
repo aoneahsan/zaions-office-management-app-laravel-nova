@@ -35,4 +35,13 @@ class EventServiceProvider extends ServiceProvider
     {
         return false;
     }
+
+    protected $observers = [
+        \App\Models\User::class => [\App\Observers\UserObserver::class],
+        \App\Models\Attachment::class => [\App\Observers\AttachmentObserver::class],
+        \App\Models\Task::class => [\App\Observers\TaskObserver::class],
+        \App\Models\History::class => [\App\Observers\HistoryObserver::class],
+        \App\Models\Comment::class => [\App\Observers\CommentObserver::class],
+        \App\Models\Reply::class => [\App\Observers\ReplyObserver::class],
+    ];
 }

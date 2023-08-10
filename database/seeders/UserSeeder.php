@@ -5,7 +5,6 @@ namespace Database\Seeders;
 use App\Models\User;
 use App\Zaions\Enums\RolesEnum;
 use Carbon\Carbon;
-use Illuminate\Database\Console\Seeds\WithoutModelEvents;
 use Illuminate\Database\Seeder;
 use Illuminate\Support\Facades\Hash;
 use Spatie\Permission\Models\Role;
@@ -37,7 +36,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make("asd123!@#"),
             'email_verified_at' => Carbon::now(),
             'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85
+            'dailyMinOfficeTimeActivity' => 85,
+            'isImprovementContractMember' => true
         ]);
         $superAdminUser = User::create([
             'uniqueId' => uniqid(),
@@ -47,7 +47,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make("asd123!@#"),
             'email_verified_at' => Carbon::now(),
             'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85
+            'dailyMinOfficeTimeActivity' => 85,
+            'isImprovementContractMember' => true
         ]);
 
         // create admin user
@@ -59,7 +60,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make("asd123!@#"),
             'email_verified_at' => Carbon::now(),
             'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85
+            'dailyMinOfficeTimeActivity' => 85,
+            'isImprovementContractMember' => true
         ]);
 
         // create user user
@@ -71,7 +73,8 @@ class UserSeeder extends Seeder
             'password' => Hash::make("asd123!@#"),
             'email_verified_at' => Carbon::now(),
             'dailyMinOfficeTime' => 8,
-            'dailyMinOfficeTimeActivity' => 85
+            'dailyMinOfficeTimeActivity' => 85,
+            'isImprovementContractMember' => true
         ]);
 
         // Assign Roles

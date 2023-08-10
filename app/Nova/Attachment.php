@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\Attachment as ModelsAttachment;
+use App\Models\User as ModelsUser;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
 use Laravel\Nova\Fields\BelongsTo;
@@ -13,6 +14,8 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MorphTo;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Text;
 use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Fields\URL;
@@ -77,8 +80,21 @@ class Attachment extends Resource
                     return $request->user()->getKey();
                 }),
 
+            MultiSelect::make('Send Notification To', 'sendNotificationToTheseUsers')
+                ->options(function () {
+                    return ModelsUser::where('isActive', true)->pluck('name', 'id');
+                }),
+
+            MorphTo::make('attachable')->types([
+                \App\Nova\User::class,
+                \App\Nova\Task::class,
+                \App\Nova\History::class,
+                \App\Nova\Comment::class,
+                \App\Nova\Reply::class
+            ]),
+
             File::make('Attachment', 'attachmentPath')
-                ->rules('file', 'required', 'size:4000')
+                ->rules('file', 'required')
                 ->disk(ZHelpers::getActiveFileDriver())
                 ->storeOriginalName('attachmentName')
                 ->storeSize('attachmentSize'),

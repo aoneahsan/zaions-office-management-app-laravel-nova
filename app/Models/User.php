@@ -13,7 +13,6 @@ use Laravel\Nova\Actions\Actionable;
 use Laravel\Nova\Auth\Impersonatable;
 use Laravel\Sanctum\HasApiTokens;
 use Outl1ne\NovaNotesField\Traits\HasNotes;
-use Spatie\Activitylog\LogOptions;
 use Spatie\EloquentSortable\SortableTrait;
 use Spatie\Permission\Traits\HasRoles;
 use Spatie\Tags\HasTags;

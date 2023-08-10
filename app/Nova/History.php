@@ -3,6 +3,7 @@
 namespace App\Nova;
 
 use App\Models\History as ModelsHistory;
+use App\Models\User as ModelsUser;
 use App\Zaions\Enums\HistoryTypeEnum;
 use App\Zaions\Helpers\ZHelpers;
 use Illuminate\Http\Request;
@@ -14,9 +15,11 @@ use Laravel\Nova\Fields\Hidden;
 use Laravel\Nova\Fields\ID;
 use Laravel\Nova\Fields\KeyValue;
 use Laravel\Nova\Fields\MorphMany;
+use Laravel\Nova\Fields\MultiSelect;
 use Laravel\Nova\Fields\Number;
 use Laravel\Nova\Fields\Select;
 use Laravel\Nova\Fields\Text;
+use Laravel\Nova\Fields\Textarea;
 use Laravel\Nova\Http\Requests\NovaRequest;
 
 class History extends Resource
@@ -68,8 +71,12 @@ class History extends Resource
                 ->showOnDetail(function (NovaRequest $request) {
                     return ZHelpers::isNRUserSuperAdmin($request);
                 })
-                ->hideWhenCreating(true)
-                ->hideWhenUpdating(true)
+                ->hideWhenCreating(function (NovaRequest $request) {
+                    return !ZHelpers::isNRUserSuperAdmin($request);
+                })
+                ->hideWhenUpdating(function (NovaRequest $request) {
+                    return !ZHelpers::isNRUserSuperAdmin($request);
+                })
                 ->peekable(true)
                 ->searchable(),
 
@@ -96,6 +103,11 @@ class History extends Resource
                 return $lastItem ? $lastItem->sortOrderNo + 1 : 1;
             }),
 
+            MultiSelect::make('Send Notification To', 'sendNotificationToTheseUsers')
+                ->options(function () {
+                    return ModelsUser::where('isActive', true)->pluck('name', 'id');
+                }),
+
             // Normal Form Fields
             Select::make('Type')
                 ->searchable()
@@ -108,7 +120,7 @@ class History extends Resource
                     ];
                 })
                 ->displayUsingLabels(),
-            Text::make('Detail', 'detail')->rules('required', 'string')->maxlength(1500)->enforceMaxlength(),
+            Textarea::make('Detail', 'detail')->rules('required', 'string')->maxlength(1500)->enforceMaxlength(),
             Number::make('Time Spend On Course', 'timeSpendOnCourse')
                 ->readonly(true)
                 ->rules('nullable')

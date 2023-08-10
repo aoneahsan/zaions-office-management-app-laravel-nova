@@ -17,7 +17,7 @@ class Reply extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
-
+        'sendNotificationToTheseUsers' => 'array'
     ];
 
     // Relationship methods

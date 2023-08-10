@@ -19,6 +19,7 @@ class Comment extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'sendNotificationToTheseUsers' => 'array'
 
     ];
 

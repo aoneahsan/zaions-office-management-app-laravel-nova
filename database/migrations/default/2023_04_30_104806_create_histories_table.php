@@ -24,6 +24,7 @@ return new class extends Migration
             $table->integer('timeSpendOnCourse')->default(0)->nullable();
             $table->integer('timeSpendOnOfficeTask')->default(0)->nullable();
             $table->string('detail')->default(0)->nullable();
+            $table->json('sendNotificationToTheseUsers')->nullable(); // a multi select to send notification to users
 
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();

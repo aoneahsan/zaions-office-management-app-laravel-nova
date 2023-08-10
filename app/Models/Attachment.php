@@ -19,6 +19,7 @@ class Attachment extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'sendNotificationToTheseUsers' => 'array'
 
     ];
 

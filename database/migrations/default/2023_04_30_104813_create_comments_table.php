@@ -20,6 +20,7 @@ return new class extends Migration
             $table->boolean('isActive')->default(true);
             $table->morphs('commentable');
             $table->text('content')->nullable();
+            $table->json('sendNotificationToTheseUsers')->nullable(); // a multi select to send notification to users
 
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();

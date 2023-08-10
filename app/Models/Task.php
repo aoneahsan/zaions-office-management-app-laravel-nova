@@ -21,7 +21,8 @@ class Task extends Model
         'namazOfferedAt' => 'datetime',
         'courseStartDate' => 'datetime',
         'extraAttributes' => 'array',
-        'courseEstimateDate' => 'datetime'
+        'courseEstimateDate' => 'datetime',
+        'sendNotificationToTheseUsers' => 'array'
     ];
 
 
@@ -29,6 +30,11 @@ class Task extends Model
     public function user(): BelongsTo
     {
         return $this->belongsTo(User::class, 'userId', 'id');
+    }
+
+    public function assignedUser(): HasOne
+    {
+        return $this->hasOne(User::class, 'id', 'assignedTo');
     }
 
     public function comments(): MorphMany

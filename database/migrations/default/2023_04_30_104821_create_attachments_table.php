@@ -22,6 +22,7 @@ return new class extends Migration
             $table->string('attachmentName')->nullable();
             $table->string('attachmentSize')->nullable();
             $table->morphs('attachable');
+            $table->json('sendNotificationToTheseUsers')->nullable(); // a multi select to send notification to users
 
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();

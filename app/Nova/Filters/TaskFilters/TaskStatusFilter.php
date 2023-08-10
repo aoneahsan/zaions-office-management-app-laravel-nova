@@ -25,7 +25,7 @@ class TaskStatusFilter extends Filter
      */
     public function apply(NovaRequest $request, $query, $value)
     {
-        return $query->where('taskStatus', $value);
+        return $query->where('status', $value);
     }
 
     /**

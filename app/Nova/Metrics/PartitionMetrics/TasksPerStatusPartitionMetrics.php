@@ -18,7 +18,7 @@ class TasksPerStatusPartitionMetrics extends Partition
      */
     public function calculate(NovaRequest $request)
     {
-        return $this->count($request, Task::class, 'taskStatus');
+        return $this->count($request, Task::class, 'status');
     }
 
     /**

@@ -20,6 +20,7 @@ return new class extends Migration
             $table->integer('sortOrderNo')->default(0)->nullable();
             $table->boolean('isActive')->default(true);
             $table->text('content')->nullable();
+            $table->json('sendNotificationToTheseUsers')->nullable(); // a multi select to send notification to users
 
             $table->json('extraAttributes')->nullable();
             $table->softDeletes();

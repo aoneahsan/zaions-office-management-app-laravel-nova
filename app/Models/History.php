@@ -19,6 +19,7 @@ class History extends Model
 
     protected $casts = [
         'extraAttributes' => 'array',
+        'sendNotificationToTheseUsers' => 'array'
 
     ];
 

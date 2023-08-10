@@ -112,6 +112,7 @@ class User extends Resource
 
             // https://novapackages.com/packages/dniccum/phone-number
             PhoneNumber::make('Phone Number', 'phoneNumber')
+            ->nullable()
                 ->format('+## ### ### ####')
                 ->country('PK'),
 
@@ -161,6 +162,11 @@ class User extends Resource
 
 
             Boolean::make('isActive', 'isActive')->default(true)
+                ->show(function (NovaRequest $request) {
+                    return ZHelpers::isNRUserSuperAdmin($request);
+                }),
+
+            Boolean::make('Part of Improvement program', 'isImprovementContractMember')->default(false)
                 ->show(function (NovaRequest $request) {
                     return ZHelpers::isNRUserSuperAdmin($request);
                 }),

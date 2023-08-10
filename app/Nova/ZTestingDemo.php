@@ -129,13 +129,13 @@ class ZTestingDemo extends Resource
                         }),
 
                     Image::make('Profile Pitcher', 'profilePitcher')
-                        ->rules('nullable', 'image', 'size:3000')
+                        ->rules('nullable', 'image')
                         ->disk(ZHelpers::getActiveFileDriver())
                         ->maxWidth(300),
                     // Images::make('Profile Pitcher', 'profilePitcher') // second parameter is the media collection name
                     //     ->conversionOnIndexView('thumb') // conversion used to display the image
                     // ->disk(ZHelpers::getActiveFileDriver())
-                    //     ->rules('nullable', 'image', 'size:3000'), // validation rules
+                    //     ->rules('nullable', 'image'), // validation rules
 
                     // https://novapackages.com/packages/dniccum/phone-number
                     PhoneNumber::make('Phone Number', 'phoneNumber')
