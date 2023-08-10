@@ -1,0 +1,8 @@
+RewriteEngine On
+RewriteRule ^$ public/index.php [L]
+RewriteRule ^((?!public/).*)$ public/$1 [L,NC]
+
+
+<IfModule mime_module>
+AddHandler application/x-httpd-ea-php81___lsphp .php .php81 .phtml
+</IfModule>
