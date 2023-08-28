@@ -44,6 +44,7 @@
     "laravel/socialite": "^5.6",
     "laravel/telescope": "^4.14",
     "laravel/tinker": "^2.8",
+    "nunomaduro/laravel-desktop-notifier": "^2.7",
     "outl1ne/nova-detached-filters": "^2.0",
     "outl1ne/nova-input-filter": "^2.0",
     "outl1ne/nova-notes-field": "^3.0",
