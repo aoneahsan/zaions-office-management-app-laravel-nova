@@ -88,12 +88,22 @@ enum PermissionsEnum: string
   case restore_reply = 'restore_reply';
   case forceDelete_reply = 'forceDelete_reply';
 
-  // case viewAny_ = 'viewAny_';
-  // case view_ = 'view_';
-  // case create_ = 'create_';
-  // case update_ = 'update_';
-  // case delete_ = 'delete_';
-  // case replicate_ = 'replicate_';
-  // case restore_ = 'restore_';
-  // case forceDelete_ = 'forceDelete_';
+    // case viewAny_ = 'viewAny_';
+    // case view_ = 'view_';
+    // case create_ = 'create_';
+    // case update_ = 'update_';
+    // case delete_ = 'delete_';
+    // case replicate_ = 'replicate_';
+    // case restore_ = 'restore_';
+    // case forceDelete_ = 'forceDelete_';
+
+    // Reply
+  case viewAny_note = 'viewAny_note';
+  case view_note = 'view_note';
+  case create_note = 'create_note';
+  case update_note = 'update_note';
+  case delete_note = 'delete_note';
+  case replicate_note = 'replicate_note';
+  case restore_note = 'restore_note';
+  case forceDelete_note = 'forceDelete_note';
 }

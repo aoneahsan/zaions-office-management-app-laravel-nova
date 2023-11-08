@@ -49,7 +49,7 @@
     "nunomaduro/laravel-desktop-notifier": "^2.7",
     "outl1ne/nova-detached-filters": "^2.0",
     "outl1ne/nova-input-filter": "^2.0",
-    "outl1ne/nova-notes-field": "^3.0",
+    "outl1ne/nova-notes-field": "^3.1",
     "outl1ne/nova-sortable": "^3.4",
     "slash2nl/nova-back-button": "^2.0",
     "spatie/laravel-flash": "^1.9",

@@ -2,6 +2,7 @@
 
 namespace App\Zaions\Helpers;
 
+use App\Models\User;
 use App\Zaions\Enums\NamazEnum;
 use App\Zaions\Enums\RolesEnum;
 use Carbon\Carbon;
@@ -13,7 +14,12 @@ class ZHelpers
 {
   static public function isNRUserSuperAdmin(NovaRequest $request)
   {
-    return $request->user()->hasRole(RolesEnum::superAdmin->name);
+    return ZHelpers::isSuperUser($request->user());
+  }
+
+  static public function isSuperUser(User $user): bool
+  {
+    return $user->hasRole(RolesEnum::superAdmin->name);
   }
 
   static public function getTimezone($request = null)

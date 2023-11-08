@@ -97,6 +97,15 @@ class RolePermissionsSeeder extends Seeder
         $replicateReplyPermission = Permission::create(['name' => PermissionsEnum::replicate_reply->name]);
         $restoreReplyPermission = Permission::create(['name' => PermissionsEnum::restore_reply->name]);
         $forceDeleteReplyPermission = Permission::create(['name' => PermissionsEnum::forceDelete_reply->name]);
+        // Replies Model Permissions
+        $viewAnyNotePermission = Permission::create(['name' => PermissionsEnum::viewAny_note->name]);
+        $viewNotePermission = Permission::create(['name' => PermissionsEnum::view_note->name]);
+        $addNotePermission = Permission::create(['name' => PermissionsEnum::create_note->name]);
+        $updateNotePermission = Permission::create(['name' => PermissionsEnum::update_note->name]);
+        $deleteNotePermission = Permission::create(['name' => PermissionsEnum::delete_note->name]);
+        $replicateNotePermission = Permission::create(['name' => PermissionsEnum::replicate_note->name]);
+        $restoreNotePermission = Permission::create(['name' => PermissionsEnum::restore_note->name]);
+        $forceDeleteNotePermission = Permission::create(['name' => PermissionsEnum::forceDelete_note->name]);
 
         $superAdminRolePermissions = [
             // Dashboard
@@ -172,7 +181,16 @@ class RolePermissionsSeeder extends Seeder
             $deleteReplyPermission,
             $replicateReplyPermission,
             $restoreReplyPermission,
-            $forceDeleteReplyPermission
+            $forceDeleteReplyPermission,
+            // Note
+            $viewAnyNotePermission,
+            $viewNotePermission,
+            $addNotePermission,
+            $updateNotePermission,
+            $deleteNotePermission,
+            $replicateNotePermission,
+            $restoreNotePermission,
+            $forceDeleteNotePermission
         ];
 
         $adminRolePermissions = array_filter($superAdminRolePermissions, function ($permission) {

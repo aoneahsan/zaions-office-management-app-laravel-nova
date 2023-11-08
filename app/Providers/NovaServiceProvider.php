@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Zaions\Enums\PermissionsEnum;
+// use Finoghentov\TodoModule\TodoModule;
 // use Bakerkretzmar\NovaSettingsTool\SettingsTool;
 // use CodencoDev\NovaGridSystem\NovaGridSystem;
 // use Dniccum\NovaDocumentation\NovaDocumentation;
@@ -153,7 +154,7 @@ class NovaServiceProvider extends NovaApplicationServiceProvider
 
             // https://novapackages.com/packages/llaski/nova-scheduled-jobs
             // new \Llaski\NovaScheduledJobs\NovaScheduledJobsCard,
-
+            // new TodoModule
 
         ];
     }
